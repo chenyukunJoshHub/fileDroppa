@@ -15,4 +15,15 @@ export class CatalogService {
     setCatalog(catalog:Item[]){
         this.catalog = catalog;
     }
+    getById(id:String):Item {
+        var item:Item = null;
+        this.catalog.some((catalogItem)=>{
+            if(catalogItem.id===id){
+                item = catalogItem;
+                return true;
+            }
+            return false;
+        });
+        return item;
+    }
 }

@@ -4,7 +4,20 @@ export var CatalogMock = [{
     description:"New phone from Apple",
     price: 10,
     name:"Iphone 6S",
-    image_src:"/images/iphone6s.jpeg"
+    image_src:"/images/iphone6s.jpeg",
+    averageReviewRate:4.4,
+    comments:[
+        {
+            name:"Michael Shur",
+            rate:"1",
+            comment:"it's very very bad"
+        },
+        {
+            name:"Johny Johny",
+            rate:"4",
+            comment:"not so bad, Michael"
+        }
+    ]
 },{
     id:"2",
     manufacturer:"Apple",
@@ -26,4 +39,4 @@ export var CatalogMock = [{
     price: 10,
     name:"Galaxy S7",
     image_src:'/images/samsungs6.jpeg'
-}]
+}];
