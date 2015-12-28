@@ -6,9 +6,11 @@ import {CatalogService} from './Services/shopping.service';
 import {Item} from "./Models/Item.model";
 
 @Component({
+    selector:'item-details',
     directives: [NgIf, NgFor],
     providers:[CatalogService],
     template: `
+    <div class="container">
         <div class="row" *ngIf=details>
             <div class="col-md-4"><img src={{details.image_src}}/></div>
             <div class="col-md-4">{{details.name}}<br/>{{details.manufacturer}}<br/>{{details.price}}<br/>{{details.averageReviewRate}}</div>
@@ -24,6 +26,7 @@ import {Item} from "./Models/Item.model";
         <div class="row" *ngIf=!details>
             <h3>Loading</h3>
         </div>
+    </div>
     `
 })
 
