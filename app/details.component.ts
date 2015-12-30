@@ -3,12 +3,12 @@ import {NgIf,NgFor} from "angular2/common";
 import { RouteParams } from 'angular2/router';
 
 import {CatalogService} from './Services/shopping.service';
+import {CartService} from "./Services/cart.service";
 import {Item} from "./Models/Item.model";
 
 @Component({
     selector:'item-details',
     directives: [NgIf, NgFor],
-    providers:[CatalogService],
     template: `
     <div class="container">
         <div class="row" *ngIf=details>
@@ -32,7 +32,7 @@ import {Item} from "./Models/Item.model";
 
 export class Details {
     private details:Item;
-    constructor(private routeParams:RouteParams, private catalogService:CatalogService){
+    constructor(private routeParams:RouteParams, private catalogService:CatalogService, private cartService:CartService){
         this.loadDetailsById(routeParams.get("id"));
     }
     loadDetailsById(id:String):void{

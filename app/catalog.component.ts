@@ -5,6 +5,7 @@ import {CatalogService} from './Services/shopping.service';
 import {Item} from "./Models/Item.model";
 import {ItemPreview} from "./item-preview.component";
 import {FilterCatalogItems} from './Utils/Filter.pipe';
+import {CartService} from "./Services/cart.service";
 
 @Component({
     selector:'catalog',
@@ -24,14 +25,12 @@ import {FilterCatalogItems} from './Utils/Filter.pipe';
             </div>
         </div>
     `,
-    providers:[CatalogService]
 })
 
 export class Catalog {
     public catalog:Item[] = [];
     public search:string = "";
-    constructor(public catalogService:CatalogService){
-        this.catalogService = catalogService;
+    constructor(private catalogService:CatalogService, private cartService:CartService){
     }
     ngOnInit() {
         this.catalogService.getCatalog().then((catalog)=>{
