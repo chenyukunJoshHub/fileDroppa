@@ -3,6 +3,7 @@ import {Router} from 'angular2/router';
 
 import {CatalogService} from './Services/shopping.service';
 import {Item} from "./Models/Item.model";
+import {CartService} from "./Services/cart.service";
 
 @Component({
     selector: 'item-preview',
@@ -22,7 +23,8 @@ import {Item} from "./Models/Item.model";
                 {{item.description}}
             </div>
             <div class="col-md-4">
-                {{item.price}}$
+                {{item.price}}$ <br/>
+                <button (click)="addToCart()">Add To Cart</button>
             </div>
         </div>
     `
@@ -30,10 +32,14 @@ import {Item} from "./Models/Item.model";
 
 export class ItemPreview {
     @Input() item:Item;
-    constructor(private router: Router){
+    constructor(private router: Router, private cartService:CartService){
 
     }
     ViewDetails(){
         this.router.navigate( ['Details', { id: this.item.id }] )
+    }
+    addToCart(){
+        this.cartService.addItem(this.item);
+        console.log(this.cartService.getTotalPrice())
     }
 }

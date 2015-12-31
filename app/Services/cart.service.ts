@@ -5,7 +5,7 @@ import {discounts} from "../Mock/discounts.mock.json";
 
 @Injectable()
 export class CartService {
-    private cart:Item[];
+    private cart:Item[]=[];
     private discount:IDiscount;
     addItem(item:Item){
         this.cart.push(item);
@@ -18,6 +18,9 @@ export class CartService {
     }
     applyDiscount(code:string){
         this.discount = discounts.filter(discount=>discount.code==code)[0];
+    }
+    getCart():Item[]{
+        return this.cart;
     }
     getTotalPrice(){
         let totalPrice = this.cart.reduce((sum, cartItem)=>{
