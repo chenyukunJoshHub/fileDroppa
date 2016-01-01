@@ -5,9 +5,9 @@ export class PayPalCheckout implements ICheckoutType{
         this.name = "PayPal";
     }
     pay(totalPrice){
-        console.log(`PayPal: pay stage 1 with amount ${totalPrice}`);
-        console.log("PayPal: pay stage 2");
-        console.log("PayPal: payed");
+        return `PayPal: pay stage 1 with amount ${totalPrice}
+        PayPal: pay stage 2
+        PayPal: payed`;
     }
 }
 
@@ -17,9 +17,9 @@ export class MasterCard implements ICheckoutType{
         this.name = "MasterCard";
     }
     pay(totalPrice){
-        console.log(`MasterCard: pay stage 1 with amount ${totalPrice}`);
-        console.log("MasterCard: pay stage 2");
-        console.log("MasterCard: payed");
+        return `MasterCard: pay stage 1 with amount ${totalPrice}
+        MasterCard: pay stage 2
+        MasterCard: payed`;
     }
 }
 
@@ -29,8 +29,8 @@ export class Visa implements ICheckoutType{
         this.name = "Visa";
     }
     pay(totalPrice){
-        console.log(`Visa: pay stage 1 with amount ${totalPrice}`);
-        console.log("Visa: pay stage 2");
-        console.log("Visa: payed");
+        return `Visa: pay stage 1 with amount ${totalPrice}
+        Visa: pay stage 2
+        Visa: payed`;
     }
 }

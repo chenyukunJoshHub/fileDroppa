@@ -4,21 +4,24 @@ import {paymentMethods} from "../Mock/payment-methods.mock.json";
 
 export interface ICheckoutType {
     name:string;
-    pay(totalPrice:number):void;
+    pay(totalPrice:number):string;
 }
 export interface IDiscount {
     code:string;
     amount:number;//percentage
 }
 export interface ICheckout {
-    checkOut(totalPrice:number):void;
+    checkOut(totalPrice:number):string;
 }
 
 export class DefaultCheckout implements ICheckout{
-    constructor(private checkOutType:ICheckoutType){
+    private _checkOutType:ICheckoutType = null;
+    set checkOutType(value:ICheckoutType) {
+        this._checkOutType = value;
     }
     checkOut(totalPrice:number){
-        this.checkOutType.pay(totalPrice);
+        return this._checkOutType ? this._checkOutType.pay(totalPrice) : "Please select method of payment";
     }
+
 }
 
