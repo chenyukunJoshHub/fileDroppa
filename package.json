@@ -1,13 +1,13 @@
 {
-  "name": "shopCart",
-  "version": "1.0.0",
+  "name": "fileDroppa",
+  "version": "0.1.0",
   "scripts": {
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "lite": "lite-server",
     "start": "concurrent \"npm run tsc:w\" \"npm run lite\" "
   },
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "angular2": "2.0.0-beta.0",
     "es6-promise": "^3.0.2",
