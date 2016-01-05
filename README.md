@@ -1,9 +1,9 @@
 # FileDroppa
 ## Angular2 (ng2) Files DropZone
 
-Directives:
+#### Directives:
 ---------
-### fileDroppa
+##### fileDroppa
 Initialize the plugin
 
 ```
@@ -12,7 +12,7 @@ Initialize the plugin
 ```
 
 
-### url
+##### url
 Provides url to post
 
 ```
@@ -20,7 +20,7 @@ Provides url to post
         </div>
 ```
 
-### url
+##### url
 Provides url to post
 
 ```
@@ -28,7 +28,7 @@ Provides url to post
         </div>
 ```
 
-### fileUploaded
+##### fileUploaded
 Outup param which gives all current files uploaded. Can be used to update the lise or notify user
 
 ```
