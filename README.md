@@ -1,10 +1,37 @@
-# shoppingCart
-## Angular2 (ng2) Shopping Cart
+# FileDroppa
+## Angular2 (ng2) Files DropZone
 
-**My intro to Anguar2** 
+#### Directives:
+---------
+##### fileDroppa
+Initialize the plugin
 
-To be done:
-* Catalog
-* Item Preview
-* Catalog operation - filters, search
-* Shopping Cart
+```
+        <div fileDroppa>
+        </div>
+```
+
+
+##### url
+Provides url to post
+
+```
+        <div fileDroppa [url]="'\someUrl'">
+        </div>
+```
+
+##### url
+Provides url to post
+
+```
+        <div fileDroppa [overCls]="'some-fancy-style'">
+        </div>
+```
+
+##### fileUploaded
+Outup param which gives all current files uploaded. Can be used to update the lise or notify user
+
+```
+        <div fileDroppa (fileUploaded)="fileUploaded($event)">
+        </div>
+```
