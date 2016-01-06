@@ -1,7 +1,7 @@
 # FileDroppa
 ## Angular2 (ng2) Files DropZone
 
-#### Directives:
+#### Usage/Directives:
 ---------
 ##### fileDroppa
 Initialize the plugin
@@ -20,8 +20,8 @@ Provides url to post
         </div>
 ```
 
-##### url
-Provides url to post
+##### overCls
+Class that will be given to the element when you will be dragging over it
 
 ```
         <div fileDroppa [overCls]="'some-fancy-style'">
@@ -29,7 +29,7 @@ Provides url to post
 ```
 
 ##### fileUploaded
-Outup param which gives all current files uploaded. Can be used to update the lise or notify user
+Output param which provides all current files uploaded. Can be used to update the list of files. All files will be provided to the callback
 
 ```
         <div fileDroppa (fileUploaded)="fileUploaded($event)">
