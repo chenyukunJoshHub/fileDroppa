@@ -39,6 +39,10 @@ System.register(['angular2/core'], function(exports_1) {
                     enumerable: true,
                     configurable: true
                 });
+                FileDroppa.prototype.updateStyles = function (dragOver) {
+                    if (dragOver === void 0) { dragOver = false; }
+                    this.renderer.setElementClass(this.el, this._overCls, dragOver);
+                };
                 FileDroppa.prototype.drop = function (e) {
                     e.preventDefault();
                     if (!e.dataTransfer || !e.dataTransfer.files.length) {
@@ -46,12 +50,18 @@ System.register(['angular2/core'], function(exports_1) {
                     }
                     this._files = this._files.concat(e.dataTransfer.files);
                     this.fileUploaded.emit(this._files);
+                    this.updateStyles();
                 };
                 FileDroppa.prototype.dragenter = function (e) {
                     e.preventDefault();
                 };
                 FileDroppa.prototype.dragover = function (e) {
                     e.preventDefault();
+                    this.updateStyles(true);
+                };
+                FileDroppa.prototype.dragleave = function (e) {
+                    e.preventDefault();
+                    this.updateStyles();
                 };
                 __decorate([
                     core_1.Input(), 
@@ -73,7 +83,8 @@ System.register(['angular2/core'], function(exports_1) {
                         host: {
                             '(drop)': 'drop($event)',
                             '(dragenter)': 'dragenter($event)',
-                            '(dragover)': 'dragover($event)'
+                            '(dragover)': 'dragover($event)',
+                            '(dragleave)': 'dragleave($event)'
                         }
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef, core_1.Renderer])

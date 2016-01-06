@@ -9,10 +9,13 @@ import {FileDroppa} from "../src/FileDroppa";
             width:400px;
             height:400px;
             background:grey;
-        },
+        }
+        .customDrop {
+            border:2px solid black;
+        }
     `],
     template: `
-        <div fileDroppa (fileUploaded)="fileUploaded($event)">
+        <div fileDroppa (fileUploaded)="fileUploaded($event)" [overCls]="'customDrop'">
         </div>
     `,
 })
