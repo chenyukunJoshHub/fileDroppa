@@ -49,8 +49,25 @@ System.register(['angular2/core'], function(exports_1) {
                         return;
                     }
                     this._files = this._files.concat(e.dataTransfer.files);
+                    this.upload(this._url, this._files);
                     this.fileUploaded.emit(this._files);
                     this.updateStyles();
+                };
+                FileDroppa.prototype.upload = function (url, files) {
+                    var data = new FormData();
+                    files.forEach(function (file, index) {
+                        data.append("file_" + index, file[0]);
+                    });
+                    window.fetch(url, {
+                        method: 'post',
+                        body: data,
+                    })
+                        .then(function (response) {
+                        console.log(response);
+                    })
+                        .catch(function (error) {
+                        console.log(error.message);
+                    });
                 };
                 FileDroppa.prototype.dragenter = function (e) {
                     e.preventDefault();
