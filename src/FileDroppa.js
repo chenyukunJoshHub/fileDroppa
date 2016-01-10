@@ -20,12 +20,15 @@ System.register(['angular2/core'], function(exports_1) {
                 function FileDroppa(el, renderer) {
                     this.el = el;
                     this.renderer = renderer;
-                    this._url = "/";
+                    this._url = null;
                     this._overCls = "defaultOver";
                     this._files = [];
                     this.fileUploaded = new core_1.EventEmitter();
                 }
                 Object.defineProperty(FileDroppa.prototype, "url", {
+                    /*
+                     * Directive Input and Output Params
+                     * */
                     set: function (url) {
                         this._url = url || this._url;
                     },
@@ -39,35 +42,19 @@ System.register(['angular2/core'], function(exports_1) {
                     enumerable: true,
                     configurable: true
                 });
-                FileDroppa.prototype.updateStyles = function (dragOver) {
-                    if (dragOver === void 0) { dragOver = false; }
-                    this.renderer.setElementClass(this.el, this._overCls, dragOver);
-                };
+                /*
+                * Host Event Listeners
+                * */
                 FileDroppa.prototype.drop = function (e) {
                     e.preventDefault();
                     if (!e.dataTransfer || !e.dataTransfer.files.length) {
                         return;
                     }
-                    this._files = this._files.concat(e.dataTransfer.files);
+                    this.processInputFromDrop(e);
+                    console.log(this._files);
+                    this.notifyAboutFiles();
                     this.upload(this._url, this._files);
-                    this.fileUploaded.emit(this._files);
                     this.updateStyles();
-                };
-                FileDroppa.prototype.upload = function (url, files) {
-                    var data = new FormData();
-                    files.forEach(function (file, index) {
-                        data.append("file_" + index, file[0]);
-                    });
-                    window.fetch(url, {
-                        method: 'post',
-                        body: data,
-                    })
-                        .then(function (response) {
-                        console.log(response);
-                    })
-                        .catch(function (error) {
-                        console.log(error.message);
-                    });
                 };
                 FileDroppa.prototype.dragenter = function (e) {
                     e.preventDefault();
@@ -79,6 +66,76 @@ System.register(['angular2/core'], function(exports_1) {
                 FileDroppa.prototype.dragleave = function (e) {
                     e.preventDefault();
                     this.updateStyles();
+                };
+                /*
+                 * Public methods
+                 * */
+                FileDroppa.prototype.processFilesFromInput = function (items) {
+                    var _this = this;
+                    return Object.keys(items).reduce(function (result, key) {
+                        var entry, item = items[key];
+                        if ((item.webkitGetAsEntry != null) && (entry = item.webkitGetAsEntry())) {
+                            if (entry.isFile) {
+                                result.push(item.getAsFile());
+                            }
+                            else if (entry.isDirectory) {
+                                _this.processDirectory(entry);
+                            }
+                        }
+                        else if (item.getAsFile != null) {
+                            if ((item.kind == null) || item.kind === "file") {
+                                result.push(item.getAsFile());
+                            }
+                        }
+                        return result;
+                    }, []);
+                };
+                FileDroppa.prototype.processDirectory = function (directory) {
+                    var _this = this;
+                    var dirReader = directory.createReader();
+                    dirReader.readEntries(function (entries) {
+                        for (var i = 0; i < entries.length; i++) {
+                            _this.processFilesFromInput(entries[i]);
+                        }
+                    });
+                };
+                FileDroppa.prototype.processInputFromDrop = function (e) {
+                    var items = e.dataTransfer.items, _files = [];
+                    if (items && items.length && (items[0].webkitGetAsEntry != null)) {
+                        _files = this.processFilesFromInput(items);
+                    }
+                    else if (items && items.length && !items[0].webkitGetAsEntry) {
+                        _files = items;
+                    }
+                    this._files = this._files.concat(_files);
+                };
+                FileDroppa.prototype.updateStyles = function (dragOver) {
+                    if (dragOver === void 0) { dragOver = false; }
+                    this.renderer.setElementClass(this.el, this._overCls, dragOver);
+                };
+                FileDroppa.prototype.notifyAboutFiles = function () {
+                    this.fileUploaded && this.fileUploaded.emit(this._files);
+                };
+                FileDroppa.prototype.upload = function (url, files) {
+                    var _this = this;
+                    if (!url) {
+                        throw "URL to post files needs to be provided";
+                    }
+                    var data = new FormData();
+                    files.forEach(function (file, index) {
+                        data.append("file_" + index, file[0]);
+                    });
+                    window.fetch(url, {
+                        method: 'post',
+                        body: data,
+                    })
+                        .then(function (response) {
+                        _this._files = [];
+                        _this.notifyAboutFiles();
+                    })
+                        .catch(function (error) {
+                        throw "Error happend during files uploading to " + _this._url + ": " + error;
+                    });
                 };
                 __decorate([
                     core_1.Input(), 
