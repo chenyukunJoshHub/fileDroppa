@@ -41,7 +41,6 @@ export class FileDroppa {
             return;
         }
         this.processInputFromDrop(e);
-        console.log(this._files);
         this.notifyAboutFiles();
         this.upload(this._url, this._files);
         this.updateStyles();

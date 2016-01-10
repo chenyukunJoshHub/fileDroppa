@@ -51,7 +51,6 @@ System.register(['angular2/core'], function(exports_1) {
                         return;
                     }
                     this.processInputFromDrop(e);
-                    console.log(this._files);
                     this.notifyAboutFiles();
                     this.upload(this._url, this._files);
                     this.updateStyles();
