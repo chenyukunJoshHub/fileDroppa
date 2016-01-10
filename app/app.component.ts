@@ -14,10 +14,7 @@ import {FileDroppa} from "../src/FileDroppa";
             border:2px solid black;
         }
     `],
-    template: `
-        <div fileDroppa (fileUploaded)="fileUploaded($event)" [overCls]="'customDrop'">
-        </div>
-    `,
+    template: `<div fileDroppa (fileUploaded)="fileUploaded($event)" [overCls]="'customDrop'"></div>`,
 })
 
 export class AppComponent {
