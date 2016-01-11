@@ -43,19 +43,20 @@ System.register(['angular2/core'], function(exports_1) {
                     configurable: true
                 });
                 /*
-                * Host Event Listeners
-                * */
+                 * Host Event Listeners
+                 * */
                 FileDroppa.prototype.drop = function (e) {
                     var _this = this;
                     e.preventDefault();
                     if (!e.dataTransfer || !e.dataTransfer.files.length) {
                         return;
                     }
-                    this.processInputFromDrop(e).then(function (files) {
+                    this.processInputFromDrop(e)
+                        .then(function (files) {
                         _this._files = _this._files.concat(files);
                         _this.notifyAboutFiles();
+                        _this.upload(_this._url, _this._files);
                     });
-                    this.upload(this._url, this._files);
                     this.updateStyles();
                 };
                 FileDroppa.prototype.dragenter = function (e) {
@@ -149,24 +150,26 @@ System.register(['angular2/core'], function(exports_1) {
                     this.fileUploaded && this.fileUploaded.emit(this._files);
                 };
                 FileDroppa.prototype.upload = function (url, files) {
-                    var _this = this;
                     if (!url) {
                     }
-                    var data = new FormData();
-                    files.forEach(function (file, index) {
-                        data.append("file_" + index, file[0]);
-                    });
-                    window.fetch(url, {
-                        method: 'post',
-                        body: data,
-                    })
-                        .then(function (response) {
-                        _this._files = [];
-                        _this.notifyAboutFiles();
-                    })
-                        .catch(function (error) {
-                        throw "Error happend during files uploading to " + _this._url + ": " + error;
-                    });
+                    //TODO: Figure out how upload FileEntry and File object's types
+                    //let data = new FormData();
+                    //
+                    //files.forEach((file, index) => {
+                    //    data.append(`file_${index}`, file[0]);
+                    //});
+                    //
+                    //window.fetch(url, {
+                    //        method: 'post',
+                    //        body: data,
+                    //    })
+                    //    .then((response)=> {
+                    //        this._files = [];
+                    //        this.notifyAboutFiles();
+                    //    })
+                    //    .catch((error) => {
+                    //        throw `Error happend during files uploading to ${this._url}: ${error}`;
+                    //    });
                 };
                 __decorate([
                     core_1.Input(), 
