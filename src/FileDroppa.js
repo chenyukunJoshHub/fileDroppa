@@ -43,19 +43,20 @@ System.register(['angular2/core'], function(exports_1) {
                     configurable: true
                 });
                 /*
-                * Host Event Listeners
-                * */
+                 * Host Event Listeners
+                 * */
                 FileDroppa.prototype.drop = function (e) {
                     var _this = this;
                     e.preventDefault();
                     if (!e.dataTransfer || !e.dataTransfer.files.length) {
                         return;
                     }
-                    this.processInputFromDrop(e).then(function (files) {
+                    this.processInputFromDrop(e)
+                        .then(function (files) {
                         _this._files = _this._files.concat(files);
                         _this.notifyAboutFiles();
+                        _this.upload(_this._url, _this._files);
                     });
-                    this.upload(this._url, this._files);
                     this.updateStyles();
                 };
                 FileDroppa.prototype.dragenter = function (e) {

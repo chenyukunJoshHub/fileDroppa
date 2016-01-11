@@ -32,19 +32,20 @@ export class FileDroppa {
     @Output() fileUploaded = new EventEmitter();
 
     /*
-    * Host Event Listeners
-    * */
+     * Host Event Listeners
+     * */
 
     drop(e) {
         e.preventDefault();
         if (!e.dataTransfer || !e.dataTransfer.files.length) {
             return;
         }
-        this.processInputFromDrop(e).then((files)=>{
-            this._files = [...this._files, ...files];
-            this.notifyAboutFiles();
-        });
-        this.upload(this._url, this._files);
+        this.processInputFromDrop(e)
+            .then((files)=> {
+                this._files = [...this._files, ...files];
+                this.notifyAboutFiles();
+                this.upload(this._url, this._files);
+            });
         this.updateStyles();
     }
 
@@ -67,7 +68,7 @@ export class FileDroppa {
      * */
 
     processFilesFromInput(items) {
-        let newFiles = Object.keys(items).reduce((result, key)=>{
+        let newFiles = Object.keys(items).reduce((result, key)=> {
             let entry,
                 item = items[key];
             if ((item.webkitGetAsEntry != null) && (entry = item.webkitGetAsEntry())) {
@@ -80,32 +81,33 @@ export class FileDroppa {
                 if ((item.kind == null) || item.kind === "file") {
                     result.push(Promise.resolve(item.getAsFile()));
                 }
-            } else if(item.isFile){
+            } else if (item.isFile) {
                 result.push(Promise.resolve(item));
             }
             return result;
-        },[]);
+        }, []);
 
         return Promise.all(newFiles);
     }
 
-    processDirectory(directory){
+    processDirectory(directory) {
         let dirReader = directory.createReader(),
             result = [];
 
         var readEntries = () => {
-            return new Promise((resolve, reject)=>{
-                dirReader.readEntries ((entries) => {
+            return new Promise((resolve, reject)=> {
+                dirReader.readEntries((entries) => {
                     let pr = [];
+
                     if (entries.length) {
-                        for (var i=0; i<entries.length; i++) {
-                            pr.push(this.processFilesFromInput({0:entries[i]}));
+                        for (var i = 0; i < entries.length; i++) {
+                            pr.push(this.processFilesFromInput({0: entries[i]}));
                         }
                     } else {
                         resolve(null);
                     }
                     result.push(readEntries());
-                    Promise.all(pr).then((arg)=>{
+                    Promise.all(pr).then((arg)=> {
                         resolve(arg);
                     });
                 }, (error)=> {
@@ -118,20 +120,21 @@ export class FileDroppa {
         return Promise.all(result);
     }
 
-    processInputFromDrop(e){
+    processInputFromDrop(e) {
         let items = e.dataTransfer.items,
             _files = [];
+
         if (items && items.length && (items[0].webkitGetAsEntry != null)) {
-            return new Promise((resolve, reject)=>{
-                this.processFilesFromInput(items).then((arg)=>{
-                    _files = [].concat.apply([], arg).reduce((result, file)=>{
+            return new Promise((resolve, reject)=> {
+                this.processFilesFromInput(items).then((arg)=> {
+                    _files = [].concat.apply([], arg).reduce((result, file)=> {
                         return [...result, ...file];
                     }, []);
                     resolve(_files);
                 });
             });
 
-        } else if(items && items.length && !items[0].webkitGetAsEntry){
+        } else if (items && items.length && !items[0].webkitGetAsEntry) {
             return Promise.resolve(items)
         }
     }
@@ -140,15 +143,16 @@ export class FileDroppa {
         this.renderer.setElementClass(this.el, this._overCls, dragOver);
     }
 
-    notifyAboutFiles(){
+    notifyAboutFiles() {
         console.log(this._files);
         this.fileUploaded && this.fileUploaded.emit(this._files);
     }
 
     upload(url, files) {
-        if(!url){
+        if (!url) {
             //throw "URL to post files needs to be provided";
         }
+
         let data = new FormData();
 
         files.forEach((file, index) => {
