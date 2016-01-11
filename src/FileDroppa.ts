@@ -153,23 +153,25 @@ export class FileDroppa {
             //throw "URL to post files needs to be provided";
         }
 
-        let data = new FormData();
+        //TODO: Figure out how upload FileEntry and File object's types
 
-        files.forEach((file, index) => {
-            data.append(`file_${index}`, file[0]);
-        });
-
-        window.fetch(url, {
-                method: 'post',
-                body: data,
-            })
-            .then((response)=> {
-                this._files = [];
-                this.notifyAboutFiles();
-            })
-            .catch((error) => {
-                throw `Error happend during files uploading to ${this._url}: ${error}`;
-            });
+        //let data = new FormData();
+        //
+        //files.forEach((file, index) => {
+        //    data.append(`file_${index}`, file[0]);
+        //});
+        //
+        //window.fetch(url, {
+        //        method: 'post',
+        //        body: data,
+        //    })
+        //    .then((response)=> {
+        //        this._files = [];
+        //        this.notifyAboutFiles();
+        //    })
+        //    .catch((error) => {
+        //        throw `Error happend during files uploading to ${this._url}: ${error}`;
+        //    });
     }
 
 
