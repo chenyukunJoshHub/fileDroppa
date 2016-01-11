@@ -46,12 +46,15 @@ System.register(['angular2/core'], function(exports_1) {
                 * Host Event Listeners
                 * */
                 FileDroppa.prototype.drop = function (e) {
+                    var _this = this;
                     e.preventDefault();
                     if (!e.dataTransfer || !e.dataTransfer.files.length) {
                         return;
                     }
-                    this.processInputFromDrop(e);
-                    this.notifyAboutFiles();
+                    this.processInputFromDrop(e).then(function (files) {
+                        _this._files = _this._files.concat(files);
+                        _this.notifyAboutFiles();
+                    });
                     this.upload(this._url, this._files);
                     this.updateStyles();
                 };
@@ -71,54 +74,83 @@ System.register(['angular2/core'], function(exports_1) {
                  * */
                 FileDroppa.prototype.processFilesFromInput = function (items) {
                     var _this = this;
-                    return Object.keys(items).reduce(function (result, key) {
+                    var newFiles = Object.keys(items).reduce(function (result, key) {
                         var entry, item = items[key];
                         if ((item.webkitGetAsEntry != null) && (entry = item.webkitGetAsEntry())) {
                             if (entry.isFile) {
-                                result.push(item.getAsFile());
+                                result.push(Promise.resolve(item.getAsFile()));
                             }
                             else if (entry.isDirectory) {
-                                _this.processDirectory(entry);
+                                result.push(_this.processDirectory(entry));
                             }
                         }
                         else if (item.getAsFile != null) {
                             if ((item.kind == null) || item.kind === "file") {
-                                result.push(item.getAsFile());
+                                result.push(Promise.resolve(item.getAsFile()));
                             }
+                        }
+                        else if (item.isFile) {
+                            result.push(Promise.resolve(item));
                         }
                         return result;
                     }, []);
+                    return Promise.all(newFiles);
                 };
                 FileDroppa.prototype.processDirectory = function (directory) {
                     var _this = this;
-                    var dirReader = directory.createReader();
-                    dirReader.readEntries(function (entries) {
-                        for (var i = 0; i < entries.length; i++) {
-                            _this.processFilesFromInput(entries[i]);
-                        }
-                    });
+                    var dirReader = directory.createReader(), result = [];
+                    var readEntries = function () {
+                        return new Promise(function (resolve, reject) {
+                            dirReader.readEntries(function (entries) {
+                                var pr = [];
+                                if (entries.length) {
+                                    for (var i = 0; i < entries.length; i++) {
+                                        pr.push(_this.processFilesFromInput({ 0: entries[i] }));
+                                    }
+                                }
+                                else {
+                                    resolve(null);
+                                }
+                                result.push(readEntries());
+                                Promise.all(pr).then(function (arg) {
+                                    resolve(arg);
+                                });
+                            }, function (error) {
+                                reject("Error while reading folder");
+                            });
+                        });
+                    };
+                    result.push(readEntries());
+                    return Promise.all(result);
                 };
                 FileDroppa.prototype.processInputFromDrop = function (e) {
+                    var _this = this;
                     var items = e.dataTransfer.items, _files = [];
                     if (items && items.length && (items[0].webkitGetAsEntry != null)) {
-                        _files = this.processFilesFromInput(items);
+                        return new Promise(function (resolve, reject) {
+                            _this.processFilesFromInput(items).then(function (arg) {
+                                _files = [].concat.apply([], arg).reduce(function (result, file) {
+                                    return result.concat(file);
+                                }, []);
+                                resolve(_files);
+                            });
+                        });
                     }
                     else if (items && items.length && !items[0].webkitGetAsEntry) {
-                        _files = items;
+                        return Promise.resolve(items);
                     }
-                    this._files = this._files.concat(_files);
                 };
                 FileDroppa.prototype.updateStyles = function (dragOver) {
                     if (dragOver === void 0) { dragOver = false; }
                     this.renderer.setElementClass(this.el, this._overCls, dragOver);
                 };
                 FileDroppa.prototype.notifyAboutFiles = function () {
+                    console.log(this._files);
                     this.fileUploaded && this.fileUploaded.emit(this._files);
                 };
                 FileDroppa.prototype.upload = function (url, files) {
                     var _this = this;
                     if (!url) {
-                        throw "URL to post files needs to be provided";
                     }
                     var data = new FormData();
                     files.forEach(function (file, index) {
