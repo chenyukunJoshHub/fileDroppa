@@ -1,7 +1,7 @@
 import {Component, EventEmitter} from 'angular2/core';
-import {FileDropZone} from "../src/FileDropZone";
-import {FileDroppa} from "../src/FileDroppa";
-import {FileList} from "../src/FileList";
+import {FileDropZone} from "../src/Directives/FileDropZone";
+import {FileDroppa} from "../src/Directives/FileDroppa";
+import {FileList} from "../src/Directives/FileList";
 
 @Component({
     selector: 'my-app',
@@ -24,35 +24,18 @@ import {FileList} from "../src/FileList";
                     <fileList>
                     </fileList>
                </div>`
-    //    //The only one question is how to let user override each of underlying components
-//    //This is our/ default implementation which we going to support
-//    //template: `<div fileDropZone>
-//    //                <div fileDroppa
-//    //                    (fileUploaded)="fileUploaded($event)"
-//    //                    [overCls]="'customDrop'"
-//    //                    [fireUpdate]="uploadEvent">
-//    //                </div>
-//    //                <fileInput (fileUploaded)="fileUploaded($event)"></fileInput>
-//    //                <fileList>
-//    //                    <file *ngFor="#file of files">
-//    //                </fileList>
-//    //                <button (click)="uploadFiles"/>Upload</button>
-//    //            </div>
-//    //            `,
-//    template: `<div fileDroppa (fileUploaded)="fileUploaded($event)" [overCls]="'customDrop'"></div>`,
-//
 })
 
 export class AppComponent {
     uploadEvent;
-    files;
+    files=[];
 
     constructor() {
         this.uploadEvent = new EventEmitter();
     }
 
     fileUploaded(files) {
-        this.files = files;
+        console.log(files);
     }
 
     uploadFiles() {

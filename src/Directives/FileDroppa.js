@@ -1,4 +1,4 @@
-System.register(['angular2/core'], function(exports_1) {
+System.register(['angular2/core', "../Services/FileParser.service"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,21 +8,24 @@ System.register(['angular2/core'], function(exports_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1;
+    var core_1, FileParser_service_1;
     var FileDroppa;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (FileParser_service_1_1) {
+                FileParser_service_1 = FileParser_service_1_1;
             }],
         execute: function() {
             FileDroppa = (function () {
-                function FileDroppa(el, renderer) {
+                function FileDroppa(el, renderer, fileParser) {
                     this.el = el;
                     this.renderer = renderer;
+                    this.fileParser = fileParser;
                     this._url = null;
                     this._overCls = "defaultOver";
-                    this._files = [];
                     this.fileUploaded = new core_1.EventEmitter();
                 }
                 Object.defineProperty(FileDroppa.prototype, "fireUpdate", {
@@ -58,10 +61,9 @@ System.register(['angular2/core'], function(exports_1) {
                     if (!e.dataTransfer || !e.dataTransfer.files.length) {
                         return;
                     }
-                    this.processInputFromDrop(e)
+                    this.fileParser.processInputFromDrop(e)
                         .then(function (files) {
-                        _this._files = _this._files.concat(files);
-                        _this.notifyAboutFiles();
+                        _this.notifyAboutFiles(files.slice());
                     });
                     this.updateStyles();
                 };
@@ -79,84 +81,17 @@ System.register(['angular2/core'], function(exports_1) {
                 /*
                  * Public methods
                  * */
-                FileDroppa.prototype.processFilesFromInput = function (items) {
-                    var _this = this;
-                    var newFiles = Object.keys(items).reduce(function (result, key) {
-                        var entry, item = items[key];
-                        if ((item.webkitGetAsEntry != null) && (entry = item.webkitGetAsEntry())) {
-                            if (entry.isFile) {
-                                result.push(Promise.resolve(item.getAsFile()));
-                            }
-                            else if (entry.isDirectory) {
-                                result.push(_this.processDirectory(entry));
-                            }
-                        }
-                        else if (item.getAsFile != null) {
-                            if ((item.kind == null) || item.kind === "file") {
-                                result.push(Promise.resolve(item.getAsFile()));
-                            }
-                        }
-                        else if (item.isFile) {
-                            var pr = new Promise(function (resolve, reject) {
-                                item.file(resolve, reject);
-                            });
-                            result.push(pr);
-                        }
-                        return result;
-                    }, []);
-                    return Promise.all(newFiles).then(this.flattenArrayOfFiles);
-                };
-                FileDroppa.prototype.processDirectory = function (directory) {
-                    var _this = this;
-                    var dirReader = directory.createReader(), result = [];
-                    var readEntries = function () {
-                        return new Promise(function (resolve, reject) {
-                            dirReader.readEntries(function (entries) {
-                                var pr = [];
-                                if (entries.length) {
-                                    for (var i = 0; i < entries.length; i++) {
-                                        pr.push(_this.processFilesFromInput({ 0: entries[i] }));
-                                    }
-                                }
-                                else {
-                                    resolve(null);
-                                }
-                                result.push(readEntries());
-                                Promise.all(pr).then(_this.flattenArrayOfFiles).then(resolve);
-                            }, function (error) {
-                                reject("Error while reading folder");
-                            });
-                        });
-                    };
-                    result.push(readEntries());
-                    return Promise.all(result).then(this.flattenArrayOfFiles);
-                };
-                FileDroppa.prototype.processInputFromDrop = function (e) {
-                    var items = e.dataTransfer.items;
-                    if (items && items.length && (items[0].webkitGetAsEntry != null)) {
-                        return Promise.resolve(this.processFilesFromInput(items));
-                    }
-                    else if (items && items.length && !items[0].webkitGetAsEntry) {
-                        return Promise.resolve(items);
-                    }
-                };
-                FileDroppa.prototype.flattenArrayOfFiles = function (arrayOfPromises) {
-                    return Promise.resolve(arrayOfPromises.reduce(function (result, file) {
-                        return result.concat(file);
-                    }, []));
-                };
                 FileDroppa.prototype.updateStyles = function (dragOver) {
                     if (dragOver === void 0) { dragOver = false; }
                     this.renderer.setElementClass(this.el, this._overCls, dragOver);
                 };
-                FileDroppa.prototype.notifyAboutFiles = function () {
-                    this.fileUploaded && this.fileUploaded.emit(this._files);
+                FileDroppa.prototype.notifyAboutFiles = function (files) {
+                    this.fileUploaded && this.fileUploaded.emit(files);
                 };
                 FileDroppa.prototype.upload = function ($event) {
                     if (!this._url) {
                     }
                     console.log("upload!!!");
-                    //TODO: Figure out how upload FileEntry and File object's types
                     //let data = new FormData();
                     //
                     //files.forEach((file, index) => {
@@ -197,6 +132,7 @@ System.register(['angular2/core'], function(exports_1) {
                 FileDroppa = __decorate([
                     core_1.Directive({
                         selector: '[fileDroppa]',
+                        providers: [FileParser_service_1.FileParser],
                         host: {
                             '(drop)': 'drop($event)',
                             '(dragenter)': 'dragenter($event)',
@@ -204,7 +140,7 @@ System.register(['angular2/core'], function(exports_1) {
                             '(dragleave)': 'dragleave($event)'
                         }
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, core_1.Renderer])
+                    __metadata('design:paramtypes', [core_1.ElementRef, core_1.Renderer, FileParser_service_1.FileParser])
                 ], FileDroppa);
                 return FileDroppa;
             })();
