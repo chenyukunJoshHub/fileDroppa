@@ -25,10 +25,17 @@ System.register(['angular2/core'], function(exports_1) {
                     this._files = [];
                     this.fileUploaded = new core_1.EventEmitter();
                 }
-                Object.defineProperty(FileDroppa.prototype, "url", {
+                Object.defineProperty(FileDroppa.prototype, "fireUpdate", {
                     /*
                      * Directive Input and Output Params
                      * */
+                    set: function (updateListener) {
+                        updateListener && updateListener.subscribe(this.upload);
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(FileDroppa.prototype, "url", {
                     set: function (url) {
                         this._url = url || this._url;
                     },
@@ -55,7 +62,6 @@ System.register(['angular2/core'], function(exports_1) {
                         .then(function (files) {
                         _this._files = _this._files.concat(files);
                         _this.notifyAboutFiles();
-                        _this.upload(_this._url, _this._files);
                     });
                     this.updateStyles();
                 };
@@ -146,9 +152,10 @@ System.register(['angular2/core'], function(exports_1) {
                 FileDroppa.prototype.notifyAboutFiles = function () {
                     this.fileUploaded && this.fileUploaded.emit(this._files);
                 };
-                FileDroppa.prototype.upload = function (url, files) {
-                    if (!url) {
+                FileDroppa.prototype.upload = function ($event) {
+                    if (!this._url) {
                     }
+                    console.log("upload!!!");
                     //TODO: Figure out how upload FileEntry and File object's types
                     //let data = new FormData();
                     //
@@ -168,6 +175,11 @@ System.register(['angular2/core'], function(exports_1) {
                     //        throw `Error happend during files uploading to ${this._url}: ${error}`;
                     //    });
                 };
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', core_1.EventEmitter), 
+                    __metadata('design:paramtypes', [core_1.EventEmitter])
+                ], FileDroppa.prototype, "fireUpdate", null);
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', String), 

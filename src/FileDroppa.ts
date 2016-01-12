@@ -21,6 +21,10 @@ export class FileDroppa {
      * Directive Input and Output Params
      * */
 
+    @Input() set fireUpdate(updateListener:EventEmitter<any>) {
+        updateListener && updateListener.subscribe(this.upload);
+    }
+
     @Input() set url(url:string) {
         this._url = url || this._url;
     }
@@ -44,7 +48,6 @@ export class FileDroppa {
             .then((files)=> {
                 this._files = [...this._files, ...files];
                 this.notifyAboutFiles();
-                this.upload(this._url, this._files);
             });
         this.updateStyles();
     }
@@ -145,10 +148,12 @@ export class FileDroppa {
         this.fileUploaded && this.fileUploaded.emit(this._files);
     }
 
-    upload(url, files) {
-        if (!url) {
+    upload($event) {
+        if (!this._url) {
             //throw "URL to post files needs to be provided";
         }
+
+        console.log("upload!!!");
 
         //TODO: Figure out how upload FileEntry and File object's types
 

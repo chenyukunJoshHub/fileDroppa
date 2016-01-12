@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, EventEmitter} from 'angular2/core';
 import {FileDroppa} from "../src/FileDroppa";
 
 @Component({
@@ -14,10 +14,19 @@ import {FileDroppa} from "../src/FileDroppa";
             border:2px solid black;
         }
     `],
-    template: `<div fileDroppa (fileUploaded)="fileUploaded($event)" [overCls]="'customDrop'"></div>`,
+    template: `<div fileDroppa
+                    (fileUploaded)="fileUploaded($event)"
+                    [overCls]="'customDrop'"
+                    [fireUpdate]="uploadEvent">
+                </div>`,
 })
 
 export class AppComponent {
+    uploadEvent;
+    constructor(){
+        this.uploadEvent = new EventEmitter();
+        window.setTimeout(()=> this.uploadEvent.emit(), 1000*10)
+    }
     fileUploaded(files){
         console.log(files);
     }

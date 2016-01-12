@@ -16,7 +16,7 @@ Initialize the plugin
 Provides url to post
 
 ```
-        <div fileDroppa [url]="'\someUrl'">
+        <div fileDroppa [url]="'/someUrl'">
         </div>
 ```
 
@@ -34,4 +34,18 @@ Output param which provides all current files uploaded. Can be used to update th
 ```
         <div fileDroppa (fileUploaded)="fileUploaded($event)">
         </div>
+```
+
+##### init upload
+Input param which fires upload action in directive. You can provide listener to the button or on key press or whatever fits you better.
+You can refer to example for more detailed instructions.
+```
+...
+this.uploadEvent = new EventEmitter();
+...
+                <div fileDroppa
+                    (fileUploaded)="fileUploaded($event)"
+                    [overCls]="'customDrop'"
+                    [fireUpdate]="uploadEvent">
+                </div>`
 ```
