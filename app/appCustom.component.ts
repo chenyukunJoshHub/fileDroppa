@@ -14,20 +14,20 @@ import {FileDroppa} from "../src/FileDroppa";
             border:2px solid black;
         }
     `],
-    //The only one question is how to let user override each of underlying components
-    //This is our/ default implementation which we going to support
-    template: `<div fileDropZone>
+    //Here user doesn't want to use our button/fileList
+    //Everything he needs to do is export fileDroppa
+    //and subscribe for fileUploaded and implement fireUpdate by himself
+    template: `
                     <div fileDroppa
                         (fileUploaded)="fileUploaded($event)"
                         [overCls]="'customDrop'"
                         [fireUpdate]="uploadEvent">
                     </div>
                     <fileInput (fileUploaded)="fileUploaded($event)"></fileInput>
-                    <fileList>
-                        <file *ngFor="#file of files">
-                    </fileList>
-                    <button (click)="uploadFiles"/>Upload</button>
-                </div>
+                    <userCustomFileList>
+                        <userCustomFile *ngFor="#file of files">
+                    </userCustomFileList>
+                    <userCustomButton (click)="uploadFiles"/>Upload</userCustomButton>
                 `,
 })
 
