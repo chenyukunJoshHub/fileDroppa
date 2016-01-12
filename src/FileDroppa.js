@@ -91,11 +91,14 @@ System.register(['angular2/core'], function(exports_1) {
                             }
                         }
                         else if (item.isFile) {
-                            result.push(Promise.resolve(item));
+                            var pr = new Promise(function (resolve, reject) {
+                                item.file(resolve, reject);
+                            });
+                            result.push(pr);
                         }
                         return result;
                     }, []);
-                    return Promise.all(newFiles);
+                    return Promise.all(newFiles).then(this.flattenArrayOfFiles);
                 };
                 FileDroppa.prototype.processDirectory = function (directory) {
                     var _this = this;
@@ -113,40 +116,34 @@ System.register(['angular2/core'], function(exports_1) {
                                     resolve(null);
                                 }
                                 result.push(readEntries());
-                                Promise.all(pr).then(function (arg) {
-                                    resolve(arg);
-                                });
+                                Promise.all(pr).then(_this.flattenArrayOfFiles).then(resolve);
                             }, function (error) {
                                 reject("Error while reading folder");
                             });
                         });
                     };
                     result.push(readEntries());
-                    return Promise.all(result);
+                    return Promise.all(result).then(this.flattenArrayOfFiles);
                 };
                 FileDroppa.prototype.processInputFromDrop = function (e) {
-                    var _this = this;
-                    var items = e.dataTransfer.items, _files = [];
+                    var items = e.dataTransfer.items;
                     if (items && items.length && (items[0].webkitGetAsEntry != null)) {
-                        return new Promise(function (resolve, reject) {
-                            _this.processFilesFromInput(items).then(function (arg) {
-                                _files = [].concat.apply([], arg).reduce(function (result, file) {
-                                    return result.concat(file);
-                                }, []);
-                                resolve(_files);
-                            });
-                        });
+                        return Promise.resolve(this.processFilesFromInput(items));
                     }
                     else if (items && items.length && !items[0].webkitGetAsEntry) {
                         return Promise.resolve(items);
                     }
+                };
+                FileDroppa.prototype.flattenArrayOfFiles = function (arrayOfPromises) {
+                    return Promise.resolve(arrayOfPromises.reduce(function (result, file) {
+                        return result.concat(file);
+                    }, []));
                 };
                 FileDroppa.prototype.updateStyles = function (dragOver) {
                     if (dragOver === void 0) { dragOver = false; }
                     this.renderer.setElementClass(this.el, this._overCls, dragOver);
                 };
                 FileDroppa.prototype.notifyAboutFiles = function () {
-                    console.log(this._files);
                     this.fileUploaded && this.fileUploaded.emit(this._files);
                 };
                 FileDroppa.prototype.upload = function (url, files) {

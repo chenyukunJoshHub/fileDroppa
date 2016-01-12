@@ -82,12 +82,15 @@ export class FileDroppa {
                     result.push(Promise.resolve(item.getAsFile()));
                 }
             } else if (item.isFile) {
-                result.push(Promise.resolve(item));
+                let pr = new Promise((resolve, reject)=>{
+                   item.file(resolve, reject);
+                });
+                result.push(pr);
             }
             return result;
         }, []);
 
-        return Promise.all(newFiles);
+        return Promise.all(newFiles).then(this.flattenArrayOfFiles)
     }
 
     processDirectory(directory) {
@@ -107,9 +110,7 @@ export class FileDroppa {
                         resolve(null);
                     }
                     result.push(readEntries());
-                    Promise.all(pr).then((arg)=> {
-                        resolve(arg);
-                    });
+                    Promise.all(pr).then(this.flattenArrayOfFiles).then(resolve);
                 }, (error)=> {
                     reject("Error while reading folder");
                 });
@@ -117,26 +118,23 @@ export class FileDroppa {
         };
 
         result.push(readEntries());
-        return Promise.all(result);
+        return Promise.all(result).then(this.flattenArrayOfFiles);
     }
 
     processInputFromDrop(e) {
-        let items = e.dataTransfer.items,
-            _files = [];
+        let items = e.dataTransfer.items;
 
         if (items && items.length && (items[0].webkitGetAsEntry != null)) {
-            return new Promise((resolve, reject)=> {
-                this.processFilesFromInput(items).then((arg)=> {
-                    _files = [].concat.apply([], arg).reduce((result, file)=> {
-                        return [...result, ...file];
-                    }, []);
-                    resolve(_files);
-                });
-            });
-
+            return Promise.resolve(this.processFilesFromInput(items));
         } else if (items && items.length && !items[0].webkitGetAsEntry) {
             return Promise.resolve(items)
         }
+    }
+
+    flattenArrayOfFiles(arrayOfPromises){
+        return Promise.resolve(arrayOfPromises.reduce((result, file) => {
+            return [...result, ...file];
+        }, []))
     }
 
     updateStyles(dragOver:boolean = false) {
@@ -144,7 +142,6 @@ export class FileDroppa {
     }
 
     notifyAboutFiles() {
-        console.log(this._files);
         this.fileUploaded && this.fileUploaded.emit(this._files);
     }
 
