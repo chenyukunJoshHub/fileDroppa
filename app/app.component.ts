@@ -1,11 +1,9 @@
 import {Component, EventEmitter} from 'angular2/core';
-import {FileDropZone} from "../src/Directives/FileDropZone";
-import {FileDroppa} from "../src/Directives/FileDroppa";
-import {FileList} from "../src/Directives/FileList";
+import {FileDropZone, FileDroppa, FileList, FileInput} from '../src/index'
 
 @Component({
     selector: 'my-app',
-    directives: [FileDropZone, FileDroppa, FileList],
+    directives: [FileDropZone, FileDroppa, FileList, FileInput],
     styles: [`
         div {
             width:400px;
@@ -21,6 +19,7 @@ import {FileList} from "../src/Directives/FileList";
                         (fileUploaded)="fileUploaded($event)"
                         [overCls]="'customDrop'">
                     </div>
+                    <fileInput (fileUploaded)="fileUploaded($event)"></fileInput>
                     <fileList>
                     </fileList>
                </div>`

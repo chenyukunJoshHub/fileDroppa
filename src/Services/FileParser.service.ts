@@ -1,3 +1,5 @@
+import {Injectable} from "angular2/core";
+@Injectable()
 export class FileParser {
     processFilesFromInput(items) {
         let newFiles = Object.keys(items).reduce((result, key)=> {
