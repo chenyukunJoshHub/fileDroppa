@@ -11,6 +11,7 @@ import {Component, Output, EventEmitter} from 'angular2/core';
 
 export class FileInput {
     @Output() fileUploaded = new EventEmitter();
+    
     handleFiles(e){
         let _files = [];
         for(let i=0,l=e.target.files.length;i<l;i++){

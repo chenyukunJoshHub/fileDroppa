@@ -1,7 +1,7 @@
 import {Directive, Input, EventEmitter, Output} from 'angular2/core';
 
 @Directive({
-    selector: '[fileList]',
+    selector: 'fileList',
 })
 
 export class FileList {
