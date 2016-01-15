@@ -23,6 +23,8 @@ import {FileList} from './FileList';
 export class FileDropZone{
     private _config:Object = {};
     private _files = [];
+
+    public files;
     
     constructor(){};
     
@@ -39,6 +41,10 @@ export class FileDropZone{
     
     get files():File[]{
         return this._files;
+    }
+
+    set files(files:File[]) {
+        this._files = files;
     }
     
      handleFiles(files) {
