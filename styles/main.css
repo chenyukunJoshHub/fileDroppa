@@ -1,0 +1,9 @@
+.fileDroppa {
+    display: block;
+    width:400px;
+    height:400px;
+    background:grey;
+}
+.customDrop {
+    border:2px solid black;
+}
