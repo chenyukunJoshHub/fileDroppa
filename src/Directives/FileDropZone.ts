@@ -5,23 +5,13 @@ import {FileList} from './FileList';
 
 @Component({
     selector: 'fileDropZone',
-    styles: [`
-        .fileDroppa {
-            width:400px;
-            height:400px;
-            background:grey;
-        }
-        .customDrop {
-            border:2px solid black;
-        }
-    `],
     directives: [FileInput, FileDroppa, FileList],
     template: `
-            <fileDroppa class="fileDroppa"
-                (fileUploaded)="fileUploaded($event)"
-                [overCls]="'customDrop'">
+            <fileDroppa [class]="config.customClass"
+                (fileUploaded)="handleFiles($event)"
+                [overCls]="config.overCls">
             </fileDroppa>
-            <fileInput (fileUploaded)="fileUploaded($event)"></fileInput>
+            <fileInput (fileUploaded)="handleFiles($event)"></fileInput>
             <fileList [files]="files">
                 <div *ngFor="#file of files">
                 {{file.name}}
@@ -31,18 +21,29 @@ import {FileList} from './FileList';
 })
 
 export class FileDropZone{
-    files = [];
-    constructor () {
+    private _config:Object = {};
+    private _files = [];
+    
+    constructor(){};
+    
+    @Input() set config(config:Object) {
+           this._config = config ? Object.assign(config, this._config) : this._config;
+           console.log('this._config', this._config)
+    }   
+    
+    @Output() fileUploaded = new EventEmitter();
+    
+    get config():Object {
+        return this._config;
     }
     
-    fileUploaded(files) {
+    get files():File[]{
+        return this._files;
+    }
+    
+     handleFiles(files) {
         this.files = files;
+        this.fileUploaded.emit(files);
     }
 }
 
-//<div fileDroppa
-//(fileUploaded)="fileUploaded($event)"
-//    [overCls]="'customDrop'">
-//</div>
-//<fileInput (fileUploaded)="fileUploaded($event)"></fileInput>
-//    <fileList></fileList>
