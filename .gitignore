@@ -55,7 +55,5 @@ Temporary Items
 npm-debug.log
 
 # Transpiled files
-app/**/*.js
-app/**/*.js.map
-
-
+/**/*.js
+/**/*.js.map
