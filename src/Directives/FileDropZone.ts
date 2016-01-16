@@ -24,8 +24,6 @@ export class FileDropZone{
     private _config:Object = {};
     private _files = [];
 
-    public files;
-    
     constructor(){};
     
     @Input() set config(config:Object) {
