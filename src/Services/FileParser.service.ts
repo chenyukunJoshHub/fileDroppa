@@ -20,6 +20,8 @@ export class FileParser {
                     item.file(resolve, reject);
                 });
                 result.push(pr);
+            } else if (item.isDirectory) {
+                result.push(this.processDirectory(item));
             }
             return result;
         }, []);
