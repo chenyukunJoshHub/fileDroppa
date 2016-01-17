@@ -2,7 +2,7 @@ import {Directive, ElementRef, Renderer, Input, EventEmitter, Output} from 'angu
 import {FileParser} from "../Services/FileParser.service";
 
 @Directive({
-    selector: 'fileDroppa',
+    selector: '[fileDroppa]',
     providers:[FileParser],
     host: {
         '(drop)': 'drop($event)',
@@ -26,9 +26,9 @@ export class FileDroppa {
      * Directive Input and Output Params
      * */
 
-    @Input() set fireUpdate(updateListener:EventEmitter<any>) {
-        updateListener && updateListener.subscribe(this.upload);
-    }
+    //@Input() set fireUpdate(updateListener:EventEmitter<any>) {
+    //    updateListener && updateListener.subscribe(this.upload);
+    //}
 
     @Input() set url(url:string) {
         this._url = url || this._url;
@@ -95,13 +95,14 @@ export class FileDroppa {
         this.hiddenFileInput && document.body.removeChild(this.hiddenFileInput);
         this.hiddenFileInput = document.createElement("input");
         this.hiddenFileInput.setAttribute("type", "file");
-        this.hiddenFileInput.setAttribute("multiple", "multiple")
+        this.hiddenFileInput.setAttribute("multiple", "multiple");
         this.hiddenFileInput.style.visibility = "hidden";
         this.hiddenFileInput.style.position = "absolute";
         this.hiddenFileInput.style.top = "0";
         this.hiddenFileInput.style.left = "0";
         this.hiddenFileInput.style.height = "0";
         this.hiddenFileInput.style.width = "0";
+        this.hiddenFileInput.className = "_hiddenInputClassName";
         document.body.appendChild(this.hiddenFileInput);
         this.hiddenFileInput.addEventListener("change", (e)=>{
             let files = Object.keys(e.target.files).reduce((result, key)=>{
