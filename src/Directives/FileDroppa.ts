@@ -8,15 +8,19 @@ import {FileParser} from "../Services/FileParser.service";
         '(drop)': 'drop($event)',
         '(dragenter)': 'dragenter($event)',
         '(dragover)': 'dragover($event)',
-        '(dragleave)': 'dragleave($event)'
+        '(dragleave)': 'dragleave($event)',
+        '(click)': 'onClick($event)'
     }
 })
 
 export class FileDroppa {
     private _url:string = null;
     private _overCls:string = "defaultOver";
+    private hiddenFileInput = null;
 
-    constructor(private el:ElementRef, private renderer:Renderer, private fileParser: FileParser) {}
+    constructor(private el:ElementRef, private renderer:Renderer, private fileParser: FileParser) {
+        this.createHiddenInput();
+    }
 
     /*
      * Directive Input and Output Params
@@ -39,6 +43,10 @@ export class FileDroppa {
     /*
      * Host Event Listeners
      * */
+
+    onClick(e){
+        this.hiddenFileInput && this.hiddenFileInput.click();
+    }
 
     drop(e) {
         e.preventDefault();
@@ -70,6 +78,10 @@ export class FileDroppa {
      * Public methods
      * */
 
+    OnDestroy(){
+        this.hiddenFileInput && document.body.removeChild(this.hiddenFileInput);
+        this.hiddenFileInput = null;
+    }
 
     updateStyles(dragOver:boolean = false) {
         this.renderer.setElementClass(this.el, this._overCls, dragOver);
@@ -79,31 +91,24 @@ export class FileDroppa {
         this.fileUploaded && this.fileUploaded.emit(files);
     }
 
-    upload($event) {
-        if (!this._url) {
-            //throw "URL to post files needs to be provided";
-        }
-
-        console.log("upload!!!");
-
-        //let data = new FormData();
-        //
-        //files.forEach((file, index) => {
-        //    data.append(`file_${index}`, file[0]);
-        //});
-        //
-        //window.fetch(url, {
-        //        method: 'post',
-        //        body: data,
-        //    })
-        //    .then((response)=> {
-        //        this._files = [];
-        //        this.notifyAboutFiles();
-        //    })
-        //    .catch((error) => {
-        //        throw `Error happend during files uploading to ${this._url}: ${error}`;
-        //    });
+    createHiddenInput(){
+        this.hiddenFileInput && document.body.removeChild(this.hiddenFileInput);
+        this.hiddenFileInput = document.createElement("input");
+        this.hiddenFileInput.setAttribute("type", "file");
+        this.hiddenFileInput.setAttribute("multiple", "multiple")
+        this.hiddenFileInput.style.visibility = "hidden";
+        this.hiddenFileInput.style.position = "absolute";
+        this.hiddenFileInput.style.top = "0";
+        this.hiddenFileInput.style.left = "0";
+        this.hiddenFileInput.style.height = "0";
+        this.hiddenFileInput.style.width = "0";
+        document.body.appendChild(this.hiddenFileInput);
+        this.hiddenFileInput.addEventListener("change", (e)=>{
+            let files = Object.keys(e.target.files).reduce((result, key)=>{
+                return result.push(e.target.files[key]), result;
+            }, []);
+            this.fileUploaded && this.fileUploaded.emit(files);
+        });
     }
-
 
 }

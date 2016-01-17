@@ -1,11 +1,10 @@
 import {Component, Input, EventEmitter, Output} from 'angular2/core';
-import {FileInput} from './FileInput';
 import {FileDroppa} from './FileDroppa';
 import {FileList} from './FileList';
 
 @Component({
     selector: 'fileDropZone',
-    directives: [FileInput, FileDroppa, FileList],
+    directives: [FileDroppa, FileList],
     template: `
             <fileDroppa [class]="config.customClass"
                 (fileUploaded)="updateFileList($event, 'added')"
