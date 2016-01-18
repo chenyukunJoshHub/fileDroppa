@@ -12,6 +12,13 @@ import {FileList} from './FileList';
                 (fileUploaded)="updateFileList($event, 'added')"
                 [overCls]="config.overCls">
             </fileDroppa>
+            
+            <br/><br/>
+            
+             <div fileDroppa [class]="config.customClass"
+                (fileUploaded)="updateFileList($event, 'added')"
+                [overCls]="config.overCls">
+            </div>
             <div *ngIf="files.length">
                 <fileList [files]="files" (fileRemoved)="updateFileList($event, 'removed')"></fileList>
                 <button (click)="uploadFileList()">Upload All Files</button>
