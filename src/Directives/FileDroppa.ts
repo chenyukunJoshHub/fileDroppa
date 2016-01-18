@@ -2,7 +2,7 @@ import {Directive, ElementRef, Renderer, Input, EventEmitter, Output} from 'angu
 import {FileParser} from "../Services/FileParser.service";
 
 @Directive({
-    selector: '[fileDroppa]',
+    selector: 'fileDroppa',
     providers:[FileParser],
     host: {
         '(drop)': 'drop($event)',

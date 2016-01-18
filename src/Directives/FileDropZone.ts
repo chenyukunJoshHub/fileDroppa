@@ -6,9 +6,12 @@ import {FileList} from './FileList';
     selector: 'fileDropZone',
     directives: [FileDroppa, FileList],
     template: `
-            <div fileDroppa [overCls]="'customDrop'" (fileUploaded)="fileUploaded($event)">
-            </div>
+            <fileDroppa [class]="config.customClass"
+                (fileUploaded)="updateFileList($event, 'added')"
+                [overCls]="config.overCls">
+            </fileDroppa>
             <fileList [files]="files" (fileRemoved)="updateFileList($event, 'removed')"></fileList>
+
     `
 })
 
