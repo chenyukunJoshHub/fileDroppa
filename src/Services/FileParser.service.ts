@@ -16,7 +16,7 @@ export class FileParser {
                     result.push(Promise.resolve(item.getAsFile()));
                 }
             } else if (item.isFile) {
-                let pr = new Promise((resolve, reject)=>{
+                let pr = new Promise((resolve, reject)=> {
                     item.file(resolve, reject);
                 });
                 result.push(pr);
@@ -67,7 +67,7 @@ export class FileParser {
         }
     }
 
-    flattenArrayOfFiles(arrayOfPromises){
+    flattenArrayOfFiles(arrayOfPromises) {
         return Promise.resolve(arrayOfPromises.reduce((result, file) => {
             return [...result, ...file];
         }, []))

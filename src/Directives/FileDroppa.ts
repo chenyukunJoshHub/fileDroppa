@@ -3,7 +3,7 @@ import {FileParser} from "../Services/FileParser.service";
 
 @Directive({
     selector: 'fileDroppa, [fileDroppa]',
-    providers:[FileParser],
+    providers: [FileParser],
     host: {
         '(drop)': 'drop($event)',
         '(dragenter)': 'dragenter($event)',
@@ -18,7 +18,7 @@ export class FileDroppa {
     private _overCls:string = "defaultOver";
     private hiddenFileInput = null;
 
-    constructor(private el:ElementRef, private renderer:Renderer, private fileParser: FileParser) {
+    constructor(private el:ElementRef, private renderer:Renderer, private fileParser:FileParser) {
         this.createHiddenInput();
     }
 
@@ -44,7 +44,7 @@ export class FileDroppa {
      * Host Event Listeners
      * */
 
-    onClick(e){
+    onClick(e) {
         this.hiddenFileInput && this.hiddenFileInput.click();
     }
 
@@ -78,7 +78,7 @@ export class FileDroppa {
      * Public methods
      * */
 
-    OnDestroy(){
+    OnDestroy() {
         this.hiddenFileInput && document.body.removeChild(this.hiddenFileInput);
         this.hiddenFileInput = null;
     }
@@ -91,7 +91,7 @@ export class FileDroppa {
         this.fileUploaded && this.fileUploaded.emit(files);
     }
 
-    createHiddenInput(){
+    createHiddenInput() {
         this.hiddenFileInput && document.body.removeChild(this.hiddenFileInput);
         this.hiddenFileInput = document.createElement("input");
         this.hiddenFileInput.setAttribute("type", "file");
@@ -104,8 +104,8 @@ export class FileDroppa {
         this.hiddenFileInput.style.width = "0";
         this.hiddenFileInput.className = "_hiddenInputClassName";
         document.body.appendChild(this.hiddenFileInput);
-        this.hiddenFileInput.addEventListener("change", (e)=>{
-            let files = Object.keys(e.target.files).reduce((result, key)=>{
+        this.hiddenFileInput.addEventListener("change", (e)=> {
+            let files = Object.keys(e.target.files).reduce((result, key)=> {
                 return result.push(e.target.files[key]), result;
             }, []);
             this.fileUploaded && this.fileUploaded.emit(files);
