@@ -32,9 +32,9 @@ System.register(['angular2/core', 'angular2/testing', "../src/Directives/FileDro
                 };
                 TestComponent = __decorate([
                     core_1.Component({
-                        selector: 'header',
+                        selector: 'body',
                         directives: [FileDroppa_1.FileDroppa],
-                        template: "<div fileDroppa\n                        id=child\n                        (fileUploaded)=\"fileUploaded($event)\"\n                        [overCls]=\"'customDrop'\">\n                    </div>"
+                        template: "<div fileDroppa\n                id=child\n                (fileUploaded)=\"fileUploaded($event)\">\n            </div>"
                     }), 
                     __metadata('design:paramtypes', [])
                 ], TestComponent);
@@ -42,7 +42,7 @@ System.register(['angular2/core', 'angular2/testing', "../src/Directives/FileDro
             })();
             exports_1("TestComponent", TestComponent);
             testing_1.describe('Test File Droppa Directive', function () {
-                testing_1.it('should call onDrop', testing_1.inject([testing_1.TestComponentBuilder], function (tcb) {
+                testing_1.it('should call onDrop', testing_1.injectAsync([testing_1.TestComponentBuilder], function (tcb) {
                     return tcb.createAsync(TestComponent).then(function (fixture) {
                         fixture.detectChanges();
                         spyOn(fixture.componentInstance, "fileUploaded");
@@ -57,6 +57,11 @@ System.register(['angular2/core', 'angular2/testing', "../src/Directives/FileDro
                         window.setTimeout(function () {
                             testing_1.expect(fixture.componentInstance.fileUploaded).toHaveBeenCalledWith([1, 2, 3]);
                         }, 300);
+                    });
+                }));
+                testing_1.it('build hidden input', testing_1.inject([testing_1.TestComponentBuilder], function (tcb) {
+                    return tcb.createAsync(TestComponent).then(function (fixture) {
+                        testing_1.expect(document.querySelector("input[type=\"file\"]._hiddenInputClassName")).toBeTruthy();
                     });
                 }));
             });
