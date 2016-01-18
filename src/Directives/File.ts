@@ -20,6 +20,7 @@ import {Component, Input, Output, EventEmitter} from 'angular2/core';
         <div *ngIf="file">
             <span>{{index}} {{file.name}}</span>
             <span>{{file.size}} bytes</span>
+            <span *ngIf="file.progress">{{file.progress.loaded}} / {{file.progress.total}}</span>
             <span (click)=removeFileListener(index) class='item-remove'>remove</span>
         </div> 
     `,
