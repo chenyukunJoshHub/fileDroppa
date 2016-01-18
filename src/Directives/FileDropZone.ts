@@ -1,24 +1,18 @@
 import {Component, Input, EventEmitter, Output} from 'angular2/core';
-import {FileUpload} from '../Services/FileUpload.service';
+import {EmitterService} from '../Services/Emitter.service';
 import {FileDroppa} from './FileDroppa';
 import {FileList} from './FileList';
 
 @Component({
     selector: 'fileDropZone',
     directives: [FileDroppa, FileList],
-    providers: [FileUpload],
+    providers: [EmitterService],
     template: `
             <fileDroppa [class]="config.customClass"
                 (fileUploaded)="updateFileList($event, 'added')"
                 [overCls]="config.overCls">
             </fileDroppa>
-            
-            <br/><br/>
-            
-             <div fileDroppa [class]="config.customClass"
-                (fileUploaded)="updateFileList($event, 'added')"
-                [overCls]="config.overCls">
-            </div>
+            <br/>
             <div *ngIf="files.length">
                 <fileList [files]="files" (fileRemoved)="updateFileList($event, 'removed')"></fileList>
                 <button (click)="uploadFileList()">Upload All Files</button>
@@ -30,11 +24,9 @@ export class FileDropZone {
     private _config:Object = {};
     private _files = [];
 
-    constructor(private fileUpload:FileUpload) {
-        //TODO: discuss where to better to put it - maybe in File component
-        fileUpload.onProgress.subscribe((progressData)=> {
-            this.notifyAboutProgress(progressData);
-        });
+    public startUpload = new EventEmitter();
+
+    constructor() {
     };
 
     @Input() set config(config:Object) {
@@ -78,19 +70,7 @@ export class FileDropZone {
     }
 
     uploadFileList() {
-        this.fileUpload.upload(this._files);
-    }
-
-    notifyAboutProgress(progressData) {
-        let progress = progressData[0],
-            index = progressData[1];
-
-        this._files[index].progress = {
-            loaded: progress.loaded,
-            total: progress.total
-        };
-
-        console.log(progress)
+        EmitterService.get('doUpload').emit(true);
     }
 }
 

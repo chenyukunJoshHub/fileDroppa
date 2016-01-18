@@ -1,8 +1,11 @@
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
+import {EmitterService} from '../Services/Emitter.service';
+import {FileUpload} from '../Services/FileUpload.service';
 
 @Component({
     selector: 'fileItem',
-    styles:[`
+    providers: [FileUpload],
+    styles: [`
         div {
             padding-top: 15px;
         }
@@ -17,7 +20,7 @@ import {Component, Input, Output, EventEmitter} from 'angular2/core';
         }
     `],
     template: `
-        <div *ngIf="file">
+        <div *ngIf="file" (startUpload)="uploadFile($event)">
             <span>{{index}} {{file.name}}</span>
             <span>{{file.size}} bytes</span>
             <span *ngIf="file.progress">{{file.progress.loaded}} / {{file.progress.total}}</span>
@@ -30,10 +33,30 @@ import {Component, Input, Output, EventEmitter} from 'angular2/core';
 export class File {
     public file;
     public index;
-    
+
+    constructor(private fileUpload:FileUpload) {
+        EmitterService.get('doUpload').subscribe(data => {
+            fileUpload.uploadFile(this.file);
+        });
+
+
+        fileUpload.onProgress.subscribe((progressData) => {
+            this.file.progress = {
+                loaded: progressData.loaded,
+                total: progressData.total
+            };
+            console.log(this.file.progress)
+        });
+
+        fileUpload.onSuccess.subscribe(() => {
+
+        });
+    }
+
     @Output() removeFile = new EventEmitter();
-    
+
     removeFileListener(file) {
         this.removeFile && this.removeFile.emit(file);
     }
-};
+
+}
