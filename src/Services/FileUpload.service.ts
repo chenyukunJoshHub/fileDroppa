@@ -15,8 +15,9 @@ export class FileUpload {
         formData.append(`${file.name}`, file);
 
         xhr.upload.onprogress = (event) => {
-            // console.log(event.loaded + ' / ' + event.total);
-            this.onProgress.emit(event);
+            let progress = (event.loaded * 100) / event.total
+            
+            this.onProgress.emit(progress);                
         };
 
         xhr.onload = xhr.onerror = function () {
@@ -31,7 +32,7 @@ export class FileUpload {
 
         //TODO: move url to config
         xhr.open("POST", "http://localhost:9090/upload", true);
-        xhr.send(file);
+        xhr.send(formData);
 
     }
 }     
