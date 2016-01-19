@@ -20,10 +20,11 @@ import {FileUpload} from '../Services/FileUpload.service';
         }
     `],
     template: `
-        <div *ngIf="file" (startUpload)="uploadFile($event)">
+    {{file.progress}}
+        <div *ngIf="file">
             <span>{{index}} {{file.name}}</span>
             <span>{{file.size}} bytes</span>
-            <span *ngIf="file.progress">{{file.progress.loaded}} / {{file.progress.total}}</span>
+            <progress [value]="progress" max="100"></progress>
             <span (click)=removeFileListener(index) class='item-remove'>remove</span>
         </div> 
     `,
@@ -33,21 +34,19 @@ import {FileUpload} from '../Services/FileUpload.service';
 export class File {
     public file;
     public index;
+    progress:number = 0;
 
     constructor(private fileUpload:FileUpload) {
         EmitterService.get('doUpload').subscribe(data => {
             fileUpload.uploadFile(this.file);
         });
-
-
-        fileUpload.onProgress.subscribe((progressData) => {
-            this.file.progress = {
-                loaded: progressData.loaded,
-                total: progressData.total
-            };
-            console.log(this.file.progress)
+        
+        fileUpload.onProgress.subscribe((progress) => {
+            this.progress = progress;
+            //TODO: find out why value in template not updated
+            console.log(this.progress)                
         });
-
+      
         fileUpload.onSuccess.subscribe(() => {
 
         });
