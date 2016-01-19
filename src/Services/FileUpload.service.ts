@@ -20,15 +20,15 @@ export class FileUpload {
             this.onProgress.emit(progress);                
         };
 
-        // xhr.onload = xhr.onerror = function () {
-        //     if (this.status == 200) {
-        //         console.log("success");
-        //         that.onSuccess.emit(true);
-        //     } else {
-        //         console.log("error " + this.status);
-        //         that.onError.emit(true);
-        //     }
-        // };
+        xhr.onload = xhr.onerror = function () {
+            if (this.status == 200) {
+                console.log("success");
+                that.onSuccess.emit(true);
+            } else {
+                console.log("error " + this.status);
+                that.onError.emit(true);
+            }
+        };
 
         //TODO: move url to config
         xhr.open("POST", "http://localhost:9090/upload", true);

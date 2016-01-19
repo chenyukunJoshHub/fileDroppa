@@ -20,11 +20,11 @@ import {FileUpload} from '../Services/FileUpload.service';
         }
     `],
     template: `
-    {{file.progress}}
         <div *ngIf="file">
             <span>{{index}} {{file.name}}</span>
             <span>{{file.size}} bytes</span>
             <progress [value]="progress" max="100"></progress>
+            <span> Status: {{uploadStatus}}</span>
             <span (click)=removeFileListener(index) class='item-remove'>remove</span>
         </div> 
     `,
@@ -35,20 +35,22 @@ export class File {
     public file;
     public index;
     progress:number = 0;
+    uploadStatus:string = ''
 
     constructor(private fileUpload:FileUpload) {
         EmitterService.get('doUpload').subscribe(data => {
             fileUpload.uploadFile(this.file);
+            this.uploadStatus = 'pending'
         });
-        
+
         fileUpload.onProgress.subscribe((progress) => {
             this.progress = progress;
             //TODO: find out why value in template not updated
-            console.log(this.progress)                
+            console.log(this.progress)
         });
-      
-        fileUpload.onSuccess.subscribe(() => {
 
+        fileUpload.onSuccess.subscribe(() => {
+            this.uploadStatus = 'uploaded'
         });
     }
 
