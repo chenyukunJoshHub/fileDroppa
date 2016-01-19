@@ -15,23 +15,24 @@ export class FileUpload {
         formData.append(`${file.name}`, file);
 
         xhr.upload.onprogress = (event) => {
-            // console.log(event.loaded + ' / ' + event.total);
-            this.onProgress.emit(event);
+            let progress = (event.loaded * 100) / event.total
+            
+            this.onProgress.emit(progress);                
         };
 
-        xhr.onload = xhr.onerror = function () {
-            if (this.status == 200) {
-                console.log("success");
-                that.onSuccess.emit(true);
-            } else {
-                console.log("error " + this.status);
-                that.onError.emit(true);
-            }
-        };
+        // xhr.onload = xhr.onerror = function () {
+        //     if (this.status == 200) {
+        //         console.log("success");
+        //         that.onSuccess.emit(true);
+        //     } else {
+        //         console.log("error " + this.status);
+        //         that.onError.emit(true);
+        //     }
+        // };
 
         //TODO: move url to config
         xhr.open("POST", "http://localhost:9090/upload", true);
-        xhr.send(file);
+        xhr.send(formData);
 
     }
 }     
