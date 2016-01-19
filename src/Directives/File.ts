@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter} from 'angular2/core';
+import {Component, Input, Output, EventEmitter, NgZone} from 'angular2/core';
 import {EmitterService} from '../Services/Emitter.service';
 import {FileUpload} from '../Services/FileUpload.service';
 
@@ -34,19 +34,21 @@ import {FileUpload} from '../Services/FileUpload.service';
 export class File {
     public file;
     public index;
-    progress:number = 0;
-    uploadStatus:string = ''
+    public progress:number = 0;
+    zone:NgZone;
+    uploadStatus:string = '';
 
     constructor(private fileUpload:FileUpload) {
+        this.zone = new NgZone({enableLongStackTrace: false});
         EmitterService.get('doUpload').subscribe(data => {
             fileUpload.uploadFile(this.file);
             this.uploadStatus = 'pending'
         });
 
-        fileUpload.onProgress.subscribe((progress) => {
-            this.progress = progress;
-            //TODO: find out why value in template not updated
-            console.log(this.progress)
+        fileUpload.onProgress.subscribe((value)=>{
+            this.zone.run(()=>{
+                this.progress = value
+            });
         });
 
         fileUpload.onSuccess.subscribe(() => {

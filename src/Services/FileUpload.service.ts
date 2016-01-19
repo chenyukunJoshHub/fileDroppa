@@ -15,9 +15,9 @@ export class FileUpload {
         formData.append(`${file.name}`, file);
 
         xhr.upload.onprogress = (event) => {
-            let progress = (event.loaded * 100) / event.total
+            let progress = (event.loaded * 100) / event.total;
             
-            this.onProgress.emit(progress);                
+            this.onProgress.emit(progress | 0);
         };
 
         xhr.onload = xhr.onerror = function () {
