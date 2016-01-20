@@ -8,13 +8,25 @@ import {FileList} from './FileList';
     directives: [FileDroppa, FileList],
     providers: [EmitterService],
     styles: [`
-        cursor: pointer;
+        .fileDroppa {
+            border: 3px dashed #DDD;
+            border-radius:10px;
+            padding:10px;
+            width:300px;
+            height:150px;
+            color:#CCC;
+            text-align:center;
+            display:table-cell;
+            vertical-align:middle;
+            cursor:pointer;
+        }
     `],
     template: `
-            <fileDroppa [class]="config.customClass"
+            <div fileDroppa [class]="config.customClass"
                 (fileUploaded)="updateFileList($event, 'added')"
                 [overCls]="config.overCls">
-            </fileDroppa>
+                Drop files here or click to select
+            </div>
             <br/>
             <div *ngIf="files.length">
                 <fileList [files]="files" (fileRemoved)="updateFileList($event, 'removed')"></fileList>
