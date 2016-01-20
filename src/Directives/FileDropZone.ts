@@ -7,6 +7,9 @@ import {FileList} from './FileList';
     selector: 'fileDropZone',
     directives: [FileDroppa, FileList],
     providers: [EmitterService],
+    styles: [`
+        cursor: pointer;
+    `],
     template: `
             <fileDroppa [class]="config.customClass"
                 (fileUploaded)="updateFileList($event, 'added')"
@@ -16,6 +19,7 @@ import {FileList} from './FileList';
             <div *ngIf="files.length">
                 <fileList [files]="files" (fileRemoved)="updateFileList($event, 'removed')"></fileList>
                 <button (click)="uploadFileList()">Upload All Files</button>
+                <button (click)="clearFileList()">Remove All Files</button>
             </div>
     `
 })
@@ -71,6 +75,10 @@ export class FileDropZone {
 
     uploadFileList() {
         EmitterService.get('doUpload').emit(true);
+    }
+
+    clearFileList() {
+        this.files = [];
     }
 }
 
