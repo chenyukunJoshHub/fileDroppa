@@ -2,7 +2,7 @@ import {Component, Input, EventEmitter, Output} from 'angular2/core';
 import {File} from './File';
 
 @Component({
-    selector: 'fileList',
+    selector: 'fileList, [fileList]',
     directives: [File],
     template: `
         <fileItem *ngFor="#file of files; #i = index" [file]="file" [index]="i" (removeFile)=removeFile($event)></fileItem>
