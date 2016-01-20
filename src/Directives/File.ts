@@ -59,7 +59,7 @@ import {FileUpload} from '../Services/FileUpload.service';
                 <img *ngIf="previewSrc" src="{{previewSrc}}" class="file-preview-img"/>
             </div>
             <div class="flex-block file-name">{{file.name}}</div>
-            <div class="flex-block">{{file.size}} bytes</div>
+            <div class="flex-block">{{getSize()}}</div>
             <progress [value]="progress" max="100" class="flex-block"></progress>
             <div class="flex-block file-remove" (click)=removeFileListener(index)><button>Remove</button></div>
         </div>
@@ -133,6 +133,19 @@ export class File {
         if (this.file) {
             reader.readAsDataURL(this.file);
         }
+    }
+
+    getSize() {
+        let bytes = this.file.size,
+            sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+            k = 1000,
+            i = Math.floor(Math.log(bytes) / Math.log(k));
+
+        if (bytes == 0) {
+            return '0 Byte';
+        }
+
+        return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i];
     }
 
 }
