@@ -47,7 +47,6 @@ export class FileDropZone {
 
     @Input() set config(config:Object) {
         this._config = config ? Object.assign(config, this._config) : this._config;
-        console.log('this._config', this._config)
     }
 
     @Output() fileUploaded = new EventEmitter();
@@ -86,7 +85,7 @@ export class FileDropZone {
     }
 
     uploadFileList() {
-        EmitterService.get('doUpload').emit(true);
+        EmitterService.get('doUpload').emit(this.config["uploadUrl"]);
     }
 
     clearFileList() {

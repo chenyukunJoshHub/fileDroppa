@@ -7,7 +7,7 @@ export class FileUpload {
     @Output() onSuccess = new EventEmitter();
     @Output() onError = new EventEmitter();
 
-    uploadFile(file) {
+    uploadFile(file, url) {
         let that = this,
             xhr = new XMLHttpRequest(),
             formData = new FormData();
@@ -31,7 +31,7 @@ export class FileUpload {
         };
 
         //TODO: move url to config
-        xhr.open("POST", "http://localhost:9090/upload", true);
+        xhr.open("POST", url, true);
         xhr.send(formData);
 
     }
