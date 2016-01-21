@@ -1,0 +1,1 @@
+{"version":3,"file":"xhr.js","sourceRoot":"","sources":["xhr.ts"],"names":["XHR","XHR.constructor","XHR.get"],"mappings":";;;;;YAEA,8CAA8C;YAC9C;;;eAGG;YACH;gBAAAA;gBAEAC,CAACA;gBADCD,iBAAGA,GAAHA,UAAIA,GAAWA,IAAqBE,MAAMA,CAACA,IAAIA,CAACA,CAACA,CAACA;gBACpDF,UAACA;YAADA,CAACA,AAFD,IAEC;YAFD,qBAEC,CAAA"}
