@@ -1,52 +1,91 @@
-# FileDroppa
-## Angular2 (ng2) Files DropZone
+## Angular2 (ng2) Files dropable area plus list of files which could be managed before upload
 
-#### Usage/Directives:
+#### Installation:
+********
+
+#### Usage:
+
+You can choose between two types of approaches when you use this component:
+
+- You can simply export FileDropZone directive, append it to your component and provide uploadUrl in config and that's it. It's working, files could be selected or dropped, they can be managed and they can be easily uploaded to the service at url you have gived in config.
+
+The hole list of config params you can find below in detailed information. 
+
+```
+@Component({
+    selector: 'my-app',
+    directives: [FileDropZone],
+    template: `<fileDropZone [config]="config">
+               </fileDropZone>`
+}) 
+```
+
+- You can export fileDroppa or fileList and following the API use them. This approach you will need to use in case you need some specific styles to the component, create component complex hierarchy or let's say you don't need fileList.
+
+```
+        <div fileDroppa (fileUploaded)="updateFileList($event, 'added')">
+                Drop files here or click to select
+        </div>
+        <fileList [files]="files" (fileRemoved)="updateFileList($event, 'removed')"></fileList>
+        
+```
+```
+        <li fileDroppa (fileUploaded)="updateFileList($event, 'added')">
+                Some specific text
+        </li>
+        <fileList [files]="files" (fileRemoved)="updateFileList($event, 'removed')"></fileList>
+```        
+```
+        <li fileDroppa (fileUploaded)="updateFileList($event, 'added')">
+                <span>
+                        <b>Bla-Bla-Bla</b>
+                </span>
+        </li>
+        <fileList [files]="files" (fileRemoved)="updateFileList($event, 'removed')"></fileList>
+``` 
 ---------
+
+#### Detailed information:
+
+##### fileDropZone
+
+```
+import {FileDropZone} from fileDroppa
+```
+Config:
+
+1. customClass?:string - css class which will be gived to the dom element wrapper
+2. overCls?:string - css class which will be gived to the drop area when dragging is right over the element
+3. autoUpload?:boolean - in case you want to upload files right after drop set true
+4. uploadUrl:string - url which will be posted with uploaded files
+
+API:
+
+1. [config] - input parameter
+2. (filesUploaded)?:EventEmmiter - function which will be called on successfull file uploading
+
 ##### fileDroppa
-Initialize the plugin
 
 ```
-        <div fileDroppa>
-        </div>
+import {FileDroppa} from fileDroppa
 ```
 
+API:
 
-##### url
-Provides url to post
+1. [class] - input parameter custom class
+2. [overCls] - input parameter custom over css class
+3. (fileUploaded)?:EventEmmiter - function which will be called with list of files which were selected by user
 
-```
-        <div fileDroppa [url]="'/someUrl'">
-        </div>
-```
 
-##### overCls
-Class that will be given to the element when you will be dragging over it
+##### fileList
 
 ```
-        <div fileDroppa [overCls]="'some-fancy-style'">
-        </div>
+import {FileList} from fileDroppa
 ```
 
-##### fileUploaded
-Output param which provides all current files uploaded. Can be used to update the list of files. All files will be provided to the callback
+API:
 
-```
-        <div fileDroppa (fileUploaded)="fileUploaded($event)">
-        </div>
-```
+1. [files]:Array<File> - input parameter which always provides all files currently selected/dropped by user
+2. (fileRemoved)?:EventEmmiter - function which will be called when any files from filesList was removed by user
 
-##### fireUpdate
-Input param which fires upload action in directive. You can provide listener to the button or on key press or whatever fits you better.
-You can refer to example for more detailed instructions.
-```
-...
-this.uploadEvent = new EventEmitter();
-this.uploadEvent.emit();
-...
-                <div fileDroppa
-                    (fileUploaded)="fileUploaded($event)"
-                    [overCls]="'customDrop'"
-                    [fireUpdate]="uploadEvent">
-                </div>`
-```
+ 
