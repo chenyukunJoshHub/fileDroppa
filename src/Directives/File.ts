@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, NgZone} from 'angular2/core';
+import {Component, Input, Output, EventEmitter, NgZone,} from 'angular2/core';
 import {EmitterService} from '../Services/Emitter.service';
 import {FileUpload} from '../Services/FileUpload.service';
 
@@ -12,7 +12,16 @@ import {FileUpload} from '../Services/FileUpload.service';
             align-items: center;
             max-width: 600px;
             margin-top: 20px;
+            transition: opacity 1s, margin 1s linear;
         }
+        
+        .file-container.uploaded {
+            opacity: 0;
+            margin: 0;
+            height: 0;
+            overflow: hidden;
+        }
+        
         .flex-block {
             width: 18%;
             margin-right: 2%;
@@ -53,7 +62,7 @@ import {FileUpload} from '../Services/FileUpload.service';
         }   
     `],
     template: `
-        <div *ngIf="file" class="file-container">
+        <div *ngIf="file" class="file-container" [class.uploaded]="uploaded">
             <div class="flex-block file-preview">
                 <span *ngIf="ext" class="file-preview-ext">{{ext}}</span>
                 <img *ngIf="previewSrc" src="{{previewSrc}}" class="file-preview-img"/>
@@ -81,18 +90,19 @@ export class File {
         this.init(fileUpload);
     }
 
-    //Hook
+    //ngHooks
     ngAfterContentInit() {
         this.getFileType();
     }
 
     @Output() removeFile = new EventEmitter();
+    @Output() successUpload = new EventEmitter();
 
     init(fileUpload) {
         this.zone = new NgZone({enableLongStackTrace: false});
-        EmitterService.get('doUpload').subscribe(data => {
+        EmitterService.get('doUpload').subscribe(url => {
             //prevent from multiple upload;
-            !this._uploaded && fileUpload.uploadFile(this.file);
+            !this._uploaded && fileUpload.uploadFile(this.file, url);
         });
 
         fileUpload.onProgress.subscribe((value)=> {
@@ -102,12 +112,17 @@ export class File {
         });
 
         fileUpload.onSuccess.subscribe(() => {
-            this._uploaded = true
+            this._uploaded = true;
+            EmitterService.get('uploadedFile').emit(this.index);
         });
     }
 
     removeFileListener(index) {
         this.removeFile && this.removeFile.emit(index);
+    }
+
+    get uploaded() {
+        return this._uploaded;
     }
 
     getFileType() {
