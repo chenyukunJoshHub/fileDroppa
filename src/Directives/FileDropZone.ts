@@ -49,7 +49,7 @@ export class FileDropZone {
         this._config = config ? Object.assign(config, this._config) : this._config;
     }
 
-    @Output() fileUploaded = new EventEmitter();
+    @Output() filesUploaded = new EventEmitter();
 
     get config():Object {
         return this._config;
@@ -64,7 +64,7 @@ export class FileDropZone {
     }
 
     notifyAboutFileChanges() {
-        this.fileUploaded && this.fileUploaded.emit(this.files);
+        this.filesUploaded && this.filesUploaded.emit(this.files);
     }
 
     updateFileList(files:any[], type:string) {

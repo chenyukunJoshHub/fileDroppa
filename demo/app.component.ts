@@ -13,16 +13,13 @@ import {FileDropZone} from '../src/index'
 export class AppComponent {
     uploadEvent;
     fileDroppaConfig;
-    files=[];
 
     constructor() {
         this.uploadEvent = new EventEmitter();
         this.fileDroppaConfig = {
                     customClass: 'fileDroppa',
                     overCls: "customDrop", 
-                    uploadEvent: "uploadEvent",
                     autoUpload:true,
-                    fileUploadedListener: "fileUploaded",
                     uploadUrl: "https://salty-taiga-80701.herokuapp.com/upload"
                 };
     }
@@ -31,7 +28,4 @@ export class AppComponent {
         console.log(files);
     }
 
-    uploadFiles() {
-        this.uploadEvent.emit();
-    }
 }
