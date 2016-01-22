@@ -6,7 +6,6 @@ import {FileList} from './FileList';
 @Component({
     selector: 'fileDropZone',
     directives: [FileDroppa, FileList],
-    providers: [EmitterService],
     styles: [`
         .fileDroppa {
             border: 3px dashed #DDD;

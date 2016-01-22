@@ -1,5 +1,4 @@
 import {Component, Input, Output, EventEmitter, NgZone,} from 'angular2/core';
-import {EmitterService} from '../Services/Emitter.service';
 
 @Component({
     selector: 'fileItem',
@@ -95,10 +94,6 @@ export class File {
 
     removeFileListener() {
         this.removeFile && this.removeFile.emit(true);
-    }
-
-    get uploaded() {
-        return this._uploaded;
     }
 
     getFileType() {
