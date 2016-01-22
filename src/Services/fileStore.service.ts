@@ -1,4 +1,4 @@
-import {Injectable} from 'angular2/core';
+import {Injectable} from "angular2/core";
 import {FileUpload} from "./FileUpload.service";
 
 export interface iFile {
@@ -36,7 +36,8 @@ export class FilesStore {
 
     public get files():Array<File> {
         return this.iFiles.reduce((res, iFile:iFile)=> {
-            return res.push(iFile.File), res;
+            res.push(iFile.File);
+            return res;
         }, []);
     }
 
@@ -54,14 +55,14 @@ export class FilesStore {
                 this.WSfiles.add(file);
                 return true;
             }
-        }).map((file)=>{
+        }).map((file)=> {
             let iFile = {
-                File:file,
-                loading:false,
-                percentage:0,
-                removing:false,
-                loadingSuccessful:false,
-                uploader:null
+                File: file,
+                loading: false,
+                percentage: 0,
+                removing: false,
+                loadingSuccessful: false,
+                uploader: null
             };
             iFile.uploader = new FileUpload(iFile);
             return iFile;

@@ -1,5 +1,5 @@
 import {Injectable, EventEmitter, Output, Input, NgZone} from "angular2/core";
-import {iFile} from "./fileStore.service";
+import {iFile} from "./FileStore.service";
 
 @Injectable()
 export class FileUpload {
@@ -37,7 +37,7 @@ export class FileUpload {
         };
 
         this.iFile.loading = true;
-        //TODO: move url to config
+
         xhr.open("POST", FileUpload.url, true);
         xhr.send(formData);
 

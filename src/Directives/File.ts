@@ -59,7 +59,7 @@ import {Component, Input, Output, EventEmitter, NgZone,} from 'angular2/core';
         }   
     `],
     template: `
-        <div *ngIf="file.File" class="file-container" [class.uploaded]="uploaded">
+        <div *ngIf="file.File" class="file-container" [class.uploaded]="file.loadingSuccessful">
             <div class="flex-block file-preview">
                 <span *ngIf="ext" class="file-preview-ext">{{ext}}</span>
                 <img *ngIf="previewSrc" src="{{previewSrc}}" class="file-preview-img"/>
@@ -73,7 +73,6 @@ import {Component, Input, Output, EventEmitter, NgZone,} from 'angular2/core';
 })
 
 export class File {
-    private _uploaded:Boolean = false;
 
     public ext:string = '';
     public previewSrc:string = '';
