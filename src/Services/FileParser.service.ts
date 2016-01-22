@@ -5,7 +5,7 @@ export class FileParser {
         let newFiles = Object.keys(items).reduce((result, key)=> {
             let entry,
                 item = items[key];
-                
+
             if ((item.webkitGetAsEntry != null) && (entry = item.webkitGetAsEntry())) {
                 if (entry.isFile) {
                     result.push(Promise.resolve(item.getAsFile()));
@@ -70,8 +70,8 @@ export class FileParser {
 
     flattenArrayOfFiles(arrayOfPromises) {
         return Promise.resolve(arrayOfPromises.reduce((result, file) => {
-            if(file) {
-                return [...result, ...file];                
+            if (file) {
+                return [...result, ...file];
             }
         }, []))
     }

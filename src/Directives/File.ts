@@ -67,11 +67,11 @@ import {FileUpload} from '../Services/FileUpload.service';
                 <span *ngIf="ext" class="file-preview-ext">{{ext}}</span>
                 <img *ngIf="previewSrc" src="{{previewSrc}}" class="file-preview-img"/>
             </div>
-            <div class="flex-block file-name">{{file.name}}</div>
+            <div class="flex-block file-name">{{file.File.name}}</div>
             <div class="flex-block">{{getSize()}}</div>
             <span *ngIf="file.removing">REMOVING!!!!!!!!!!!!</span>
             <progress [value]="file.percentage" max="100" class="flex-block"></progress>
-            <div class="flex-block file-remove" (click)=removeFileListener(index)><button>Remove</button></div>
+            <div class="flex-block file-remove" (click)="removeFileListener()"><button>Remove</button></div>
         </div>
     `,
     inputs: ['file', 'index']
@@ -103,23 +103,23 @@ export class File {
         this.zone = new NgZone({enableLongStackTrace: false});
         EmitterService.get('doUpload').subscribe(url => {
             //prevent from multiple upload;
-            !this._uploaded && fileUpload.uploadFile(this.file, url);
+            !this._uploaded && fileUpload.uploadFile(this.file.File, url);
         });
 
         fileUpload.onProgress.subscribe((value)=> {
             this.zone.run(()=> {
-                this.progress = value
+                this.file.percentage = value
             });
         });
 
         fileUpload.onSuccess.subscribe(() => {
             this._uploaded = true;
-            EmitterService.get('uploadedFile').emit(this.index);
+            this.removeFileListener();
         });
     }
 
-    removeFileListener(index) {
-        this.removeFile && this.removeFile.emit(index);
+    removeFileListener() {
+        this.removeFile && this.removeFile.emit(true);
     }
 
     get uploaded() {
