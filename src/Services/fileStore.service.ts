@@ -8,7 +8,7 @@ export interface iFile {
 }
 
 @Injectable()
-export class FilesStore{
+export class FilesStore {
     static instance:FilesStore;
     static isCreating:Boolean = false;
 
@@ -31,43 +31,46 @@ export class FilesStore{
     }
 
     private WSfiles:WeakSet<File> = new WeakSet();
-    private _iFiles:Array<iFile>=[];
+    private _iFiles:Array<iFile> = [];
 
-    public get files():Array<File>{
-        return this.iFiles.reduce((res, iFile:iFile)=>{
+    public get files():Array<File> {
+        return this.iFiles.reduce((res, iFile:iFile)=> {
             return res.push(iFile.File), res;
         }, []);
     }
 
-    public get iFiles(){
+    public get iFiles() {
         return this._iFiles;
     }
-    public set iFiles(files){
+
+    public set iFiles(files) {
         this._iFiles = files;
     }
 
     public addFiles(files):void {
-        files = files.filter((file)=>{
-            if(!this.WSfiles.has(file)){
+        files = files.filter((file)=> {
+            if (!this.WSfiles.has(file)) {
                 this.WSfiles.add(file);
                 return true;
             }
-        }).map((file)=>{
+        }).map((file)=> {
             return {
-                File:file,
-                loading:false,
-                percentage:0,
-                removing:false
+                File: file,
+                loading: false,
+                percentage: 0,
+                removing: false
             }
         });
         this.iFiles = [...this.iFiles, ...files];
     }
-    public removeFiles(iFile:iFile, index:number):void{
+
+    public removeFiles(iFile:iFile, index:number):void {
         this.WSfiles.delete(iFile.File);
         this.iFiles.splice(index, 1);
     }
-    public clearStore():void{
-        this.iFiles.forEach((iFile)=>{
+
+    public clearStore():void {
+        this.iFiles.forEach((iFile)=> {
             this.WSfiles.delete(iFile.File);
         });
         this.iFiles = [];

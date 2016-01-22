@@ -14,6 +14,7 @@ import {iFile} from "../Services/fileStore.service";
 
 export class FileList {
     public fs;
+
     constructor() {
         this.fs = FilesStore.getInstance();
         EmitterService.get('uploadedFile').subscribe((index) => {
@@ -23,18 +24,15 @@ export class FileList {
 
     @Output() notifyFilesUpdated = new EventEmitter();
 
-    public get files():Array<iFile>{
+    public get files():Array<iFile> {
         return this.fs.iFiles;
     }
 
-    animatedRemove(iFile:iFile, i){
-        if(!iFile) {
-            return;
-        }
+    animatedRemove(iFile:iFile, i) {
         iFile.removing = true;
-        window.setTimeout(()=>{
+        window.setTimeout(()=> {
             this.removeFile(iFile, i);
-        },3000);
+        }, 3000);
     }
 
     removeFile(iFile:iFile, i) {

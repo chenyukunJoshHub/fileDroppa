@@ -71,7 +71,7 @@ import {FileUpload} from '../Services/FileUpload.service';
             <div class="flex-block">{{getSize()}}</div>
             <span *ngIf="file.removing">REMOVING!!!!!!!!!!!!</span>
             <progress [value]="file.percentage" max="100" class="flex-block"></progress>
-            <div class="flex-block file-remove" (click)=removeFileListener(index)><button>Remove</button></div>
+            <div class="flex-block file-remove" (click)="removeFileListener()"><button>Remove</button></div>
         </div>
     `,
     inputs: ['file', 'index']
@@ -114,12 +114,12 @@ export class File {
 
         fileUpload.onSuccess.subscribe(() => {
             this._uploaded = true;
-            EmitterService.get('uploadedFile').emit(this.index);
+            this.removeFileListener();
         });
     }
 
-    removeFileListener(index) {
-        this.removeFile && this.removeFile.emit(index);
+    removeFileListener() {
+        this.removeFile && this.removeFile.emit(true);
     }
 
     get uploaded() {
