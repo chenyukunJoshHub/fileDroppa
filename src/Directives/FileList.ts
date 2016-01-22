@@ -2,12 +2,13 @@ import {Component, Input, EventEmitter, Output, ChangeDetectionStrategy} from 'a
 import {EmitterService} from '../Services/Emitter.service';
 import {File} from './File';
 import {FilesStore} from "../Services/fileStore.service";
+import {iFile} from "../Services/fileStore.service";
 
 @Component({
     selector: 'fileList, [fileList]',
     directives: [File],
     template: `
-        <fileItem *ngFor="#file of files; #i = index" [file]="file" (removeFile)="removeFile(file.file, i)"></fileItem>
+        <fileItem *ngFor="#file of files; #i = index" [file]="file" (removeFile)="animatedRemove(file, i)"></fileItem>
     `
 })
 
@@ -22,19 +23,19 @@ export class FileList {
 
     @Output() notifyFilesUpdated = new EventEmitter();
 
-    public get files(){
-        return this.fs.files;
+    public get files():Array<iFile>{
+        return this.fs.iFiles;
     }
 
-    animatedRemove(file, i){
-        file.removing=true;
+    animatedRemove(iFile:iFile, i){
+        iFile.removing=true;
         window.setTimeout(()=>{
-            this.removeFile(file.file, i);
+            this.removeFile(iFile, i);
         },3000);
     }
 
-    removeFile(file, i) {
-        this.fs.removeFiles(file, i);
+    removeFile(iFile:iFile, i) {
+        this.fs.removeFiles(iFile, i);
         this.notifyFilesUpdated.emit(this.fs.files);
     }
 }

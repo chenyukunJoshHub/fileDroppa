@@ -62,14 +62,15 @@ import {FileUpload} from '../Services/FileUpload.service';
         }   
     `],
     template: `
-        <div *ngIf="file" class="file-container" [class.uploaded]="uploaded">
+        <div *ngIf="file.File" class="file-container" [class.uploaded]="uploaded">
             <div class="flex-block file-preview">
                 <span *ngIf="ext" class="file-preview-ext">{{ext}}</span>
                 <img *ngIf="previewSrc" src="{{previewSrc}}" class="file-preview-img"/>
             </div>
             <div class="flex-block file-name">{{file.name}}</div>
             <div class="flex-block">{{getSize()}}</div>
-            <progress [value]="progress" max="100" class="flex-block"></progress>
+            <span *ngIf="file.removing">REMOVING!!!!!!!!!!!!</span>
+            <progress [value]="file.percentage" max="100" class="flex-block"></progress>
             <div class="flex-block file-remove" (click)=removeFileListener(index)><button>Remove</button></div>
         </div>
     `,
@@ -129,8 +130,8 @@ export class File {
         let imageType = /^image\//,
             reader;
 
-        if (!imageType.test(this.file.type)) {
-            let ext = this.file.name.split('.').pop();
+        if (!imageType.test(this.file.File.type)) {
+            let ext = this.file.File.name.split('.').pop();
 
             this.ext = ext.length > 3
                 ? 'file'
@@ -145,8 +146,8 @@ export class File {
             this.previewSrc = reader.result;
         }, false);
 
-        if (this.file) {
-            reader.readAsDataURL(this.file);
+        if (this.file.File) {
+            reader.readAsDataURL(this.file.File);
         }
     }
 
