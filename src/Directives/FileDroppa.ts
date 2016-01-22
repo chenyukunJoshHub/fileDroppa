@@ -1,5 +1,6 @@
 import {Directive, ElementRef, Renderer, Input, EventEmitter, Output} from 'angular2/core';
 import {FileParser} from "../Services/FileParser.service";
+import {FilesStore} from "../Services/fileStore.service";
 
 @Directive({
     selector: 'fileDroppa, [fileDroppa]',
@@ -12,13 +13,14 @@ import {FileParser} from "../Services/FileParser.service";
         '(click)': 'onClick($event)'
     }
 })
-
 export class FileDroppa {
     private _url:string = null;
     private _overCls:string = "defaultOver";
     private hiddenFileInput = null;
+    private fs;
 
     constructor(private el:ElementRef, private renderer:Renderer, private fileParser:FileParser) {
+        this.fs = FilesStore.getInstance();
         this.createHiddenInput();
     }
 
@@ -38,7 +40,7 @@ export class FileDroppa {
         this._overCls = overCls || this._overCls;
     }
 
-    @Output() fileUploaded = new EventEmitter();
+    @Output() notifyFilesUpdated = new EventEmitter();
 
     /*
      * Host Event Listeners
@@ -55,7 +57,7 @@ export class FileDroppa {
         }
         this.fileParser.processInputFromDrop(e)
             .then((files)=> {
-                this.notifyAboutFiles([...files]);
+                this.updateFilesStore([...files]);
             });
         this.updateStyles();
     }
@@ -87,8 +89,9 @@ export class FileDroppa {
         this.renderer.setElementClass(this.el, this._overCls, dragOver);
     }
 
-    notifyAboutFiles(files) {
-        this.fileUploaded && this.fileUploaded.emit(files);
+    updateFilesStore(files:Array<File>): void{
+        this.fs.addFiles(files);
+        this.notifyFilesUpdated.emit(this.fs.files);
     }
 
     createHiddenInput() {
@@ -108,7 +111,7 @@ export class FileDroppa {
             let files = Object.keys(e.target.files).reduce((result, key)=> {
                 return result.push(e.target.files[key]), result;
             }, []);
-            this.fileUploaded && this.fileUploaded.emit(files);
+            this.updateFilesStore(files);
         });
     }
 

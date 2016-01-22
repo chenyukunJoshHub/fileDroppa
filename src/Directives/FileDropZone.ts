@@ -23,76 +23,38 @@ import {FileList} from './FileList';
     `],
     template: `
             <div fileDroppa [class]="config.customClass"
-                (fileUploaded)="updateFileList($event, 'added')"
+                (notifyFilesUpdated)="notifyFilesUpdated($event)"
                 [overCls]="config.overCls">
                 Drop files here or click to select
             </div>
             <br/>
-            <div *ngIf="files.length">
-                <fileList [files]="files" (fileRemoved)="updateFileList($event, 'removed')"></fileList>
-                <button (click)="uploadFileList()">Upload All Files</button>
-                <button (click)="clearFileList()">Remove All Files</button>
-            </div>
+            <fileList (notifyFilesUpdated)="notifyFilesUpdated($event)"></fileList>
+            <button (click)="uploadFileList()">Upload All Files</button>
+            <button (click)="clearFileList()">Remove All Files</button>
     `
 })
 
 export class FileDropZone {
     private _config:Object = {};
-    private _files = [];
-    private WS:WeakSet<File> = new WeakSet();
 
-    constructor() {
-    };
+    constructor() {};
 
     @Input() set config(config:Object) {
         this._config = config ? Object.assign(config, this._config) : this._config;
     }
 
-    @Output() filesUploaded = new EventEmitter();
+    @Output() filesUpdated: EventEmitter<Array<File>> = new EventEmitter();
 
     get config():Object {
         return this._config;
     }
 
-    get files():any[] {
-        return this._files;
-    }
-
-    set files(files:any[]) {
-        this._files = files;
-    }
-
-    notifyAboutFileChanges() {
-        this.filesUploaded && this.filesUploaded.emit(this.files);
-    }
-
-    updateFileList(files:any[], type:string) {
-        switch (type) {
-            case 'added':
-                this.files = [...this.files].concat(files.filter((file)=>{
-                    if(!this.WS.has(file)){
-                        this.WS.add(file);
-                        return true;
-                    }
-                    return false;
-                }));
-                break;
-            case 'removed':
-                this.files = files;
-                break;
-            default:
-                this.files = [];
-                break;
-        }
-        this.notifyAboutFileChanges();
+    notifyFilesUpdated(files:Array<File>){
+        this.filesUpdated.emit(files);
     }
 
     uploadFileList() {
         EmitterService.get('doUpload').emit(this.config["uploadUrl"]);
-    }
-
-    clearFileList() {
-        this.files = [];
     }
 }
 
