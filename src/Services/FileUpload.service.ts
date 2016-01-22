@@ -1,4 +1,4 @@
-import {Injectable, EventEmitter, Output} from "angular2/core";
+import {Injectable, EventEmitter, Output, Input} from "angular2/core";
 
 @Injectable()
 
@@ -8,6 +8,9 @@ export class FileUpload {
     @Output() onError = new EventEmitter();
 
     uploadFile(file, url) {
+        if(!url){
+            throw "url to upload needs to be provided";
+        }
         let that = this,
             xhr = new XMLHttpRequest(),
             formData = new FormData();

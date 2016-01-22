@@ -39,8 +39,7 @@ import {FileList} from './FileList';
 export class FileDropZone {
     private _config:Object = {};
     private _files = [];
-
-    public startUpload = new EventEmitter();
+    private WS:WeakSet<File> = new WeakSet();
 
     constructor() {
     };
@@ -70,9 +69,13 @@ export class FileDropZone {
     updateFileList(files:any[], type:string) {
         switch (type) {
             case 'added':
-                this.files = (this.files.length)
-                    ? [...this.files, ...files]
-                    : files;
+                this.files = [...this.files].concat(files.filter((file)=>{
+                    if(!this.WS.has(file)){
+                        this.WS.add(file);
+                        return true;
+                    }
+                    return false;
+                }));
                 break;
             case 'removed':
                 this.files = files;
