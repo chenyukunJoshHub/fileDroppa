@@ -1,12 +1,10 @@
 import {Component, Input, EventEmitter, Output} from 'angular2/core';
-import {EmitterService} from '../Services/Emitter.service';
 import {FileDroppa} from './FileDroppa';
 import {FileList} from './FileList';
 
 @Component({
     selector: 'fileDropZone',
     directives: [FileDroppa, FileList],
-    providers: [EmitterService],
     styles: [`
         .fileDroppa {
             border: 3px dashed #DDD;
@@ -53,11 +51,11 @@ export class FileDropZone {
     }
 
     upload(){
-        this.uploadFiles.emit();
+        this.uploadFiles.emit(true);
     }
 
     remove(){
-        this.removeAllFiles.emit();
+        this.removeAllFiles.emit(true);
     }
 
     notifyFilesUpdated(files:Array<File>) {

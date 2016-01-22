@@ -1,7 +1,6 @@
 import {Component, Input, EventEmitter, Output, ChangeDetectionStrategy} from 'angular2/core';
-import {EmitterService} from '../Services/Emitter.service';
 import {File} from './File';
-import {FilesStore} from "../Services/fileStore.service";
+import {FilesStore} from "../Services/FileStore.service";
 import {iFile} from "../Services/fileStore.service";
 import {FileUpload} from "../Services/FileUpload.service";
 
@@ -29,7 +28,7 @@ export class FileList {
     }
     @Input() set removeAllFiles(removeAllFilesEmitter){
         removeAllFilesEmitter.subscribe(()=>{
-            this.fs.removeAllFiles();
+            this.fs.clearStore();
         })
     }
 
@@ -44,10 +43,11 @@ export class FileList {
     }
 
     animatedRemove(iFile:iFile, i) {
+        console.log(arguments)
         iFile.removing = true;
-        window.setTimeout(()=> {
+        //window.setTimeout(()=> {
             this.removeFile(iFile, i);
-        }, 3000);
+        //}, 3000);
     }
 
     removeFile(iFile:iFile, i) {

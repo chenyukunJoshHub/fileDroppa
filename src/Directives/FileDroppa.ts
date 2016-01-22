@@ -1,6 +1,6 @@
 import {Directive, ElementRef, Renderer, Input, EventEmitter, Output} from 'angular2/core';
 import {FileParser} from "../Services/FileParser.service";
-import {FilesStore} from "../Services/fileStore.service";
+import {FilesStore} from "../Services/FileStore.service";
 
 @Directive({
     selector: 'fileDroppa, [fileDroppa]',

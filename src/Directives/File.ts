@@ -1,5 +1,4 @@
 import {Component, Input, Output, EventEmitter, NgZone,} from 'angular2/core';
-import {EmitterService} from '../Services/Emitter.service';
 
 @Component({
     selector: 'fileItem',
@@ -60,7 +59,7 @@ import {EmitterService} from '../Services/Emitter.service';
         }   
     `],
     template: `
-        <div *ngIf="file.File" class="file-container" [class.uploaded]="uploaded">
+        <div *ngIf="file.File" class="file-container" [class.uploaded]="file.loadingSuccessful">
             <div class="flex-block file-preview">
                 <span *ngIf="ext" class="file-preview-ext">{{ext}}</span>
                 <img *ngIf="previewSrc" src="{{previewSrc}}" class="file-preview-img"/>
@@ -74,7 +73,6 @@ import {EmitterService} from '../Services/Emitter.service';
 })
 
 export class File {
-    private _uploaded:Boolean = false;
 
     public ext:string = '';
     public previewSrc:string = '';
@@ -95,10 +93,6 @@ export class File {
 
     removeFileListener() {
         this.removeFile && this.removeFile.emit(true);
-    }
-
-    get uploaded() {
-        return this._uploaded;
     }
 
     getFileType() {
