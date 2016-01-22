@@ -28,9 +28,9 @@ import {FileList} from './FileList';
                 Drop files here or click to select
             </div>
             <br/>
-            <fileList (notifyFilesUpdated)="notifyFilesUpdated($event)" [uploadFiles]="uploadFiles" [removeAllFiles]="removeAllFiles"></fileList>
-            <button (click)="uploadFileList.emit">Upload All Files</button>
-            <button (click)="removeAllFiles.emit">Remove All Files</button>
+            <fileList [url]="config.uploadUrl" (notifyFilesUpdated)="notifyFilesUpdated($event)" [uploadFiles]="uploadFiles" [removeAllFiles]="removeAllFiles"></fileList>
+            <button (click)="upload($event)">Upload All Files</button>
+            <button (click)="remove($event)">Remove All Files</button>
     `
 })
 
@@ -39,19 +39,28 @@ export class FileDropZone {
     public uploadFiles = new EventEmitter();
     public removeAllFiles = new EventEmitter();
 
-    constructor() {};
+    constructor() {
+    };
 
     @Input() set config(config:Object) {
         this._config = config ? Object.assign(config, this._config) : this._config;
     }
 
-    @Output() filesUpdated: EventEmitter<Array<File>> = new EventEmitter();
+    @Output() filesUpdated:EventEmitter<Array<File>> = new EventEmitter();
 
     get config():Object {
         return this._config;
     }
 
-    notifyFilesUpdated(files:Array<File>){
+    upload(){
+        this.uploadFiles.emit();
+    }
+
+    remove(){
+        this.removeAllFiles.emit();
+    }
+
+    notifyFilesUpdated(files:Array<File>) {
         this.filesUpdated.emit(files);
     }
 }

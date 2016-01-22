@@ -1,10 +1,8 @@
 import {Component, Input, Output, EventEmitter, NgZone,} from 'angular2/core';
 import {EmitterService} from '../Services/Emitter.service';
-import {FileUpload} from '../Services/FileUpload.service';
 
 @Component({
     selector: 'fileItem',
-    providers: [FileUpload],
     styles: [`
         .file-container {
             display: flex;
@@ -67,59 +65,36 @@ import {FileUpload} from '../Services/FileUpload.service';
                 <span *ngIf="ext" class="file-preview-ext">{{ext}}</span>
                 <img *ngIf="previewSrc" src="{{previewSrc}}" class="file-preview-img"/>
             </div>
-            <div class="flex-block file-name">{{file.name}}</div>
+            <div class="flex-block file-name">{{file.File.name}}</div>
             <div class="flex-block">{{getSize()}}</div>
-            <span *ngIf="file.removing">REMOVING!!!!!!!!!!!!</span>
             <progress [value]="file.percentage" max="100" class="flex-block"></progress>
-            <div class="flex-block file-remove" (click)=removeFileListener(index)><button>Remove</button></div>
+            <div class="flex-block file-remove" (click)="removeFileListener()"><button>Remove</button></div>
         </div>
-    `,
-    inputs: ['file', 'index']
+    `
 })
 
 export class File {
     private _uploaded:Boolean = false;
 
-    public file;
-    public index;
     public ext:string = '';
     public previewSrc:string = '';
-    public progress:number = 0;
-    zone:NgZone;
 
-    constructor(private fileUpload:FileUpload) {
-        this.init(fileUpload);
-    }
+    constructor() {}
 
     //ngHooks
     ngAfterContentInit() {
         this.getFileType();
     }
 
+    @Input() file;
+    @Input() index;
+
     @Output() removeFile = new EventEmitter();
     @Output() successUpload = new EventEmitter();
 
-    init(fileUpload) {
-        this.zone = new NgZone({enableLongStackTrace: false});
-        EmitterService.get('doUpload').subscribe(url => {
-            //prevent from multiple upload;
-            !this._uploaded && fileUpload.uploadFile(this.file, url);
-        });
 
-        fileUpload.onProgress.subscribe((value)=> {
-            this.zone.run(()=> {
-                this.progress = value
-            });
-        });
-
-        fileUpload.onSuccess.subscribe(() => {
-            this._uploaded = true;
-            EmitterService.get('uploadedFile').emit(this.index);
-        });
-    }
-
-    removeFileListener(index) {
-        this.removeFile && this.removeFile.emit(index);
+    removeFileListener() {
+        this.removeFile && this.removeFile.emit(true);
     }
 
     get uploaded() {

@@ -89,7 +89,7 @@ export class FileDroppa {
         this.renderer.setElementClass(this.el, this._overCls, dragOver);
     }
 
-    updateFilesStore(files:Array<File>): void{
+    updateFilesStore(files:Array<File>):void {
         this.fs.addFiles(files);
         this.notifyFilesUpdated.emit(this.fs.files);
     }
