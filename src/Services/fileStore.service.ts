@@ -1,10 +1,13 @@
 import {Injectable} from 'angular2/core';
+import {FileUpload} from "./FileUpload.service";
 
 export interface iFile {
     File:File,
     removing:boolean,
     loading:boolean,
-    percentage:number
+    percentage:number,
+    loadingSuccessful:boolean,
+    uploader:FileUpload
 }
 
 @Injectable()
@@ -53,12 +56,16 @@ export class FilesStore{
                 return true;
             }
         }).map((file)=>{
-            return {
+            let iFile = {
                 File:file,
                 loading:false,
                 percentage:0,
-                removing:false
-            }
+                removing:false,
+                loadingSuccessful:false,
+                uploader:null
+            };
+            iFile.uploader = new FileUpload(iFile);
+            return iFile;
         });
         this.iFiles = [...this.iFiles, ...files];
     }

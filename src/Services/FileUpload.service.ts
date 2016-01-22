@@ -1,35 +1,37 @@
 import {Injectable, EventEmitter, Output, Input} from "angular2/core";
+import {iFile} from "./fileStore.service";
 
 @Injectable()
-
 export class FileUpload {
-    @Output() onProgress = new EventEmitter();
-    @Output() onSuccess = new EventEmitter();
-    @Output() onError = new EventEmitter();
+    //@Output() onProgress = new EventEmitter();
+    //@Output() onSuccess = new EventEmitter();
+    //@Output() onError = new EventEmitter();
+    static url:string;
+    constructor(private iFile:iFile){
 
-    uploadFile(file, url) {
-        if(!url){
+    }
+    uploadFile() {
+        if(!FileUpload.url){
             throw "url to upload needs to be provided";
         }
         let that = this,
             xhr = new XMLHttpRequest(),
             formData = new FormData();
 
-        formData.append(`${file.name}`, file);
+        formData.append(`${this.iFile.File.name}`, this.iFile.File);
 
         xhr.upload.onprogress = (event) => {
             let progress = (event.loaded * 100) / event.total;
-            
-            this.onProgress.emit(progress | 0);
+            this.iFile.percentage = progress;
         };
 
-        xhr.onload = xhr.onerror = function () {
+        xhr.onload = xhr.onerror = function() {
             if (this.status == 200) {
-                console.log("success");
-                that.onSuccess.emit(true);
+                that.iFile.loading = false;
+                that.iFile.loadingSuccessful = true;
             } else {
-                console.log("error " + this.status);
-                that.onError.emit(true);
+                that.iFile.loading = false;
+                that.iFile.loadingSuccessful = false;
             }
         };
 

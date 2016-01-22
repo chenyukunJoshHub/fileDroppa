@@ -19,7 +19,18 @@ export class FileList {
         EmitterService.get('uploadedFile').subscribe((index) => {
             this.animatedRemove(this.files[index], index);
         });
+        this.uploadFiles.subscribe(()=>{
+            this.files.forEach((iFile:iFile)=>{
+                iFile.uploader.uploadFile();
+            })
+        });
+        this.removeAllFiles.subscribe(()=>{
+            this.fs.removeAllFiles();
+        })
     }
+
+    @Input() uploadFiles;
+    @Input() removeAllFiles;
 
     @Output() notifyFilesUpdated = new EventEmitter();
 
