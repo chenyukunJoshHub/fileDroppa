@@ -8,7 +8,7 @@ export class FileUpload {
     @Output() onError = new EventEmitter();
 
     uploadFile(file, url) {
-        if(!url){
+        if (!url) {
             throw "url to upload needs to be provided";
         }
         let that = this,
@@ -19,7 +19,7 @@ export class FileUpload {
 
         xhr.upload.onprogress = (event) => {
             let progress = (event.loaded * 100) / event.total;
-            
+
             this.onProgress.emit(progress | 0);
         };
 

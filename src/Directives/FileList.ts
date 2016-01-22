@@ -13,6 +13,7 @@ import {FilesStore} from "../Services/fileStore.service";
 
 export class FileList {
     public fs;
+
     constructor() {
         this.fs = FilesStore.getInstance();
         EmitterService.get('uploadedFile').subscribe((index) => {
@@ -22,15 +23,15 @@ export class FileList {
 
     @Output() notifyFilesUpdated = new EventEmitter();
 
-    public get files(){
+    public get files() {
         return this.fs.files;
     }
 
-    animatedRemove(file, i){
-        file.removing=true;
-        window.setTimeout(()=>{
+    animatedRemove(file, i) {
+        file.removing = true;
+        window.setTimeout(()=> {
             this.removeFile(file.file, i);
-        },3000);
+        }, 3000);
     }
 
     removeFile(file, i) {

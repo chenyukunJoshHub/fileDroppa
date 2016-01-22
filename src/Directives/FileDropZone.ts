@@ -37,19 +37,20 @@ import {FileList} from './FileList';
 export class FileDropZone {
     private _config:Object = {};
 
-    constructor() {};
+    constructor() {
+    };
 
     @Input() set config(config:Object) {
         this._config = config ? Object.assign(config, this._config) : this._config;
     }
 
-    @Output() filesUpdated: EventEmitter<Array<File>> = new EventEmitter();
+    @Output() filesUpdated:EventEmitter<Array<File>> = new EventEmitter();
 
     get config():Object {
         return this._config;
     }
 
-    notifyFilesUpdated(files:Array<File>){
+    notifyFilesUpdated(files:Array<File>) {
         this.filesUpdated.emit(files);
     }
 
