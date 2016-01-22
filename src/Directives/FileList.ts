@@ -28,7 +28,10 @@ export class FileList {
     }
 
     animatedRemove(iFile:iFile, i){
-        iFile.removing=true;
+        if(!iFile) {
+            return;
+        }
+        iFile.removing = true;
         window.setTimeout(()=>{
             this.removeFile(iFile, i);
         },3000);
