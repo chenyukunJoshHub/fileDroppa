@@ -42,7 +42,7 @@ export class FileList {
                 iFile.uploader.uploadFile().then(()=>{
                     this.removeFile(iFile, i);
                 }).catch(()=>{
-                    
+
                 });
             })
         });
@@ -57,6 +57,10 @@ export class FileList {
 
     @Input() set url(url) {
         FileUpload.url = url;
+    }
+
+    @Input() set autoUpload(autoUpload) {
+        FileUpload.autoUpload = autoUpload;
     }
 
     @Output() notifyFilesUpdated = new EventEmitter();

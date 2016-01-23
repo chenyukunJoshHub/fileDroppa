@@ -4,13 +4,17 @@ import {iFile} from "./FileStore.service";
 @Injectable()
 export class FileUpload {
     static url:string;
+    static autoUpload:boolean=false;
     private zone = new NgZone({enableLongStackTrace: false});
     constructor(public iFile){
+        FileUpload.autoUpload && this.uploadFile();
     }
     uploadFile() {
-
         if(!FileUpload.url){
             throw "url to upload needs to be provided";
+        }
+        if(this.iFile.loading){
+            throw "Already under loading";
         }
         let that = this,
             xhr = new XMLHttpRequest(),

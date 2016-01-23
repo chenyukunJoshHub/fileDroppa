@@ -28,6 +28,7 @@ import {FileList} from './FileList';
             <br/>
             <fileList
                 [url]="config.uploadUrl"
+                [autoUpload]="config.autoUpload"
                 (notifyFilesUpdated)="notifyFilesUpdated($event)"
                 [uploadFiles]="uploadFiles"
                 [removeAllFiles]="removeAllFiles">
@@ -45,7 +46,7 @@ export class FileDropZone {
     private _config:Object = {};
     public uploadFiles = new EventEmitter();
     public removeAllFiles = new EventEmitter();
-    public showButtons:Boolean = false;
+    public _showButtons:Boolean = false;
 
     constructor() {
     };
@@ -55,6 +56,14 @@ export class FileDropZone {
     }
 
     @Output() filesUpdated:EventEmitter<Array<File>> = new EventEmitter();
+
+    set showButtons(flag:boolean){
+        this._showButtons = flag;
+    }
+
+    get showButtons(){
+        return this._showButtons && !this.config.autoUpload;
+    }
 
     get config():Object {
         return this._config;
