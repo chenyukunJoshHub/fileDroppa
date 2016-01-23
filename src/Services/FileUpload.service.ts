@@ -8,6 +8,7 @@ export class FileUpload {
     constructor(public iFile){
     }
     uploadFile() {
+
         if(!FileUpload.url){
             throw "url to upload needs to be provided";
         }
@@ -24,22 +25,29 @@ export class FileUpload {
             })
         };
 
-        xhr.onload = xhr.onerror = function() {
-            that.zone.run(()=> {
-                if (this["status"] == 200) {
-                    that.iFile.loading = false;
-                    that.iFile.loadingSuccessful = true;
-                } else {
-                    that.iFile.loading = false;
-                    that.iFile.loadingSuccessful = false;
-                }
-            })
-        };
+        let pr = new Promise((resolve, reject)=>{
+            xhr.onload = xhr.onerror = function() {
+                that.zone.run(()=> {
+                    if (this["status"] == 200) {
+                        that.iFile.loading = false;
+                        that.iFile.loadingSuccessful = true;
+                        resolve();
+                    } else {
+                        that.iFile.loading = false;
+                        that.iFile.loadingSuccessful = false;
+                        reject();
+                    }
+                })
+            };
+        });
+
 
         this.iFile.loading = true;
 
         xhr.open("POST", FileUpload.url, true);
         xhr.send(formData);
+
+        return pr;
 
     }
 }     

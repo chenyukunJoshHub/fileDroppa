@@ -38,8 +38,12 @@ export class FileList {
 
     @Input() set uploadFiles(uploadFilesEmitter) {
         uploadFilesEmitter.subscribe(()=> {
-            this.files.forEach((iFile:iFile)=> {
-                iFile.uploader.uploadFile();
+            this.files.forEach((iFile:iFile, i:number)=> {
+                iFile.uploader.uploadFile().then(()=>{
+                    this.removeFile(iFile, i);
+                }).catch(()=>{
+                    
+                });
             })
         });
     }
