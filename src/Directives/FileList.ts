@@ -7,8 +7,25 @@ import {FileUpload} from "../Services/FileUpload.service";
 @Component({
     selector: 'fileList, [fileList]',
     directives: [File],
+    styles: [`
+        .file-list {
+            width: 400px;
+            margin-bottom: 25px;
+            display: flex;
+            flex-flow: wrap;
+            justify-content: flex-start;
+         }
+    `],
     template: `
-        <fileItem *ngFor="#file of files; #i = index" [file]="file" [index]="i" (removeFile)="animatedRemove(file, i)"></fileItem>
+    <div class="file-list">
+        <fileItem *ngFor="#file of files; #i = index" 
+            [file]="file.File" 
+            [index]="i" 
+            [percentage]="file.percentage"
+            [uploaded]="file.loadingSuccessful"
+            (removeFile)="removeFile(file, i)">
+        </fileItem>
+    </div>
     `
 })
 
@@ -19,20 +36,22 @@ export class FileList {
         this.fs = FilesStore.getInstance();
     }
 
-    @Input() set uploadFiles(uploadFilesEmitter){
-        uploadFilesEmitter.subscribe(()=>{
-            this.files.forEach((iFile:iFile)=>{
+    @Input() set uploadFiles(uploadFilesEmitter) {
+        uploadFilesEmitter.subscribe(()=> {
+            this.files.forEach((iFile:iFile)=> {
                 iFile.uploader.uploadFile();
             })
         });
     }
-    @Input() set removeAllFiles(removeAllFilesEmitter){
-        removeAllFilesEmitter.subscribe(()=>{
+
+    @Input() set removeAllFiles(removeAllFilesEmitter) {
+        removeAllFilesEmitter.subscribe(()=> {
             this.fs.clearStore();
+            this.notifyFilesUpdated.emit(this.fs.files);
         })
     }
 
-    @Input() set url(url){
+    @Input() set url(url) {
         FileUpload.url = url;
     }
 
@@ -40,14 +59,6 @@ export class FileList {
 
     public get files():Array<iFile> {
         return this.fs.iFiles;
-    }
-
-    animatedRemove(iFile:iFile, i) {
-        console.log(arguments)
-        iFile.removing = true;
-        //window.setTimeout(()=> {
-            this.removeFile(iFile, i);
-        //}, 3000);
     }
 
     removeFile(iFile:iFile, i) {

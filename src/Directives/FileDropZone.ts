@@ -10,8 +10,8 @@ import {FileList} from './FileList';
             border: 3px dashed #DDD;
             border-radius:10px;
             padding:10px;
-            width:300px;
-            height:150px;
+            width:400px;
+            height:200px;
             color:#CCC;
             text-align:center;
             display:table-cell;
@@ -26,9 +26,18 @@ import {FileList} from './FileList';
                 Drop files here or click to select
             </div>
             <br/>
-            <fileList [url]="config.uploadUrl" (notifyFilesUpdated)="notifyFilesUpdated($event)" [uploadFiles]="uploadFiles" [removeAllFiles]="removeAllFiles"></fileList>
-            <button (click)="upload($event)">Upload All Files</button>
-            <button (click)="remove($event)">Remove All Files</button>
+            <fileList
+                [url]="config.uploadUrl"
+                (notifyFilesUpdated)="notifyFilesUpdated($event)"
+                [uploadFiles]="uploadFiles"
+                [removeAllFiles]="removeAllFiles">
+            </fileList>
+            <div *ngIf="showButtons">
+                <button (click)="upload($event)">Upload All Files</button>
+                <button (click)="remove($event)">Remove All Files</button>
+            </div>
+
+
     `
 })
 
@@ -36,6 +45,7 @@ export class FileDropZone {
     private _config:Object = {};
     public uploadFiles = new EventEmitter();
     public removeAllFiles = new EventEmitter();
+    public showButtons:Boolean = false;
 
     constructor() {
     };
@@ -60,6 +70,7 @@ export class FileDropZone {
 
     notifyFilesUpdated(files:Array<File>) {
         this.filesUpdated.emit(files);
+        this.showButtons = !!files.length;
     }
 }
 

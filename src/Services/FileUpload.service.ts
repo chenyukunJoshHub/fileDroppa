@@ -26,7 +26,7 @@ export class FileUpload {
 
         xhr.onload = xhr.onerror = function() {
             that.zone.run(()=> {
-                if (this.status == 200) {
+                if (this["status"] == 200) {
                     that.iFile.loading = false;
                     that.iFile.loadingSuccessful = true;
                 } else {
