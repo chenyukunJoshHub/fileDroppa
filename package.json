@@ -1,6 +1,19 @@
 {
-  "name": "fileDroppa",
+  "name": "file-droppa",
   "version": "0.1.0",
+  "description": "Angular2 (ng2) Files dropable area plus list of files",
+  "main": "./src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ptkach/fileDroppa.git"
+  },
+  "keywords": [
+    "Angular",
+    "Files",
+    "Drop"
+  ],
+  "author": "Pavlo Tkach <work.pashtet@gmail.com> (http://github.com/ptkach) Alexander Antyneskul (https://github.com/Antyneskul)",
+  "homepage": "https://github.com/ptkach/fileDroppa#readme",
   "scripts": {
     "tsc": "tsc",
     "tsc:w": "tsc -w",
