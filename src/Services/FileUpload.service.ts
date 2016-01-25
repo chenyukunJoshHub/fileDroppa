@@ -6,8 +6,12 @@ export class FileUpload {
     static url:string;
     static autoUpload:boolean=false;
     private zone = new NgZone({enableLongStackTrace: false});
+    private xhr;
     constructor(public iFile){
         FileUpload.autoUpload && this.uploadFile();
+    }
+    abortUploading(){
+        this.xhr.loading && this.xhr.abort();
     }
     uploadFile() {
         if(!FileUpload.url){
@@ -17,12 +21,13 @@ export class FileUpload {
             throw "Already under loading";
         }
         let that = this,
-            xhr = new XMLHttpRequest(),
             formData = new FormData();
+
+        this.xhr = new XMLHttpRequest();
 
         formData.append(`${this.iFile.File.name}`, this.iFile.File);
 
-        xhr.upload.onprogress = (event) => {
+        this.xhr.upload.onprogress = (event) => {
             let progress = (event.loaded * 100) / event.total | 0;
             this.zone.run(()=> {
                 this.iFile.percentage = progress;
@@ -30,7 +35,7 @@ export class FileUpload {
         };
 
         let pr = new Promise((resolve, reject)=>{
-            xhr.onload = xhr.onerror = function() {
+            this.xhr.onload = this.xhr.onerror = function() {
                 that.zone.run(()=> {
                     if (this["status"] == 200) {
                         that.iFile.loading = false;
@@ -48,8 +53,8 @@ export class FileUpload {
 
         this.iFile.loading = true;
 
-        xhr.open("POST", FileUpload.url, true);
-        xhr.send(formData);
+        this.xhr.open("POST", FileUpload.url, true);
+        this.xhr.send(formData);
 
         return pr;
 

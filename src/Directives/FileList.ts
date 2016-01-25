@@ -50,8 +50,7 @@ export class FileList {
 
     @Input() set removeAllFiles(removeAllFilesEmitter) {
         removeAllFilesEmitter.subscribe(()=> {
-            this.fs.clearStore();
-            this.notifyFilesUpdated.emit(this.fs.files);
+            this.onRemoveAllFiles();
         })
     }
 
@@ -69,7 +68,16 @@ export class FileList {
         return this.fs.iFiles;
     }
 
+    onRemoveAllFiles(){
+        this.fs.iFiles.forEach((iFile)=>{
+            iFile.uploader.abortUploading();
+        });
+        this.fs.clearStore();
+        this.notifyFilesUpdated.emit(this.fs.files);
+    }
+
     removeFile(iFile:iFile, i) {
+        iFile.uploader.abortUploading();
         this.fs.removeFiles(iFile, i);
         this.notifyFilesUpdated.emit(this.fs.files);
     }

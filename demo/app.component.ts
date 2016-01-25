@@ -19,7 +19,7 @@ export class AppComponent {
         this.fileDroppaConfig = {
             customClass: 'fileDroppa',
             overCls: "customDrop",
-            autoUpload: true,
+            autoUpload: false,
             uploadUrl: "https://salty-taiga-80701.herokuapp.com/upload"
         };
     }
