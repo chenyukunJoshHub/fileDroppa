@@ -1,4 +1,4 @@
-System.register(['angular2/core', "../Services/FileParser.service"], function(exports_1) {
+System.register(['angular2/core', "../Services/FileParser.service", "../Services/FileStore.service"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['angular2/core', "../Services/FileParser.service"], function(ex
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, FileParser_service_1;
+    var core_1, FileParser_service_1, FileStore_service_1;
     var FileDroppa;
     return {
         setters:[
@@ -17,6 +17,9 @@ System.register(['angular2/core', "../Services/FileParser.service"], function(ex
             },
             function (FileParser_service_1_1) {
                 FileParser_service_1 = FileParser_service_1_1;
+            },
+            function (FileStore_service_1_1) {
+                FileStore_service_1 = FileStore_service_1_1;
             }],
         execute: function() {
             FileDroppa = (function () {
@@ -27,7 +30,8 @@ System.register(['angular2/core', "../Services/FileParser.service"], function(ex
                     this._url = null;
                     this._overCls = "defaultOver";
                     this.hiddenFileInput = null;
-                    this.fileUploaded = new core_1.EventEmitter();
+                    this.notifyFilesUpdated = new core_1.EventEmitter();
+                    this.fs = FileStore_service_1.FilesStore.getInstance();
                     this.createHiddenInput();
                 }
                 Object.defineProperty(FileDroppa.prototype, "url", {
@@ -64,7 +68,7 @@ System.register(['angular2/core', "../Services/FileParser.service"], function(ex
                     }
                     this.fileParser.processInputFromDrop(e)
                         .then(function (files) {
-                        _this.notifyAboutFiles(files.slice());
+                        _this.updateFilesStore(files.slice());
                     });
                     this.updateStyles();
                 };
@@ -90,8 +94,9 @@ System.register(['angular2/core', "../Services/FileParser.service"], function(ex
                     if (dragOver === void 0) { dragOver = false; }
                     this.renderer.setElementClass(this.el, this._overCls, dragOver);
                 };
-                FileDroppa.prototype.notifyAboutFiles = function (files) {
-                    this.fileUploaded && this.fileUploaded.emit(files);
+                FileDroppa.prototype.updateFilesStore = function (files) {
+                    this.fs.addFiles(files);
+                    this.notifyFilesUpdated.emit(this.fs.files);
                 };
                 FileDroppa.prototype.createHiddenInput = function () {
                     var _this = this;
@@ -111,7 +116,7 @@ System.register(['angular2/core', "../Services/FileParser.service"], function(ex
                         var files = Object.keys(e.target.files).reduce(function (result, key) {
                             return result.push(e.target.files[key]), result;
                         }, []);
-                        _this.fileUploaded && _this.fileUploaded.emit(files);
+                        _this.updateFilesStore(files);
                     });
                 };
                 __decorate([
@@ -127,7 +132,7 @@ System.register(['angular2/core', "../Services/FileParser.service"], function(ex
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', Object)
-                ], FileDroppa.prototype, "fileUploaded", void 0);
+                ], FileDroppa.prototype, "notifyFilesUpdated", void 0);
                 FileDroppa = __decorate([
                     core_1.Directive({
                         selector: 'fileDroppa, [fileDroppa]',
@@ -148,4 +153,3 @@ System.register(['angular2/core', "../Services/FileParser.service"], function(ex
         }
     }
 });
-//# sourceMappingURL=FileDroppa.js.map

@@ -1,21 +1,34 @@
 import {Component, Input, Output, EventEmitter, NgZone} from 'angular2/core';
-import {EmitterService} from '../Services/Emitter.service';
-import {FileUpload} from '../Services/FileUpload.service';
+import {NgStyle} from 'angular2/common';
+import {GetSizePipe} from '../Pipes/GetSize.pipe';
 
 @Component({
     selector: 'fileItem',
-    providers: [FileUpload],
+    pipes: [GetSizePipe],
     styles: [`
         .file-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 600px;
-            margin-top: 20px;
+            width: 75px;
+            margin: 20px 5px 0 0;
+            transition: opacity 0.5s, margin 0.5s linear;
+            flex-direction: column;
+
         }
+        
+        .file-container.uploaded {
+            opacity: 0;
+            margin: 0;
+            height: 0;
+            overflow: hidden;
+        }
+        
         .flex-block {
-            width: 18%;
-            margin-right: 2%;
+            width: 90%;
+            text-align: center;
+            font-size: 0.8em;
+            margin: 2px 0;
         }
         
         .file-remove {
@@ -30,84 +43,65 @@ import {FileUpload} from '../Services/FileUpload.service';
         .file-preview {
             background: #ccc;
             border-radius: 2px;
-            width: 75px;
-            text-align: center;
-            line-height: 75px;
-        }
-        
-        .file-preview-img {
-            border-radius:inherit;
             width: inherit;
-            height: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background-size: cover;
+            color: #fff;
         }
         
          .file-preview-ext {
-            color: #fff;
             text-transform: uppercase;
-            padding: 10px;
         }
-        
+
+        .file-progress {
+            width: 80%;
+            display: block;
+        }
+
         
         button {
             margin: 0;
         }   
     `],
     template: `
-        <div *ngIf="file" class="file-container">
-            <div class="flex-block file-preview">
-                <span *ngIf="ext" class="file-preview-ext">{{ext}}</span>
-                <img *ngIf="previewSrc" src="{{previewSrc}}" class="file-preview-img"/>
+        <div *ngIf="file" class="file-container" [class.uploaded]="uploaded">
+            <div class="flex-block file-preview" [ngStyle]="{'background-image': 'url(' + previewSrc + ')', 'height': previewHeight}">
+                <div *ngIf="ext" class="flex-block file-preview-ext ">{{ext}}</div>
+                <div *ngIf="!previewSrc" class="flex-block file-name">{{fileName}}</div>
+                <progress [value]="percentage" max="100" class="file-progress"></progress>
             </div>
-            <div class="flex-block file-name">{{file.name}}</div>
-            <div class="flex-block">{{getSize()}}</div>
-            <progress [value]="progress" max="100" class="flex-block"></progress>
-            <div class="flex-block file-remove" (click)=removeFileListener(index)><button>Remove</button></div>
+            <div class=" file-remove" (click)="removeFileListener()"><button>Remove</button></div>
+            <div class="flex-block">{{file.size | getSize }}</div>
         </div>
-    `,
-    inputs: ['file', 'index']
+    `
 })
 
 export class File {
-    private _uploaded:Boolean = false;
-
-    public file;
-    public index;
     public ext:string = '';
     public previewSrc:string = '';
-    public progress:number = 0;
-    zone:NgZone;
+    public fileName:string = '';
+    //TODO: workaround - depends on strict values;
+    public previewHeight:number = 75;
 
-    constructor(private fileUpload:FileUpload) {
-        this.init(fileUpload);
-    }
 
-    //Hook
+    //ngHooks
     ngAfterContentInit() {
-        this.getFileType();
+        this.file && this.getFileType();
     }
+
+    @Input() file;
+    @Input() index;
+    @Input() percentage;
+    @Input() uploaded;
 
     @Output() removeFile = new EventEmitter();
 
-    init(fileUpload) {
-        this.zone = new NgZone({enableLongStackTrace: false});
-        EmitterService.get('doUpload').subscribe(data => {
-            //prevent from multiple upload;
-            !this._uploaded && fileUpload.uploadFile(this.file);
-        });
 
-        fileUpload.onProgress.subscribe((value)=> {
-            this.zone.run(()=> {
-                this.progress = value
-            });
-        });
-
-        fileUpload.onSuccess.subscribe(() => {
-            this._uploaded = true
-        });
-    }
-
-    removeFileListener(index) {
-        this.removeFile && this.removeFile.emit(index);
+    removeFileListener() {
+        this.removeFile && this.removeFile.emit(true);
     }
 
     getFileType() {
@@ -117,35 +111,34 @@ export class File {
         if (!imageType.test(this.file.type)) {
             let ext = this.file.name.split('.').pop();
 
+            this.fileName = this.file.name;
             this.ext = ext.length > 3
                 ? 'file'
                 : `.${ext}`;
-
             return;
         }
 
         reader = new FileReader();
 
         reader.addEventListener("load", () => {
-            this.previewSrc = reader.result;
+            let img = new Image,
+                result = reader.result;
+
+            img.onload = () => {
+                let ratio = img.height / img.width,
+                    scaledHeight = ratio * this.previewHeight;
+
+                this.previewSrc = result;
+                this.previewHeight = (scaledHeight < this.previewHeight)
+                    ? this.previewHeight
+                    : scaledHeight;
+            };
+
+            img.src = result;
         }, false);
 
         if (this.file) {
             reader.readAsDataURL(this.file);
         }
     }
-
-    getSize() {
-        let bytes = this.file.size,
-            sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
-            k = 1000,
-            i = Math.floor(Math.log(bytes) / Math.log(k));
-
-        if (bytes == 0) {
-            return '0 Byte';
-        }
-
-        return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i];
-    }
-
 }

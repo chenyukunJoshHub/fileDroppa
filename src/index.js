@@ -21,4 +21,3 @@ System.register(["./Directives/FileDropZone", "./Directives/FileDroppa", "./Dire
         }
     }
 });
-//# sourceMappingURL=index.js.map

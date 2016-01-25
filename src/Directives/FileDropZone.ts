@@ -1,19 +1,17 @@
 import {Component, Input, EventEmitter, Output} from 'angular2/core';
-import {EmitterService} from '../Services/Emitter.service';
 import {FileDroppa} from './FileDroppa';
 import {FileList} from './FileList';
 
 @Component({
     selector: 'fileDropZone',
     directives: [FileDroppa, FileList],
-    providers: [EmitterService],
     styles: [`
         .fileDroppa {
             border: 3px dashed #DDD;
             border-radius:10px;
             padding:10px;
-            width:300px;
-            height:150px;
+            width:400px;
+            height:200px;
             color:#CCC;
             text-align:center;
             display:table-cell;
@@ -23,74 +21,65 @@ import {FileList} from './FileList';
     `],
     template: `
             <div fileDroppa [class]="config.customClass"
-                (fileUploaded)="updateFileList($event, 'added')"
+                (notifyFilesUpdated)="notifyFilesUpdated($event)"
                 [overCls]="config.overCls">
                 Drop files here or click to select
             </div>
             <br/>
-            <div *ngIf="files.length">
-                <fileList [files]="files" (fileRemoved)="updateFileList($event, 'removed')"></fileList>
-                <button (click)="uploadFileList()">Upload All Files</button>
-                <button (click)="clearFileList()">Remove All Files</button>
+            <fileList
+                [url]="config.uploadUrl"
+                [autoUpload]="config.autoUpload"
+                (notifyFilesUpdated)="notifyFilesUpdated($event)"
+                [uploadFiles]="uploadFiles"
+                [removeAllFiles]="removeAllFiles">
+            </fileList>
+            <div *ngIf="showButtons">
+                <button (click)="upload($event)">Upload All Files</button>
+                <button (click)="remove($event)">Remove All Files</button>
             </div>
+
+
     `
 })
 
 export class FileDropZone {
     private _config:Object = {};
-    private _files = [];
-
-    public startUpload = new EventEmitter();
+    public uploadFiles = new EventEmitter();
+    public removeAllFiles = new EventEmitter();
+    public _showButtons:Boolean = false;
 
     constructor() {
     };
 
     @Input() set config(config:Object) {
         this._config = config ? Object.assign(config, this._config) : this._config;
-        console.log('this._config', this._config)
     }
 
-    @Output() fileUploaded = new EventEmitter();
+    @Output() filesUpdated:EventEmitter<Array<File>> = new EventEmitter();
+
+    set showButtons(flag:boolean){
+        this._showButtons = flag;
+    }
+
+    get showButtons(){
+        return this._showButtons && !this.config.autoUpload;
+    }
 
     get config():Object {
         return this._config;
     }
 
-    get files():any[] {
-        return this._files;
+    upload(){
+        this.uploadFiles.emit(true);
     }
 
-    set files(files:any[]) {
-        this._files = files;
+    remove(){
+        this.removeAllFiles.emit(true);
     }
 
-    notifyAboutFileChanges() {
-        this.fileUploaded && this.fileUploaded.emit(this.files);
-    }
-
-    updateFileList(files:any[], type:string) {
-        switch (type) {
-            case 'added':
-                this.files = (this.files.length)
-                    ? [...this.files, ...files]
-                    : files;
-                break;
-            case 'removed':
-                this.files = files;
-                break;
-            default:
-                this.files = [];
-                break;
-        }
-        this.notifyAboutFileChanges();
-    }
-
-    uploadFileList() {
-        EmitterService.get('doUpload').emit(true);
-    }
-
-    clearFileList() {
-        this.files = [];
+    notifyFilesUpdated(files:Array<File>) {
+        this.filesUpdated.emit(files);
+        this.showButtons = !!files.length;
     }
 }
 

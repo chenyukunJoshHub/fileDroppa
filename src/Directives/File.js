@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../Services/Emitter.service', '../Services/FileUpload.service'], function(exports_1) {
+System.register(['angular2/core', '../Pipes/GetSize.pipe'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,58 +8,39 @@ System.register(['angular2/core', '../Services/Emitter.service', '../Services/Fi
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, Emitter_service_1, FileUpload_service_1;
+    var core_1, GetSize_pipe_1;
     var File;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (Emitter_service_1_1) {
-                Emitter_service_1 = Emitter_service_1_1;
-            },
-            function (FileUpload_service_1_1) {
-                FileUpload_service_1 = FileUpload_service_1_1;
+            function (GetSize_pipe_1_1) {
+                GetSize_pipe_1 = GetSize_pipe_1_1;
             }],
         execute: function() {
             File = (function () {
-                function File(fileUpload) {
-                    this.fileUpload = fileUpload;
-                    this._uploaded = false;
+                function File() {
                     this.ext = '';
                     this.previewSrc = '';
-                    this.progress = 0;
+                    this.fileName = '';
+                    //TODO: workaround - depends on strict values;
+                    this.previewHeight = 75;
                     this.removeFile = new core_1.EventEmitter();
-                    this.init(fileUpload);
                 }
-                //Hook
+                //ngHooks
                 File.prototype.ngAfterContentInit = function () {
-                    this.getFileType();
+                    this.file && this.getFileType();
                 };
-                File.prototype.init = function (fileUpload) {
-                    var _this = this;
-                    this.zone = new core_1.NgZone({ enableLongStackTrace: false });
-                    Emitter_service_1.EmitterService.get('doUpload').subscribe(function (data) {
-                        //prevent from multiple upload;
-                        !_this._uploaded && fileUpload.uploadFile(_this.file);
-                    });
-                    fileUpload.onProgress.subscribe(function (value) {
-                        _this.zone.run(function () {
-                            _this.progress = value;
-                        });
-                    });
-                    fileUpload.onSuccess.subscribe(function () {
-                        _this._uploaded = true;
-                    });
-                };
-                File.prototype.removeFileListener = function (index) {
-                    this.removeFile && this.removeFile.emit(index);
+                File.prototype.removeFileListener = function () {
+                    this.removeFile && this.removeFile.emit(true);
                 };
                 File.prototype.getFileType = function () {
                     var _this = this;
                     var imageType = /^image\//, reader;
                     if (!imageType.test(this.file.type)) {
                         var ext = this.file.name.split('.').pop();
+                        this.fileName = this.file.name;
                         this.ext = ext.length > 3
                             ? 'file'
                             : "." + ext;
@@ -67,19 +48,36 @@ System.register(['angular2/core', '../Services/Emitter.service', '../Services/Fi
                     }
                     reader = new FileReader();
                     reader.addEventListener("load", function () {
-                        _this.previewSrc = reader.result;
+                        var img = new Image, result = reader.result;
+                        img.onload = function () {
+                            var ratio = img.height / img.width, scaledHeight = ratio * _this.previewHeight;
+                            _this.previewSrc = result;
+                            _this.previewHeight = (scaledHeight < _this.previewHeight)
+                                ? _this.previewHeight
+                                : scaledHeight;
+                        };
+                        img.src = result;
                     }, false);
                     if (this.file) {
                         reader.readAsDataURL(this.file);
                     }
                 };
-                File.prototype.getSize = function () {
-                    var bytes = this.file.size, sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'], k = 1000, i = Math.floor(Math.log(bytes) / Math.log(k));
-                    if (bytes == 0) {
-                        return '0 Byte';
-                    }
-                    return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i];
-                };
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Object)
+                ], File.prototype, "file", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Object)
+                ], File.prototype, "index", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Object)
+                ], File.prototype, "percentage", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Object)
+                ], File.prototype, "uploaded", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', Object)
@@ -87,12 +85,11 @@ System.register(['angular2/core', '../Services/Emitter.service', '../Services/Fi
                 File = __decorate([
                     core_1.Component({
                         selector: 'fileItem',
-                        providers: [FileUpload_service_1.FileUpload],
-                        styles: ["\n        .file-container {\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n            max-width: 600px;\n            margin-top: 20px;\n        }\n        .flex-block {\n            width: 18%;\n            margin-right: 2%;\n        }\n        \n        .file-remove {\n            cursor: pointer;\n        }\n        \n        .file-name {\n            text-overflow: ellipsis;\n            overflow: hidden;\n        }\n        \n        .file-preview {\n            background: #ccc;\n            border-radius: 2px;\n            width: 75px;\n            text-align: center;\n            line-height: 75px;\n        }\n        \n        .file-preview-img {\n            border-radius:inherit;\n            width: inherit;\n            height: inherit;\n        }\n        \n         .file-preview-ext {\n            color: #fff;\n            text-transform: uppercase;\n            padding: 10px;\n        }\n        \n        \n        button {\n            margin: 0;\n        }   \n    "],
-                        template: "\n        <div *ngIf=\"file\" class=\"file-container\">\n            <div class=\"flex-block file-preview\">\n                <span *ngIf=\"ext\" class=\"file-preview-ext\">{{ext}}</span>\n                <img *ngIf=\"previewSrc\" src=\"{{previewSrc}}\" class=\"file-preview-img\"/>\n            </div>\n            <div class=\"flex-block file-name\">{{file.name}}</div>\n            <div class=\"flex-block\">{{getSize()}}</div>\n            <progress [value]=\"progress\" max=\"100\" class=\"flex-block\"></progress>\n            <div class=\"flex-block file-remove\" (click)=removeFileListener(index)><button>Remove</button></div>\n        </div>\n    ",
-                        inputs: ['file', 'index']
+                        pipes: [GetSize_pipe_1.GetSizePipe],
+                        styles: ["\n        .file-container {\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n            width: 75px;\n            margin: 20px 5px 0 0;\n            transition: opacity 0.5s, margin 0.5s linear;\n            flex-direction: column;\n\n        }\n        \n        .file-container.uploaded {\n            opacity: 0;\n            margin: 0;\n            height: 0;\n            overflow: hidden;\n        }\n        \n        .flex-block {\n            width: 90%;\n            text-align: center;\n            font-size: 0.8em;\n            margin: 2px 0;\n        }\n        \n        .file-remove {\n            cursor: pointer;\n        }\n        \n        .file-name {\n            text-overflow: ellipsis;\n            overflow: hidden;\n        }\n        \n        .file-preview {\n            background: #ccc;\n            border-radius: 2px;\n            width: inherit;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            flex-direction: column;\n            background-size: cover;\n            color: #fff;\n        }\n        \n         .file-preview-ext {\n            text-transform: uppercase;\n        }\n\n        .file-progress {\n            width: 80%;\n            display: block;\n        }\n\n        \n        button {\n            margin: 0;\n        }   \n    "],
+                        template: "\n        <div *ngIf=\"file\" class=\"file-container\" [class.uploaded]=\"uploaded\">\n            <div class=\"flex-block file-preview\" [ngStyle]=\"{'background-image': 'url(' + previewSrc + ')', 'height': previewHeight}\">\n                <div *ngIf=\"ext\" class=\"flex-block file-preview-ext \">{{ext}}</div>\n                <div *ngIf=\"!previewSrc\" class=\"flex-block file-name\">{{fileName}}</div>\n                <progress [value]=\"percentage\" max=\"100\" class=\"file-progress\"></progress>\n            </div>\n            <div class=\" file-remove\" (click)=\"removeFileListener()\"><button>Remove</button></div>\n            <div class=\"flex-block\">{{file.size | getSize }}</div>\n        </div>\n    "
                     }), 
-                    __metadata('design:paramtypes', [FileUpload_service_1.FileUpload])
+                    __metadata('design:paramtypes', [])
                 ], File);
                 return File;
             })();
@@ -100,4 +97,3 @@ System.register(['angular2/core', '../Services/Emitter.service', '../Services/Fi
         }
     }
 });
-//# sourceMappingURL=File.js.map

@@ -21,20 +21,16 @@ System.register(['angular2/core', '../src/index'], function(exports_1) {
         execute: function() {
             AppComponent = (function () {
                 function AppComponent() {
-                    this.files = [];
                     this.uploadEvent = new core_1.EventEmitter();
                     this.fileDroppaConfig = {
                         customClass: 'fileDroppa',
                         overCls: "customDrop",
-                        uploadEvent: "uploadEvent",
-                        fileUploadedListener: "fileUploaded"
+                        autoUpload: false,
+                        uploadUrl: "https://salty-taiga-80701.herokuapp.com/upload"
                     };
                 }
                 AppComponent.prototype.fileUploaded = function (files) {
                     console.log(files);
-                };
-                AppComponent.prototype.uploadFiles = function () {
-                    this.uploadEvent.emit();
                 };
                 AppComponent = __decorate([
                     core_1.Component({
@@ -50,4 +46,3 @@ System.register(['angular2/core', '../src/index'], function(exports_1) {
         }
     }
 });
-//# sourceMappingURL=app.component.js.map

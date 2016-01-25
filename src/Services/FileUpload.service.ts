@@ -1,38 +1,62 @@
-import {Injectable, EventEmitter, Output} from "angular2/core";
+import {Injectable, EventEmitter, Output, Input, NgZone} from "angular2/core";
+import {iFile} from "./FileStore.service";
 
 @Injectable()
-
 export class FileUpload {
-    @Output() onProgress = new EventEmitter();
-    @Output() onSuccess = new EventEmitter();
-    @Output() onError = new EventEmitter();
-
-    uploadFile(file) {
+    static url:string;
+    static autoUpload:boolean=false;
+    private zone = new NgZone({enableLongStackTrace: false});
+    private xhr;
+    constructor(public iFile){
+        FileUpload.autoUpload && this.uploadFile();
+    }
+    abortUploading(){
+        this.xhr.loading && this.xhr.abort();
+    }
+    uploadFile() {
+        if(!FileUpload.url){
+            throw "url to upload needs to be provided";
+        }
+        if(this.iFile.loading){
+            throw "Already under loading";
+        }
         let that = this,
-            xhr = new XMLHttpRequest(),
             formData = new FormData();
 
-        formData.append(`${file.name}`, file);
+        this.xhr = new XMLHttpRequest();
 
-        xhr.upload.onprogress = (event) => {
-            let progress = (event.loaded * 100) / event.total;
-            
-            this.onProgress.emit(progress | 0);
+        formData.append(`${this.iFile.File.name}`, this.iFile.File);
+
+        this.xhr.upload.onprogress = (event) => {
+            let progress = (event.loaded * 100) / event.total | 0;
+            this.zone.run(()=> {
+                this.iFile.percentage = progress;
+            })
         };
 
-        xhr.onload = xhr.onerror = function () {
-            if (this.status == 200) {
-                console.log("success");
-                that.onSuccess.emit(true);
-            } else {
-                console.log("error " + this.status);
-                that.onError.emit(true);
-            }
-        };
+        let pr = new Promise((resolve, reject)=>{
+            this.xhr.onload = this.xhr.onerror = function() {
+                that.zone.run(()=> {
+                    if (this["status"] == 200) {
+                        that.iFile.loading = false;
+                        that.iFile.loadingSuccessful = true;
+                        resolve();
+                    } else {
+                        that.iFile.loading = false;
+                        that.iFile.loadingSuccessful = false;
+                        reject();
+                    }
+                })
+            };
+        });
 
-        //TODO: move url to config
-        xhr.open("POST", "http://localhost:9090/upload", true);
-        xhr.send(formData);
+
+        this.iFile.loading = true;
+
+        this.xhr.open("POST", FileUpload.url, true);
+        this.xhr.send(formData);
+
+        return pr;
 
     }
 }     

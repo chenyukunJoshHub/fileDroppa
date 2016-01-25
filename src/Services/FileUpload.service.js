@@ -17,48 +17,57 @@ System.register(["angular2/core"], function(exports_1) {
             }],
         execute: function() {
             FileUpload = (function () {
-                function FileUpload() {
-                    this.onProgress = new core_1.EventEmitter();
-                    this.onSuccess = new core_1.EventEmitter();
-                    this.onError = new core_1.EventEmitter();
+                function FileUpload(iFile) {
+                    this.iFile = iFile;
+                    this.zone = new core_1.NgZone({ enableLongStackTrace: false });
+                    FileUpload.autoUpload && this.uploadFile();
                 }
-                FileUpload.prototype.uploadFile = function (file) {
-                    var _this = this;
-                    var that = this, xhr = new XMLHttpRequest(), formData = new FormData();
-                    formData.append("" + file.name, file);
-                    xhr.upload.onprogress = function (event) {
-                        var progress = (event.loaded * 100) / event.total;
-                        _this.onProgress.emit(progress | 0);
-                    };
-                    xhr.onload = xhr.onerror = function () {
-                        if (this.status == 200) {
-                            console.log("success");
-                            that.onSuccess.emit(true);
-                        }
-                        else {
-                            console.log("error " + this.status);
-                            that.onError.emit(true);
-                        }
-                    };
-                    //TODO: move url to config
-                    xhr.open("POST", "http://localhost:9090/upload", true);
-                    xhr.send(formData);
+                FileUpload.prototype.abortUploading = function () {
+                    this.xhr.loading && this.xhr.abort();
                 };
-                __decorate([
-                    core_1.Output(), 
-                    __metadata('design:type', Object)
-                ], FileUpload.prototype, "onProgress", void 0);
-                __decorate([
-                    core_1.Output(), 
-                    __metadata('design:type', Object)
-                ], FileUpload.prototype, "onSuccess", void 0);
-                __decorate([
-                    core_1.Output(), 
-                    __metadata('design:type', Object)
-                ], FileUpload.prototype, "onError", void 0);
+                FileUpload.prototype.uploadFile = function () {
+                    var _this = this;
+                    if (!FileUpload.url) {
+                        throw "url to upload needs to be provided";
+                    }
+                    if (this.iFile.loading) {
+                        throw "Already under loading";
+                    }
+                    var that = this, formData = new FormData();
+                    this.xhr = new XMLHttpRequest();
+                    formData.append("" + this.iFile.File.name, this.iFile.File);
+                    this.xhr.upload.onprogress = function (event) {
+                        var progress = (event.loaded * 100) / event.total | 0;
+                        _this.zone.run(function () {
+                            _this.iFile.percentage = progress;
+                        });
+                    };
+                    var pr = new Promise(function (resolve, reject) {
+                        _this.xhr.onload = _this.xhr.onerror = function () {
+                            var _this = this;
+                            that.zone.run(function () {
+                                if (_this["status"] == 200) {
+                                    that.iFile.loading = false;
+                                    that.iFile.loadingSuccessful = true;
+                                    resolve();
+                                }
+                                else {
+                                    that.iFile.loading = false;
+                                    that.iFile.loadingSuccessful = false;
+                                    reject();
+                                }
+                            });
+                        };
+                    });
+                    this.iFile.loading = true;
+                    this.xhr.open("POST", FileUpload.url, true);
+                    this.xhr.send(formData);
+                    return pr;
+                };
+                FileUpload.autoUpload = false;
                 FileUpload = __decorate([
                     core_1.Injectable(), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [Object])
                 ], FileUpload);
                 return FileUpload;
             })();
@@ -66,4 +75,3 @@ System.register(["angular2/core"], function(exports_1) {
         }
     }
 });
-//# sourceMappingURL=FileUpload.service.js.map

@@ -85,7 +85,9 @@ System.register(["angular2/core"], function(exports_1) {
                 };
                 FileParser.prototype.flattenArrayOfFiles = function (arrayOfPromises) {
                     return Promise.resolve(arrayOfPromises.reduce(function (result, file) {
-                        return result.concat(file);
+                        if (file) {
+                            return result.concat(file);
+                        }
                     }, []));
                 };
                 FileParser = __decorate([
@@ -98,4 +100,3 @@ System.register(["angular2/core"], function(exports_1) {
         }
     }
 });
-//# sourceMappingURL=FileParser.service.js.map
