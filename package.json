@@ -22,6 +22,18 @@
     "test": "concurrent \"npm run tsc:w\" \"lite-server --open tests\" "
   },
   "license": "MIT",
+  "contributors": [
+    {
+      "name": "Pavlo Tkach",
+      "email": "",
+      "url": "https://github.com/ptkach"
+    },
+    {
+      "name": "Oleksandr Antyneskul",
+      "email": "antyneskul@gmail.com",
+      "url": "https://github.com/Antyneskul"
+    }
+  ],
   "dependencies": {
     "angular2": "2.0.0-beta.0",
     "es6-promise": "^3.0.2",
