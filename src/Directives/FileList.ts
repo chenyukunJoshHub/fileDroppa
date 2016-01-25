@@ -1,7 +1,6 @@
 import {Component, Input, EventEmitter, Output, ChangeDetectionStrategy} from 'angular2/core';
 import {File} from './File';
-import {FilesStore} from "../Services/FileStore.service";
-import {iFile} from "../Services/fileStore.service";
+import {FilesStore, iFile} from "../Services/FileStore.service";
 import {FileUpload} from "../Services/FileUpload.service";
 
 @Component({
