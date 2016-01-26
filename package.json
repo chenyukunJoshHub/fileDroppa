@@ -30,9 +30,6 @@
       "url": "https://github.com/Antyneskul"
     }
   ],
-  "dependencies": {
-    "ng2-file-upload": "^1.0.0-beta.0"
-  },
   "devDependencies": {
     "angular2": "2.0.0-beta.0",
     "reflect-metadata": "0.1.2",

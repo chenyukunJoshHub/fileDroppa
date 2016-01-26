@@ -5,9 +5,13 @@ gulp-tasks
 logs
 tests
 
-tsd.d.ts
-typings
-
-/node_modules
-
-webpack.config.js
+# Node generated files
+node_modules
+npm-debug.log
+# OS generated files
+Thumbs.db
+.DS_Store
+# Ignored files
+*.ts
+*.map
+!*.d.ts
