@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="cfb8db01-d319-4845-9eac-e02fd51b5f23" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.gitattributes" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.gitignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/demo/app.component.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/demo/boot.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/index.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/package.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Directives/File.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Directives/FileDropZone.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Directives/FileDroppa.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Directives/FileList.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Pipes/GetSize.pipe.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Services/FileParser.service.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Services/FileStore.service.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Services/FileUpload.service.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/index.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/fileDroppa.spec.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/fileDroppa.spec.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/fileDroppa.spec.ts" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tsconfig.json" afterPath="" />
+    </list>
+    <ignored path="shopCart.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="shopCart" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/app/Services/shopping.service.ts" />
+        <option value="$PROJECT_DIR$/app/Models/Item.model.ts" />
+        <option value="$PROJECT_DIR$/app/Utils/Filter.pipe.ts" />
+        <option value="$PROJECT_DIR$/app/Mock/catalog.mock.json.ts" />
+        <option value="$PROJECT_DIR$/app/details.component.ts" />
+        <option value="$PROJECT_DIR$/app/Mock/discounts.mock.json.ts" />
+        <option value="$PROJECT_DIR$/app/Services/ICheckout.ts" />
+        <option value="$PROJECT_DIR$/app/Mock/payment-methods.mock.json.ts" />
+        <option value="$PROJECT_DIR$/app/item-preview.component.ts" />
+        <option value="$PROJECT_DIR$/app/catalog.component.ts" />
+        <option value="$PROJECT_DIR$/app/Services/cart.service.ts" />
+        <option value="$PROJECT_DIR$/app/Utils/payment-methods.ts" />
+        <option value="$PROJECT_DIR$/app/Services/checkout.service.ts" />
+        <option value="$PROJECT_DIR$/app/cart.component.ts" />
+        <option value="$PROJECT_DIR$/src/Drag.directive.ts" />
+        <option value="$PROJECT_DIR$/src/Drop.directive.ts" />
+        <option value="$PROJECT_DIR$/app/boot.ts" />
+        <option value="$PROJECT_DIR$/app/Drop.directive.ts" />
+        <option value="$PROJECT_DIR$/app/FileDroppa.directive.ts" />
+        <option value="$PROJECT_DIR$/src/FileDroppa.directive.ts" />
+        <option value="$PROJECT_DIR$/example/app.component.ts" />
+        <option value="$PROJECT_DIR$/src/FileDroppa.ts" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/app/appCustom.component.ts" />
+        <option value="$PROJECT_DIR$/app/app.component.ts" />
+        <option value="$PROJECT_DIR$/src/Directives/FileInput.ts" />
+        <option value="$PROJECT_DIR$/tests-index.html" />
+        <option value="$PROJECT_DIR$/gulpfile.js" />
+        <option value="$PROJECT_DIR$/src/test/fileDroppa.spec.ts" />
+        <option value="$PROJECT_DIR$/karma-test-shim.js" />
+        <option value="$PROJECT_DIR$/karma.conf.js" />
+        <option value="$PROJECT_DIR$/tests/src/fileDroppa.spec.ts" />
+        <option value="$PROJECT_DIR$/tests/testsetup.js" />
+        <option value="$PROJECT_DIR$/src/Services/FileParser.service.ts" />
+        <option value="$PROJECT_DIR$/tests/fileDroppa.spec.ts" />
+        <option value="$PROJECT_DIR$/tests/index.html" />
+        <option value="$PROJECT_DIR$/styles/main.css" />
+        <option value="$PROJECT_DIR$/src/Services/Emitter.service.ts" />
+        <option value="$PROJECT_DIR$/src/Directives/FileDroppa.ts" />
+        <option value="$PROJECT_DIR$/src/Services/fileStore.service.ts" />
+        <option value="$PROJECT_DIR$/src/Directives/File.ts" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/src/Services/FileUpload.service.ts" />
+        <option value="$PROJECT_DIR$/src/Directives/FileList.ts" />
+        <option value="$PROJECT_DIR$/src/index.js" />
+        <option value="$PROJECT_DIR$/src/Directives/FileDropZone.ts" />
+        <option value="$PROJECT_DIR$/src/index.ts" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/demo/app.component.ts" />
+        <option value="$PROJECT_DIR$/tsconfig.json" />
+        <option value="$PROJECT_DIR$/package.json" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" />
+  <component name="JsBuildToolPackageJson" detection-done="true" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1280" />
+    <option name="height" value="773" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>GeneralJavaScript</id>
+          </State>
+          <State>
+            <id>JavaScript</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>JSMismatchedCollectionQueryUpdate</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="1" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shopCart" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../dnd2" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="HbShouldOpenHtmlAsHb" value="" />
+    <property name="js-jscs-nodeInterpreter" value="/usr/local/bin/node" />
+    <property name="SearchEverywhereHistoryKey" value="*.css&#9;FILE&#9;file:///Users/ptkach/Documents/work/projects/dnd/styles/main.css&#10;FileDr&#9;FILE&#9;file:///Users/ptkach/Documents/work/projects/dnd/src/Directives/FileDroppa.ts&#10;app.&#9;FILE&#9;file:///Users/ptkach/Documents/work/projects/dnd/app/app.component.ts&#10;FileD&#9;FILE&#9;file:///Users/ptkach/Documents/work/projects/dnd/src/Directives/FileDroppa.ts&#10;File&#9;FILE&#9;file:///Users/ptkach/Documents/work/projects/dnd/src/Services/FileParser.service.ts&#10;index&#9;FILE&#9;file:///Users/ptkach/Documents/work/projects/dnd/tests/index.html&#10;DOM&#9;FILE&#9;file:///Users/ptkach/Documents/work/projects/dnd/node_modules/angular2/ts/src/platform/dom/dom_adapter.js&#10;*spec*.ts&#9;FILE&#9;file:///Users/ptkach/Documents/work/projects/dnd/node_modules/angular2/ts/examples/router/ts/can_activate/can_activate_spec.ts&#10;Dom&#9;FILE&#9;file:///Users/ptkach/Documents/work/projects/dnd/node_modules/angular2/src/platform/dom/dom_adapter.js&#10;dom&#9;FILE&#9;file:///Users/ptkach/Documents/work/projects/dnd/node_modules/angular2/src/platform/dom/dom_adapter.js&#10;Inject&#9;null&#9;null&#10;inde&#9;FILE&#9;file:///Users/ptkach/Documents/work/projects/shopCart/index.html" />
+    <property name="settings.editor.selected.configurable" value="terminal" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/demo" />
+      <recent name="$PROJECT_DIR$/tests" />
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/tests/src" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
+      <method />
+    </configuration>
+    <configuration default="true" type="DartTestRunConfigurationType" factoryName="Dart Test">
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" config-file="">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" working-dir="">
+      <method />
+    </configuration>
+    <configuration default="true" type="cucumber.js" factoryName="Cucumber.js">
+      <option name="cucumberJsArguments" value="" />
+      <option name="executablePath" />
+      <option name="filePath" />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
+      <command value="run-script" />
+      <scripts />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="mocha-javascript-test-runner" factoryName="Mocha">
+      <node-options />
+      <working-directory>$PROJECT_DIR$</working-directory>
+      <pass-parent-env>true</pass-parent-env>
+      <envs />
+      <ui>bdd</ui>
+      <extra-mocha-options />
+      <test-kind>DIRECTORY</test-kind>
+      <test-directory />
+      <recursive>false</recursive>
+      <method />
+    </configuration>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cfb8db01-d319-4845-9eac-e02fd51b5f23" name="Default" comment="" />
+      <created>1451155153975</created>
+      <option name="number" value="Default" />
+      <updated>1451155153975</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Added support of directories according to HTML 5 API">
+      <created>1452455410425</created>
+      <option name="number" value="00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1452455410425</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Clean up">
+      <created>1452455843005</created>
+      <option name="number" value="00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1452455843005</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Added async reader handlers">
+      <created>1452470723044</created>
+      <option name="number" value="00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1452470723044</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Unified files ouput">
+      <created>1452560349669</created>
+      <option name="number" value="00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1452560349669</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Figured how to let user init upload">
+      <created>1452561783082</created>
+      <option name="number" value="00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1452561783082</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Fixed issue with file in folder in folder">
+      <created>1453058509342</created>
+      <option name="number" value="00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1453058509342</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Removed file input, added click functionality">
+      <created>1453067879833</created>
+      <option name="number" value="00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1453067879833</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Updated tests and fixed directive format">
+      <created>1453072336212</created>
+      <option name="number" value="00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1453072336212</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Fixed issue with dirty checking">
+      <created>1453219658374</created>
+      <option name="number" value="00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1453219658374</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Added styles to droppa">
+      <created>1453310604728</created>
+      <option name="number" value="00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1453310604728</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Removed unused params">
+      <created>1453411776539</created>
+      <option name="number" value="00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1453411776539</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Removed unused params">
+      <created>1453425185218</created>
+      <option name="number" value="00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1453425185218</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Abort XHR">
+      <created>1453690693371</created>
+      <option name="number" value="00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1453690693371</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Updated package json&#10;">
+      <created>1453691065572</created>
+      <option name="number" value="00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1453691065572</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="23" width="1280" height="773" extended-state="6" />
+    <editor active="false" />
+    <layout>
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3203125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TypeScript Compiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.gitignore" />
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added support of directories according to HTML 5 API" />
+    <MESSAGE value="Clean up" />
+    <MESSAGE value="Added async reader handlers" />
+    <MESSAGE value="Unified files ouput" />
+    <MESSAGE value="Figured how to let user init upload" />
+    <MESSAGE value="Fixed issue with file in folder in folder" />
+    <MESSAGE value="Removed file input, added click functionality" />
+    <MESSAGE value="Updated tests and fixed directive format" />
+    <MESSAGE value="Fixed issue with dirty checking" />
+    <MESSAGE value="Added styles to droppa" />
+    <MESSAGE value="Removed unused params" />
+    <MESSAGE value="Abort XHR" />
+    <MESSAGE value="Updated package json&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated package json&#10;" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/webstorm.jar!/resources/html5-schema/html5/applications.rnc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.99852073">
+          <caret line="86" column="16" selection-start-line="86" selection-start-column="16" selection-end-line="86" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/webstorm.jar!/resources/html5-schema/html5/block.rnc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.37869823">
+          <caret line="227" column="16" selection-start-line="227" selection-start-column="16" selection-end-line="227" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/typescriptCompiler/external/lib.es6.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="30.621302">
+          <caret line="8380" column="10" selection-start-line="8380" selection-start-column="10" selection-end-line="8380" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
