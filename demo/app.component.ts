@@ -1,5 +1,5 @@
 import {Component, EventEmitter} from 'angular2/core';
-import {FileDropZone} from '../src/index'
+import {FileDropZone} from '../index'
 
 @Component({
     selector: 'my-app',

@@ -1,5 +1,5 @@
 <html>
-  <head>
+<head>
     <base href="/">
     <title>File Droppa Demo</title>
     <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
@@ -7,23 +7,23 @@
     <script src="node_modules/rxjs/bundles/Rx.js"></script>
     <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
     <script>
-      System.config({
-        packages: {        
-          demo: {
-            format: 'cjs',
-            defaultExtension: 'js'
-          },
-          src: {
-            format: 'cjs',
-            defaultExtension: 'js'
-          }
-        }
-      });
-      System.import('demo/boot')
-            .then(null, console.error.bind(console));
+        System.config({
+            packages: {
+                demo: {
+                    format: 'cjs',
+                    defaultExtension: 'js'
+                },
+                src: {
+                    format: 'cjs',
+                    defaultExtension: 'js'
+                }
+            }
+        });
+        System.import('demo/boot')
+                .then(null, console.error.bind(console));
     </script>
-  </head>
-  <body>
-    <my-app>Loading...</my-app>
-  </body>
+</head>
+<body>
+<my-app>Loading...</my-app>
+</body>
 </html>
