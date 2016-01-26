@@ -1,30 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cfb8db01-d319-4845-9eac-e02fd51b5f23" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.gitattributes" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/README.md" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/demo/app.component.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/demo/boot.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/index.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/package.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Directives/File.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Directives/FileDropZone.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Directives/FileDroppa.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Directives/FileList.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Pipes/GetSize.pipe.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Services/FileParser.service.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Services/FileStore.service.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Services/FileUpload.service.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/index.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/fileDroppa.spec.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/fileDroppa.spec.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/fileDroppa.spec.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tsconfig.json" afterPath="" />
-    </list>
+    <list default="true" id="cfb8db01-d319-4845-9eac-e02fd51b5f23" name="Default" comment="" />
     <ignored path="shopCart.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
