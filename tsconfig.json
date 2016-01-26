@@ -9,8 +9,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "listFiles": false,
-    "noLib": false,
-    "noImplicitAny": true
+    "noLib": false
   },
   "exclude": [
     "node_modules"

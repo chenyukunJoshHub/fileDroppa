@@ -43,7 +43,9 @@ import {FileList} from './FileList';
 })
 
 export class FileDropZone {
-    private _config:Object = {};
+    private _config = {
+        autoUpload:false
+    };
     public uploadFiles = new EventEmitter();
     public removeAllFiles = new EventEmitter();
     public _showButtons:Boolean = false;
@@ -51,8 +53,8 @@ export class FileDropZone {
     constructor() {
     };
 
-    @Input() set config(config:Object) {
-        this._config = config ? Object.assign(config, this._config) : this._config;
+    @Input() set config(config) {
+        this._config = config ? Object.assign(this._config, config) : this._config;
     }
 
     @Output() filesUpdated:EventEmitter<Array<File>> = new EventEmitter();
@@ -62,10 +64,10 @@ export class FileDropZone {
     }
 
     get showButtons(){
-        return this._showButtons && !this.config.autoUpload;
+        return this._showButtons && !this._config["autoUpload"];
     }
 
-    get config():Object {
+    get config() {
         return this._config;
     }
 
