@@ -19,8 +19,7 @@ The whole list of config params you can find below in detailed information.
 @Component({
     selector: 'my-app',
     directives: [FileDropZone],
-    template: `<fileDropZone [config]="config">
-               </fileDropZone>`
+    template: `<fileDropZone [config]="config"></fileDropZone>`
 }) 
 ```
 
@@ -29,24 +28,34 @@ The whole list of config params you can find below in detailed information.
 
 ```
         <div fileDroppa (fileUploaded)="updateFileList($event, 'added')">
-                Drop files here or click to select
+            Drop files here or click to select
         </div>
-        <fileList [files]="files" (fileRemoved)="updateFileList($event, 'removed')"></fileList>
+        <FileList
+            [uploadFiles]="uploadFiles"
+            [removeAllFiles]="removeAllFiles">
+        </FileList>
         
 ```
 ```
         <li fileDroppa (fileUploaded)="updateFileList($event, 'added')">
-                Some specific text
+            Some specific text
         </li>
-        <fileList [files]="files" (fileRemoved)="updateFileList($event, 'removed')"></fileList>
+        <FileList
+            [uploadFiles]="uploadFiles"
+            [removeAllFiles]="removeAllFiles">
+        </FileList>
+
 ```        
 ```
         <li fileDroppa (fileUploaded)="updateFileList($event, 'added')">
-                <span>
-                        <b>Bla-Bla-Bla</b>
-                </span>
+            <span>
+                <b>Bla-Bla-Bla</b>
+            </span>
         </li>
-        <fileList [files]="files" (fileRemoved)="updateFileList($event, 'removed')"></fileList>
+        <FileList
+            [uploadFiles]="uploadFiles"
+            [removeAllFiles]="removeAllFiles">
+        </FileList>
 ``` 
 ---------
 
@@ -55,7 +64,7 @@ The whole list of config params you can find below in detailed information.
 ##### fileDropZone
 
 ```
-import {FileDropZone} from 'fileDroppa';
+import {FileDropZone} from 'file-droppa';
 
 @Component({
     selector: 'my-app',
@@ -98,7 +107,7 @@ API:
 ##### fileDroppa
 
 ```
-import {FileDroppa} from 'fileDroppa';
+import {FileDroppa} from 'file-droppa';
 
 @Component({
     selector: 'my-app',
@@ -134,32 +143,44 @@ API:
 
 
 ```
-import {FileList} from 'fileDroppa';
+import {FileList} from 'file-droppa';
 
 @Component({
     selector: 'my-app',
     directives: [FileList],
     template: `
-        <FileList 
-            [files]="files"
-            (fileRemoved)="fileRemovedHandler($event)">
+        <FileList
+            [uploadFiles]="uploadFiles"
+            [removeAllFiles]="removeAllFiles">
         </FileList>
+        <div>
+            <button (click)="upload($event)">Upload All Files</button>
+            <button (click)="remove($event)">Remove All Files</button>
+        </div>
+
     `
 })
 
 export class App {
-    public files = [];//Here should be array with elements with type "File"
-    public overCls:string = 'overCls';
+    public uploadFiles = new EventEmitter();
+    public removeAllFiles = new EventEmitter();
     
-    fileRemovedHandler() {
-       //Your stuff
+    upload(){
+            this.uploadFiles.emit(true);
     }
+
+    remove(){
+        this.removeAllFiles.emit(true);
+    }    
 }
 ```
 
 API:
 
-1. [files]:Array<File> - input parameter which always provides all files currently selected/dropped by user
-2. (fileRemoved)?:EventEmitter - function which will be called when any files from filesList was removed by user
+1. (uploadFiles)?:EventEmitter - function that will be called when "uploadFiles" event will be fired from parent component
+2. (removeAllFiles)?:EventEmitter - function that will be called when "removeAllFiles" event will be fired from parent component
 
  
+### Contributors
+Contributions are very welcomed.
+If you want to help us, please fork this repo from [ptkach/fileDroppa](ptkach/fileDroppa) and create pull request after adding some code.
