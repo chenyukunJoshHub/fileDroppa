@@ -1,0 +1,58 @@
+{
+  "name": "file-droppa",
+  "version": "0.6.0",
+  "description": "Angular2 (ng2) Files dropable area plus list of files",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ptkach/fileDroppa.git"
+  },
+  "scripts": {
+    "deploy": "NODE_ENV=production webpack -p --progress --color --optimize-minimize --optimize-dedupe --optimize-occurence-order",
+    "prepublish": "gulp clean && tsc",
+    "server": "webpack-dev-server --hot --inline --colors --display-error-details --display-cached",
+    "start": "npm run server",
+    "test": "gulp lint"
+  },
+  "main": "index.js",
+  "typings": "index.d.ts",
+  "keywords": [
+    "Angular",
+    "Files",
+    "Drop"
+  ],
+  "author": "Pavlo Tkach <work.pashtet@gmail.com> (http://github.com/ptkach)",
+  "homepage": "https://github.com/ptkach/fileDroppa#readme",
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Oleksandr Antyneskul",
+      "email": "antyneskul@gmail.com",
+      "url": "https://github.com/Antyneskul"
+    }
+  ],
+  "dependencies": {
+    "ng2-file-upload": "^1.0.0-beta.0"
+  },
+  "devDependencies": {
+    "angular2": "2.0.0-beta.0",
+    "reflect-metadata": "0.1.2",
+    "rxjs": "5.0.0-beta.0",
+    "zone.js": "0.5.10",
+    "es6-shim": "0.33.13",
+    "clean-webpack-plugin": "0.1.5",
+    "compression-webpack-plugin": "0.2.0",
+    "eslint": "1.10.3",
+    "gulp": "3.9.0",
+    "gulp-clean": "0.3.1",
+    "gulp-eslint": "1.1.1",
+    "gulp-tsc": "1.1.4",
+    "gulp-tslint": "4.3.1",
+    "marked": "0.3.5",
+    "require-dir": "0.3.0",
+    "ts-loader": "0.8.0",
+    "tslint": "3.2.1",
+    "typescript": "1.7.5",
+    "webpack": "1.12.11",
+    "webpack-dev-server": "1.14.0"
+  }
+}
