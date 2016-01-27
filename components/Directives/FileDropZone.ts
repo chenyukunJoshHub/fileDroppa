@@ -6,7 +6,7 @@ import {FileList} from './FileList';
     selector: 'fileDropZone',
     directives: [FileDroppa, FileList],
     styles: [`
-        .fileDroppa {
+        [filedroppa] {
             border: 3px dashed #DDD;
             border-radius:10px;
             padding:10px;
