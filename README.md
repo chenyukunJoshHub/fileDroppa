@@ -135,7 +135,7 @@ API:
 
 1. [class] - input parameter custom class
 2. [overCls] - input parameter custom over css class
-3. (fileUploaded)?:EventEmmiter - function which will be called with list of files which were selected by user
+3. (fileUploaded)?:EventEmitter - function which will be called with list of files which were selected by user
 
 
 

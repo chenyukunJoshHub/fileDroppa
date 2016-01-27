@@ -17,9 +17,8 @@ export class AppComponent {
     constructor() {
         this.uploadEvent = new EventEmitter();
         this.fileDroppaConfig = {
-            customClass: 'fileDroppa',
             overCls: "customDrop",
-            autoUpload: false,
+            autoUpload: true,
             uploadUrl: "https://salty-taiga-80701.herokuapp.com/upload"
         };
     }
