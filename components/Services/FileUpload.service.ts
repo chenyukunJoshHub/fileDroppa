@@ -4,20 +4,23 @@ import {iFile} from "./FileStore.service";
 @Injectable()
 export class FileUpload {
     static url:string;
-    static autoUpload:boolean=false;
+    static autoUpload:boolean = false;
     private zone = new NgZone({enableLongStackTrace: false});
     private xhr;
-    constructor(public iFile){
+
+    constructor(public iFile) {
         FileUpload.autoUpload && this.uploadFile();
     }
-    abortUploading(){
-        this.xhr.loading && this.xhr.abort();
+
+    abortUploading() {
+        (this.xhr && this.xhr.loading) && this.xhr.abort();
     }
+
     uploadFile() {
-        if(!FileUpload.url){
+        if (!FileUpload.url) {
             throw "url to upload needs to be provided";
         }
-        if(this.iFile.loading){
+        if (this.iFile.loading) {
             throw "Already under loading";
         }
         let that = this,
@@ -34,8 +37,8 @@ export class FileUpload {
             })
         };
 
-        let pr = new Promise((resolve, reject)=>{
-            this.xhr.onload = this.xhr.onerror = function() {
+        let pr = new Promise((resolve, reject)=> {
+            this.xhr.onload = this.xhr.onerror = function () {
                 that.zone.run(()=> {
                     if (this["status"] == 200) {
                         that.iFile.loading = false;
@@ -49,7 +52,6 @@ export class FileUpload {
                 })
             };
         });
-
 
         this.iFile.loading = true;
 
