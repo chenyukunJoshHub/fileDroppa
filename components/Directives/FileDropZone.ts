@@ -6,7 +6,7 @@ import {FileList} from './FileList';
     selector: 'fileDropZone',
     directives: [FileDroppa, FileList],
     styles: [`
-        [filedroppa] {
+        .file_droppa_internal {
             border: 3px dashed #DDD;
             border-radius:10px;
             padding:10px;
@@ -44,7 +44,8 @@ import {FileList} from './FileList';
 
 export class FileDropZone {
     private _config = {
-        autoUpload: false
+        autoUpload: false,
+        customClass: 'file_droppa_internal'
     };
     public uploadFiles = new EventEmitter();
     public removeAllFiles = new EventEmitter();
