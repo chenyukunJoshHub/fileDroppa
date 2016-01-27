@@ -1,28 +1,28 @@
 var gulp = require('gulp');
 
 gulp.paths = {
-  tssrc: [
-    '**/*.ts',
-    '!node_modules/**/*',
-    '!dist/**/*',
-    '!typings/**/*',
-    '!**/*.{ts,coffee}.js'],
-  jssrc: [
-    '*.js',
-    'gulp-tasks/*.js',
-    '!index.js',
-    '!node_modules',
-    '!**/*.{ts,coffee}.js']
+    tssrc: [
+        '**/*.ts',
+        '!node_modules/**/*',
+        '!dist/**/*',
+        '!typings/**/*',
+        '!**/*.{ts,coffee}.js'],
+    jssrc: [
+        '*.js',
+        'gulp-tasks/*.js',
+        '!index.js',
+        '!node_modules',
+        '!**/*.{ts,coffee}.js']
 };
 
 require('require-dir')('./gulp-tasks');
 
 var clean = require('gulp-clean');
 gulp.task('clean', function () {
-  return gulp.src('dist', {read: false})
-    .pipe(clean());
+    return gulp.src('dist', {read: false})
+        .pipe(clean());
 });
 
 gulp.task('default', function () {
-  gulp.start('lint');
+    gulp.start('lint');
 });

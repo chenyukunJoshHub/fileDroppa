@@ -68,7 +68,7 @@ import {GetSizePipe} from '../Pipes/GetSize.pipe';
     `],
     template: `
         <div *ngIf="file" class="file-container" [class.uploaded]="uploaded">
-            <div class="flex-block file-preview" [ngStyle]="{'background-image': 'url(' + previewSrc + ')', 'height': previewHeight}">
+            <div class="flex-block file-preview" [ngStyle]="{'background-image': 'url(' + previewSrc + ')', 'height': previewHeight + 'px'}">
                 <div *ngIf="ext" class="flex-block file-preview-ext ">{{ext}}</div>
                 <div *ngIf="!previewSrc" class="flex-block file-name">{{fileName}}</div>
                 <progress [value]="percentage" max="100" class="file-progress"></progress>

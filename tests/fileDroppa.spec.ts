@@ -30,15 +30,16 @@ describe('Test File Droppa Directive', () => {
             spyOn(fixture.componentInstance, "fileUploaded");
             let el = fixture.debugElement.query(By.css('div#child'));
             el.triggerEventHandler('drop', {
-                preventDefault(){},
-                dataTransfer:{
-                    files:[1,2,3],
-                    items:[1,2,3]
+                preventDefault(){
+                },
+                dataTransfer: {
+                    files: [1, 2, 3],
+                    items: [1, 2, 3]
                 }
             });
-            window.setTimeout(()=>{
-                expect(fixture.componentInstance.fileUploaded).toHaveBeenCalledWith([1,2,3]);
-            },300);
+            window.setTimeout(()=> {
+                expect(fixture.componentInstance.fileUploaded).toHaveBeenCalledWith([1, 2, 3]);
+            }, 300);
         });
     }));
     it('build hidden input', inject([TestComponentBuilder], (tcb) => {
