@@ -3,7 +3,7 @@
 
 <head>
     <title>angular2 testing</title>
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jasmine/2.3.2/jasmine.css" />
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jasmine/2.3.2/jasmine.css"/>
     <script src="https://code.angularjs.org/tools/traceur-runtime.js"></script>
     <script src="https://code.angularjs.org/tools/system.js"></script>
     <script src="https://code.angularjs.org/tools/typescript.js"></script>
@@ -23,12 +23,12 @@
     System.config({
         transpiler: 'typescript',
         typescriptOptions: {emitDecoratorMetadata: true},
-        packages: {'tests': {defaultExtension: 'ts'},'src': {defaultExtension: 'ts'}}
+        packages: {'tests': {defaultExtension: 'ts'}, 'src': {defaultExtension: 'ts'}}
     });
     System.import('angular2/src/platform/browser/browser_adapter')
-            .then(function(browser_adapter) {
+            .then(function (browser_adapter) {
                 browser_adapter.BrowserDomAdapter.makeCurrent();
-                System.import('tests/fileDroppa.spec').then(function() {
+                System.import('tests/fileDroppa.spec').then(function () {
                 });
             });
 </script>

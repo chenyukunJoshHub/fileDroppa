@@ -38,9 +38,9 @@ export class FileList {
     @Input() set uploadFiles(uploadFilesEmitter) {
         uploadFilesEmitter.subscribe(()=> {
             this.files.forEach((iFile:iFile, i:number)=> {
-                iFile.uploader.uploadFile().then(()=>{
+                iFile.uploader.uploadFile().then(()=> {
                     this.removeFile(iFile, i);
-                }).catch(()=>{
+                }).catch(()=> {
 
                 });
             })
@@ -67,8 +67,8 @@ export class FileList {
         return this.fs.iFiles;
     }
 
-    onRemoveAllFiles(){
-        this.fs.iFiles.forEach((iFile)=>{
+    onRemoveAllFiles() {
+        this.fs.iFiles.forEach((iFile)=> {
             iFile.uploader.abortUploading();
         });
         this.fs.clearStore();

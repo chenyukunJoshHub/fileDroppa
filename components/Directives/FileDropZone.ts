@@ -44,7 +44,7 @@ import {FileList} from './FileList';
 
 export class FileDropZone {
     private _config = {
-        autoUpload:false
+        autoUpload: false
     };
     public uploadFiles = new EventEmitter();
     public removeAllFiles = new EventEmitter();
@@ -59,11 +59,11 @@ export class FileDropZone {
 
     @Output() filesUpdated:EventEmitter<Array<File>> = new EventEmitter();
 
-    set showButtons(flag:boolean){
+    set showButtons(flag:boolean) {
         this._showButtons = flag;
     }
 
-    get showButtons(){
+    get showButtons() {
         return this._showButtons && !this._config["autoUpload"];
     }
 
@@ -71,11 +71,11 @@ export class FileDropZone {
         return this._config;
     }
 
-    upload(){
+    upload() {
         this.uploadFiles.emit(true);
     }
 
-    remove(){
+    remove() {
         this.removeAllFiles.emit(true);
     }
 
