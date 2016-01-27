@@ -86,7 +86,7 @@ export class FileDroppa {
     }
 
     updateStyles(dragOver:boolean = false) {
-        this.renderer.setElementClass(this.el, this._overCls, dragOver);
+        this.el.nativeElement.classList[(dragOver) ? 'add' : 'remove'](this._overCls);
     }
 
     updateFilesStore(files:Array<File>):void {
