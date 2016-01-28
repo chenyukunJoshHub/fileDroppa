@@ -9,6 +9,7 @@ npm install --save file-droppa
 #### Demo:
 [DEMO http://ptkach.github.io/fileDroppa/](http://ptkach.github.io/fileDroppa/)
 
+
 #### Usage:
 
 You can choose between two types of approaches when you use this component:

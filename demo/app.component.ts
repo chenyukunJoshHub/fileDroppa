@@ -9,7 +9,6 @@ import {FileDropZone} from '../index'
                     (filesUpdated)="filesUpdated($event)">
                </fileDropZone>`
 })
-
 export class AppComponent {
     uploadEvent;
     fileDroppaConfig;
