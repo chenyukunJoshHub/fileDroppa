@@ -3,8 +3,11 @@
 #### Installation:
 
 ```
-npm install file-droppa
+npm install --save file-droppa
 ```
+
+#### Demo:
+[DEMO http://ptkach.github.io/fileDroppa/](http://ptkach.github.io/fileDroppa/)
 
 #### Usage:
 
@@ -27,9 +30,11 @@ The whole list of config params you can find below in detailed information.
   This approach you will need to use in case you need some specific styles to the component, create component complex hierarchy or let's say you don't need fileList.
 
 ```
-        <div fileDroppa (fileUploaded)="updateFileList($event, 'added')">
-            Drop files here or click to select
-        </div>
+        <div fileDroppa [class]="config.customClass"
+                        (notifyFilesUpdated)="notifyFilesUpdated($event)"
+                        [overCls]="config.overCls">
+                        Drop files here or click to select
+                    </div>
         <FileList
             [uploadFiles]="uploadFiles"
             [removeAllFiles]="removeAllFiles">
@@ -37,7 +42,7 @@ The whole list of config params you can find below in detailed information.
         
 ```
 ```
-        <li fileDroppa (fileUploaded)="updateFileList($event, 'added')">
+        <li fileDroppa (notifyFilesUpdated)="notifyFilesUpdated($event)">
             Some specific text
         </li>
         <FileList
@@ -47,7 +52,7 @@ The whole list of config params you can find below in detailed information.
 
 ```        
 ```
-        <li fileDroppa (fileUploaded)="updateFileList($event, 'added')">
+        <li fileDroppa (notifyFilesUpdated)="notifyFilesUpdated($event)">
             <span>
                 <b>Bla-Bla-Bla</b>
             </span>
@@ -70,9 +75,9 @@ import {FileDropZone} from 'file-droppa';
     selector: 'my-app',
     directives: [FileDropZone],
     template: `
-        <fileDropZone 
+        <fileDropZone
             [config]="config"
-            (filesUploaded)="uploadHandler($event)">
+            (filesUpdated)="filesUpdated($event)">
         </fileDropZone>
     `
 })
@@ -85,7 +90,7 @@ export class App {
         uploadUrlL: 'http://yorApiUrl/upload'
     };
     
-    filesUploaded() {
+    filesUpdated() {
        //Your stuff
     }
 }
@@ -101,7 +106,7 @@ Config:
 API:
 
 1. [config] - input parameter
-2. (filesUploaded)?:EventEmitter - function which will be called on successful files uploading
+2. (filesUpdated)?:EventEmitter - function which will be called on successful files uploading
 
 
 ##### fileDroppa
@@ -113,19 +118,18 @@ import {FileDroppa} from 'file-droppa';
     selector: 'my-app',
     directives: [fileDroppa],
     template: `
-        <fileDroppa 
-            [class]="fileDroppaClass"
-            [overCls]="overCls"
-            (filesUploaded)="uploadHandler($event)">
-        </fileDroppa>
+        <div fileDroppa [class]="config.customClass"
+                        (notifyFilesUpdated)="notifyFilesUpdated($event)"
+                        [overCls]="config.overCls">
+                        Drop files here or click to select
+                    </div>
     `
 })
 
 export class App {
-    public fileDroppaClass:string = 'fileDroppaClass';
     public overCls:string = 'overCls';
     
-    filesUploaded() {
+    notifyFilesUpdated() {
        //Your stuff
     }
 }
@@ -135,7 +139,7 @@ API:
 
 1. [class] - input parameter custom class
 2. [overCls] - input parameter custom over css class
-3. (fileUploaded)?:EventEmitter - function which will be called with list of files which were selected by user
+3. (notifyFilesUpdated)?:EventEmitter - function which will be called with list of files which were selected by user
 
 
 
@@ -149,14 +153,13 @@ import {FileList} from 'file-droppa';
     selector: 'my-app',
     directives: [FileList],
     template: `
-        <FileList
-            [uploadFiles]="uploadFiles"
-            [removeAllFiles]="removeAllFiles">
-        </FileList>
-        <div>
-            <button (click)="upload($event)">Upload All Files</button>
-            <button (click)="remove($event)">Remove All Files</button>
-        </div>
+            <fileList
+                [url]="config.uploadUrl"
+                [autoUpload]="config.autoUpload"
+                (notifyFilesUpdated)="notifyFilesUpdated($event)"
+                [uploadFiles]="uploadFiles"
+                [removeAllFiles]="removeAllFiles">
+            </fileList>
 
     `
 })
@@ -164,14 +167,24 @@ import {FileList} from 'file-droppa';
 export class App {
     public uploadFiles = new EventEmitter();
     public removeAllFiles = new EventEmitter();
+    public config = {
+        autoUpload:false,
+        uploadUrl:"http://localhost:8080/"
+    }
+    constructor(){}
     
-    upload(){
+    uploadFiles(){
             this.uploadFiles.emit(true);
     }
 
-    remove(){
+    removeAllFiles(){
         this.removeAllFiles.emit(true);
-    }    
+    }
+
+    notifyFilesUpdated(files:Array<File>) {
+        this.filesUpdated.emit(files);
+        this.showButtons = !!files.length;
+    }
 }
 ```
 
@@ -179,6 +192,7 @@ API:
 
 1. (uploadFiles)?:EventEmitter - function that will be called when "uploadFiles" event will be fired from parent component
 2. (removeAllFiles)?:EventEmitter - function that will be called when "removeAllFiles" event will be fired from parent component
+2. (notifyFilesUpdated)?:EventEmitter - function callback which will be called with array of files when the list is changed via remove file or some file will be uploaded
 
  
 ### Contributors

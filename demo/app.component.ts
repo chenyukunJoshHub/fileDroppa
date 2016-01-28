@@ -6,7 +6,7 @@ import {FileDropZone} from '../index'
     directives: [FileDropZone],
     template: `<fileDropZone 
                     [config]="fileDroppaConfig"
-                    (fileUploaded)="fileUploaded($event)">
+                    (filesUpdated)="filesUpdated($event)">
                </fileDropZone>`
 })
 
@@ -23,7 +23,7 @@ export class AppComponent {
         };
     }
 
-    fileUploaded(files) {
+    filesUpdated(files) {
         console.log(files);
     }
 
