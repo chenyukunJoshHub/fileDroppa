@@ -65,6 +65,12 @@ export class FileParser {
             return Promise.resolve(this.processFilesFromInput(items));
         } else if (items && items.length && !items[0].webkitGetAsEntry) {
             return Promise.resolve(items)
+        } else if(e.dataTransfer.files){
+            let files = [];
+            for(let i = 0, l = e.dataTransfer.files.length;i<l;i++){
+                files.push(e.dataTransfer.files[i]);
+            }
+            return Promise.resolve(files);
         }
     }
 
@@ -73,6 +79,6 @@ export class FileParser {
             if (file) {
                 return [...result, ...file];
             }
-        }, []))
+        }, []));
     }
 }
