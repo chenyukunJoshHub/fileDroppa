@@ -22,8 +22,8 @@ export class AppComponent {
         };
     }
 
-    fileUploaded(file){
-        console.log("uploaded", file);
+    fileUploaded([success, response, file]){
+        console.log("uploaded", response, file);
     }
 
     filesUpdated(files) {

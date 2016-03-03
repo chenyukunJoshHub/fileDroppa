@@ -74,8 +74,8 @@ export class FilesStore {
         this.iFiles = [...this.iFiles, ...files];
     }
 
-    public fileUploaded(file){
-        FilesStore.fileUploaded.emit(file);
+    public fileUploaded([success, response, file]){
+        FilesStore.fileUploaded.emit([success, response, file]);
     }
 
     public removeFiles(iFile:iFile, index:number):void {

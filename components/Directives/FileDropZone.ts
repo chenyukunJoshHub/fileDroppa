@@ -53,8 +53,8 @@ export class FileDropZone {
     public _showButtons:Boolean = false;
 
     constructor() {
-        FilesStore.fileUploaded.subscribe((file)=>{
-            this.notifyFileUploaded(file)
+        FilesStore.fileUploaded.subscribe(([success, response, file])=>{
+            this.notifyFileUploaded(success, response, file)
         })
     };
 
@@ -63,7 +63,7 @@ export class FileDropZone {
     }
 
     @Output() filesUpdated:EventEmitter<Array<File>> = new EventEmitter();
-    @Output() fileUploaded:EventEmitter<File> = new EventEmitter();
+    @Output() fileUploaded:EventEmitter<any> = new EventEmitter();
 
     set showButtons(flag:boolean) {
         this._showButtons = flag;
@@ -90,8 +90,8 @@ export class FileDropZone {
         this.showButtons = !!files.length;
     }
 
-    notifyFileUploaded(file:File){
-        this.fileUploaded.emit(file);
+    notifyFileUploaded(success, response, file){
+        this.fileUploaded.emit([success, response, file]);
     }
 }
 
