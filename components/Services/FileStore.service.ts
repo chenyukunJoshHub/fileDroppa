@@ -1,4 +1,4 @@
-import {Injectable} from "angular2/core";
+import {Injectable, EventEmitter} from "angular2/core";
 import {FileUpload} from "./FileUpload.service";
 
 export interface iFile {
@@ -7,6 +7,7 @@ export interface iFile {
     loading:boolean,
     percentage:number,
     loadingSuccessful:boolean,
+    fileUploaded:any,
     uploader:FileUpload
 }
 
@@ -14,6 +15,7 @@ export interface iFile {
 export class FilesStore {
     static instance:FilesStore;
     static isCreating:Boolean = false;
+    static fileUploaded = new EventEmitter(true);
 
     constructor() {
         if (!FilesStore.isCreating) {
@@ -62,12 +64,18 @@ export class FilesStore {
                 percentage: 0,
                 removing: false,
                 loadingSuccessful: false,
+                fileUploaded:new EventEmitter(),
                 uploader: null
             };
+            iFile.fileUploaded.subscribe(this.fileUploaded);
             iFile.uploader = new FileUpload(iFile);
             return iFile;
         });
         this.iFiles = [...this.iFiles, ...files];
+    }
+
+    public fileUploaded(file){
+        FilesStore.fileUploaded.emit(file);
     }
 
     public removeFiles(iFile:iFile, index:number):void {
@@ -81,5 +89,4 @@ export class FilesStore {
         });
         this.iFiles = [];
     }
-
 }

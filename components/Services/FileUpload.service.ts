@@ -38,11 +38,12 @@ export class FileUpload {
         };
 
         let pr = new Promise((resolve, reject)=> {
-            this.xhr.onload = this.xhr.onerror = function () {
+            this.xhr.onload = this.xhr.onerror = function (e) {
                 that.zone.run(()=> {
                     if (this["status"] == 200) {
                         that.iFile.loading = false;
                         that.iFile.loadingSuccessful = true;
+                        that.iFile.fileUploaded.emit(that.iFile.File);
                         resolve();
                     } else {
                         that.iFile.loading = false;

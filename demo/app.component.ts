@@ -6,15 +6,15 @@ import {FileDropZone} from '../index'
     directives: [FileDropZone],
     template: `<fileDropZone 
                     [config]="fileDroppaConfig"
-                    (filesUpdated)="filesUpdated($event)">
+                    (filesUpdated)="filesUpdated($event)"
+                    (fileUploaded)="fileUploaded($event)"
+                    >
                </fileDropZone>`
 })
 export class AppComponent {
-    uploadEvent;
     fileDroppaConfig;
 
     constructor() {
-        this.uploadEvent = new EventEmitter();
         this.fileDroppaConfig = {
             overCls: "customDrop",
             autoUpload: true,
@@ -22,7 +22,12 @@ export class AppComponent {
         };
     }
 
+    fileUploaded(file){
+        console.log("uploaded", file);
+    }
+
     filesUpdated(files) {
+        console.log("added", files)
     }
 
 }
