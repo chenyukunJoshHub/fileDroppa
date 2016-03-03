@@ -1,6 +1,7 @@
 import {Component, Input, EventEmitter, Output} from 'angular2/core';
 import {FileDroppa} from './FileDroppa';
 import {FileList} from './FileList';
+import {FilesStore} from "../Services/FileStore.service";
 
 @Component({
     selector: 'fileDropZone',
@@ -52,6 +53,9 @@ export class FileDropZone {
     public _showButtons:Boolean = false;
 
     constructor() {
+        FilesStore.fileUploaded.subscribe(([success, response, file])=>{
+            this.notifyFileUploaded(success, response, file)
+        })
     };
 
     @Input() set config(config) {
@@ -59,6 +63,7 @@ export class FileDropZone {
     }
 
     @Output() filesUpdated:EventEmitter<Array<File>> = new EventEmitter();
+    @Output() fileUploaded:EventEmitter<any> = new EventEmitter();
 
     set showButtons(flag:boolean) {
         this._showButtons = flag;
@@ -83,6 +88,10 @@ export class FileDropZone {
     notifyFilesUpdated(files:Array<File>) {
         this.filesUpdated.emit(files);
         this.showButtons = !!files.length;
+    }
+
+    notifyFileUploaded(success, response, file){
+        this.fileUploaded.emit([success, response, file]);
     }
 }
 

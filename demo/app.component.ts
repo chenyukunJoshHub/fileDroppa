@@ -6,23 +6,28 @@ import {FileDropZone} from '../index'
     directives: [FileDropZone],
     template: `<fileDropZone 
                     [config]="fileDroppaConfig"
-                    (filesUpdated)="filesUpdated($event)">
+                    (filesUpdated)="filesUpdated($event)"
+                    (fileUploaded)="fileUploaded($event)"
+                    >
                </fileDropZone>`
 })
 export class AppComponent {
-    uploadEvent;
     fileDroppaConfig;
 
     constructor() {
-        this.uploadEvent = new EventEmitter();
         this.fileDroppaConfig = {
             overCls: "customDrop",
-            autoUpload: true,
+            autoUpload: false,
             uploadUrl: "https://salty-taiga-80701.herokuapp.com/upload"
         };
     }
 
+    fileUploaded([success, response, file]){
+        console.log("uploaded", response, file);
+    }
+
     filesUpdated(files) {
+        console.log("added", files)
     }
 
 }

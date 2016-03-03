@@ -1,4 +1,4 @@
-import {Injectable} from "angular2/core";
+import {Injectable, EventEmitter} from "angular2/core";
 import {FileUpload} from "./FileUpload.service";
 
 export interface iFile {
@@ -6,7 +6,9 @@ export interface iFile {
     removing:boolean,
     loading:boolean,
     percentage:number,
+    id:string,
     loadingSuccessful:boolean,
+    fileUploaded:any,
     uploader:FileUpload
 }
 
@@ -14,6 +16,7 @@ export interface iFile {
 export class FilesStore {
     static instance:FilesStore;
     static isCreating:Boolean = false;
+    static fileUploaded = new EventEmitter(true);
 
     constructor() {
         if (!FilesStore.isCreating) {
@@ -61,18 +64,30 @@ export class FilesStore {
                 loading: false,
                 percentage: 0,
                 removing: false,
+                id:Math.random().toString(36).substr(2),
                 loadingSuccessful: false,
+                fileUploaded:new EventEmitter(),
                 uploader: null
             };
+            iFile.fileUploaded.subscribe(([success, response, iFile])=>{
+                this.fileUploaded(success, response, iFile);
+            });
             iFile.uploader = new FileUpload(iFile);
             return iFile;
         });
         this.iFiles = [...this.iFiles, ...files];
     }
 
-    public removeFiles(iFile:iFile, index:number):void {
+    public fileUploaded(success, response, iFile){
+        success && this.removeFiles(iFile);
+        FilesStore.fileUploaded.emit([success, response, iFile.File]);
+    }
+
+    public removeFiles(iFile:iFile):void {
         this.WSfiles.delete(iFile.File);
-        this.iFiles.splice(index, 1);
+        this.iFiles = this.iFiles.filter((item)=>{
+            return item.id !== iFile.id;
+        });
     }
 
     public clearStore():void {
@@ -81,5 +96,4 @@ export class FilesStore {
         });
         this.iFiles = [];
     }
-
 }
