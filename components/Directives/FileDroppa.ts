@@ -108,9 +108,10 @@ export class FileDroppa {
         this.hiddenFileInput.className = "_hiddenInputClassName";
         document.body.appendChild(this.hiddenFileInput);
         this.hiddenFileInput.addEventListener("change", (e)=> {
-            let files = Object.keys(e.target.files).reduce((result, key)=> {
-                return result.push(e.target.files[key]), result;
-            }, []);
+            let files = [];
+            for(let i = 0, l = e.target.files.length;i<l;i++){
+                files.push(e.target.files[i]);
+            }
             this.updateFilesStore(files);
         });
     }
