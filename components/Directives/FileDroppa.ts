@@ -112,6 +112,7 @@ export class FileDroppa {
             for(let i = 0, l = e.target.files.length;i<l;i++){
                 files.push(e.target.files[i]);
             }
+            this.hiddenFileInput.value = "";
             this.updateFilesStore(files);
         });
     }

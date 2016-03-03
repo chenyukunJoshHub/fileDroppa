@@ -6,6 +6,7 @@ export interface iFile {
     removing:boolean,
     loading:boolean,
     percentage:number,
+    id:string,
     loadingSuccessful:boolean,
     fileUploaded:any,
     uploader:FileUpload
@@ -63,24 +64,30 @@ export class FilesStore {
                 loading: false,
                 percentage: 0,
                 removing: false,
+                id:Math.random().toString(36).substr(2),
                 loadingSuccessful: false,
                 fileUploaded:new EventEmitter(),
                 uploader: null
             };
-            iFile.fileUploaded.subscribe(this.fileUploaded);
+            iFile.fileUploaded.subscribe(([success, response, iFile])=>{
+                this.fileUploaded(success, response, iFile);
+            });
             iFile.uploader = new FileUpload(iFile);
             return iFile;
         });
         this.iFiles = [...this.iFiles, ...files];
     }
 
-    public fileUploaded([success, response, file]){
-        FilesStore.fileUploaded.emit([success, response, file]);
+    public fileUploaded(success, response, iFile){
+        success && this.removeFiles(iFile);
+        FilesStore.fileUploaded.emit([success, response, iFile.File]);
     }
 
-    public removeFiles(iFile:iFile, index:number):void {
+    public removeFiles(iFile:iFile):void {
         this.WSfiles.delete(iFile.File);
-        this.iFiles.splice(index, 1);
+        this.iFiles = this.iFiles.filter((item)=>{
+            return item.id !== iFile.id;
+        });
     }
 
     public clearStore():void {
