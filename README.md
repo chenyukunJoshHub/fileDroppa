@@ -194,7 +194,66 @@ API:
 2. (removeAllFiles)?:EventEmitter - function that will be called when "removeAllFiles" event will be fired from parent component
 2. (notifyFilesUpdated)?:EventEmitter - function callback which will be called with array of files when the list is changed via remove file or some file will be uploaded
 
- 
+##### fileDroppa + fileList
+
+```
+import {FileDroppa} from 'file-droppa';
+import {FileList from 'file-droppa';
+
+@Component({
+    selector: 'my-app',
+    directives: [fileDroppa],
+    template: `
+        <div fileDroppa 
+            [class]="config.customClass"
+            [overCls]="config.overCls"
+            (notifyFilesUpdated)="notifyFilesUpdated($event)">
+            Drop files here or click to select
+        </div>
+        <fileList
+            [url]="config.uploadUrl"
+            [autoUpload]="config.autoUpload">
+        </fileList>
+        <div *ngIf="showButtons">
+            <button (click)="upload($event)">Upload All Files</button>
+            <button (click)="remove($event)">Remove All Files</button>
+        </div>
+    `
+})
+
+export class App {
+
+    public config = {
+            autoUpload:false,
+            uploadUrl:"http://localhost:8080/",
+            overCls: 'overCls',
+            customClass: 'customClass'
+        }
+        constructor(){}
+        
+        uploadFiles(){
+                this.uploadFiles.emit(true);
+        }
+    
+        removeAllFiles(){
+            this.removeAllFiles.emit(true);
+        }
+    
+        notifyFilesUpdated(files:Array<File>) {
+            this.filesUpdated.emit(files);
+            this.showButtons = !!files.length;
+        }
+        
+        upload() {
+            this.uploadFiles.emit(true);
+        }
+        
+        remove() {
+            this.removeAllFiles.emit(true);
+        }
+}
+```
+
 ### Contributors
 Contributions are very welcomed.
 If you want to help us, please fork this repo from [ptkach/fileDroppa](ptkach/fileDroppa) and create pull request after adding some code.
