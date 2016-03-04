@@ -11,6 +11,8 @@ npm install --save file-droppa
 
 #### Usage:
 
+**Whole functionality with droppable area, files list and styles you can apply with:**
+
 ```
 @Component({
     selector: 'my-app',
@@ -42,6 +44,22 @@ export class AppComponent {
     filesUpdated(files) {
         console.log("added", files)
     }
+
+```
+
+**If you are looking for just a droppable area and you want to apply you own styles and html markup:**
+
+```
+import {FileDroppa} from './FileDroppa';
+
+@Component({
+    selector: 'fileDropZone',
+    directives: [FileDroppa],
+    template: `
+            <div fileDroppa (notifyFilesUpdated)="notifyFilesUpdated($event)">
+                Any Text or content you want
+            </div> `
+})
 
 ```
 
