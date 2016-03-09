@@ -19,11 +19,15 @@ export class AppComponent {
             overCls: "customDrop",
             autoUpload: false,
             uploadUrl: "https://salty-taiga-80701.herokuapp.com/upload"
+            //requestHeaders:{
+            //    'X-Content':'xxx'
+            //}
         };
     }
 
     fileUploaded([success, response, file]){
-        console.log("uploaded", response, file);
+        success && console.log("uploaded - awesome", response, file);
+        success || console.log("not uploaded - very bad", response, file);
     }
 
     filesUpdated(files) {

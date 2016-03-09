@@ -29,6 +29,7 @@ import {FilesStore} from "../Services/FileStore.service";
             <br/>
             <fileList
                 [url]="config.uploadUrl"
+                [requestHeaders]="config.requestHeaders"
                 [autoUpload]="config.autoUpload"
                 (notifyFilesUpdated)="notifyFilesUpdated($event)"
                 [uploadFiles]="uploadFiles"
@@ -46,6 +47,7 @@ import {FilesStore} from "../Services/FileStore.service";
 export class FileDropZone {
     private _config = {
         autoUpload: false,
+        requestHeaders:{},
         customClass: 'file_droppa_internal'
     };
     public uploadFiles = new EventEmitter();

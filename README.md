@@ -32,7 +32,11 @@ export class AppComponent {
             customClass:'super-awesome-custom-cls',
             overCls: "customDrop",
             autoUpload: false,
-            uploadUrl: "https://salty-taiga-80701.herokuapp.com/upload"
+            uploadUrl: "https://salty-taiga-80701.herokuapp.com/upload",
+            requestHeaders:{//Request headers will be added in request
+                'X-Content':'xxx',
+                'X-Hello':'World'
+            }
         };
     }
 
