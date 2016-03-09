@@ -51,6 +51,10 @@ export class FileList {
         })
     }
 
+    @Input() set requestHeaders(requestHeaders) {
+        FileUpload.requestHeaders = requestHeaders;
+    }
+
     @Input() set url(url) {
         FileUpload.url = url;
     }

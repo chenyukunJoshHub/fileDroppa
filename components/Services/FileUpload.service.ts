@@ -4,6 +4,7 @@ import {iFile} from "./FileStore.service";
 @Injectable()
 export class FileUpload {
     static url:string;
+    static requestHeaders:any;
     static autoUpload:boolean = false;
     private zone = new NgZone({enableLongStackTrace: false});
     private xhr;
@@ -58,6 +59,11 @@ export class FileUpload {
         this.iFile.loading = true;
 
         this.xhr.open("POST", FileUpload.url, true);
+        if(FileUpload.requestHeaders && typeof FileUpload.requestHeaders === 'object'){
+            Object.keys(FileUpload.requestHeaders).forEach((key)=>{
+                this.xhr.setRequestHeader(key, FileUpload.requestHeaders[key]);
+            })
+        }
         this.xhr.send(formData);
 
         return pr;
