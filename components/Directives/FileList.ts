@@ -29,17 +29,17 @@ import {FileUpload} from "../Services/FileUpload.service";
 })
 
 export class FileList {
-    public fs;
+    public filesStore: FilesStore;
 
-    constructor() {
-        this.fs = FilesStore.getInstance();
+    @Input() set fs(fs:FilesStore) {
+        this.filesStore = fs;
     }
 
     @Input() set uploadFiles(uploadFilesEmitter) {
         uploadFilesEmitter.subscribe(()=> {
             this.files.forEach((iFile:iFile, i:number)=> {
                 iFile.uploader.uploadFile().then(()=>{
-                    this.notifyFilesUpdated.emit(this.fs.files);
+                    this.notifyFilesUpdated.emit(this.filesStore.files);
                 });
             })
         });
@@ -51,35 +51,23 @@ export class FileList {
         })
     }
 
-    @Input() set requestHeaders(requestHeaders) {
-        FileUpload.requestHeaders = requestHeaders;
-    }
-
-    @Input() set url(url) {
-        FileUpload.url = url;
-    }
-
-    @Input() set autoUpload(autoUpload) {
-        FileUpload.autoUpload = autoUpload;
-    }
-
     @Output() notifyFilesUpdated = new EventEmitter();
 
     public get files():Array<iFile> {
-        return this.fs.iFiles;
+        return this.filesStore.iFiles;
     }
 
     onRemoveAllFiles() {
-        this.fs.iFiles.forEach((iFile)=> {
+        this.filesStore.iFiles.forEach((iFile)=> {
             iFile.uploader.abortUploading();
         });
-        this.fs.clearStore();
-        this.notifyFilesUpdated.emit(this.fs.files);
+        this.filesStore.clearStore();
+        this.notifyFilesUpdated.emit(this.filesStore.files);
     }
 
     removeFile(iFile:iFile, i) {
         iFile.uploader.abortUploading();
-        this.fs.removeFiles(iFile, i);
-        this.notifyFilesUpdated.emit(this.fs.files);
+        this.filesStore.removeFiles(iFile);
+        this.notifyFilesUpdated.emit(this.filesStore.files);
     }
 }

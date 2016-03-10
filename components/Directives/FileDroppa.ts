@@ -14,13 +14,11 @@ import {FilesStore} from "../Services/FileStore.service";
     }
 })
 export class FileDroppa {
-    private _url:string = null;
     private _overCls:string = "defaultOver";
     private hiddenFileInput = null;
-    private fs;
+    private filesStore: FilesStore = new FilesStore();
 
     constructor(private el:ElementRef, private renderer:Renderer, private fileParser:FileParser) {
-        this.fs = FilesStore.getInstance();
         this.createHiddenInput();
     }
 
@@ -28,12 +26,8 @@ export class FileDroppa {
      * Directive Input and Output Params
      * */
 
-    //@Input() set fireUpdate(updateListener:EventEmitter<any>) {
-    //    updateListener && updateListener.subscribe(this.upload);
-    //}
-
-    @Input() set url(url:string) {
-        this._url = url || this._url;
+    @Input() set fs(fs:FilesStore) {
+        this.filesStore = fs;
     }
 
     @Input() set overCls(overCls:string) {
@@ -90,8 +84,8 @@ export class FileDroppa {
     }
 
     updateFilesStore(files:Array<File>):void {
-        this.fs.addFiles(files);
-        this.notifyFilesUpdated.emit(this.fs.files);
+        this.filesStore.addFiles(files);
+        this.notifyFilesUpdated.emit(this.filesStore.files);
     }
 
     createHiddenInput() {

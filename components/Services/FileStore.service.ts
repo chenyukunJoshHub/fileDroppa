@@ -14,25 +14,10 @@ export interface iFile {
 
 @Injectable()
 export class FilesStore {
-    static instance:FilesStore;
-    static isCreating:Boolean = false;
-    static fileUploaded = new EventEmitter(true);
-
-    constructor() {
-        if (!FilesStore.isCreating) {
-            throw new Error("You can't call new in Singleton instances!");
-        }
-    }
-
-    static getInstance() {
-        if (FilesStore.instance == null) {
-            FilesStore.isCreating = true;
-            FilesStore.instance = new FilesStore();
-            FilesStore.isCreating = false;
-        }
-
-        return FilesStore.instance;
-    }
+    public fileUploaded = new EventEmitter(true);
+    public autoUpload:boolean = false;
+    public requestHeaders:any = {};
+    public url:string = null;
 
     private WSfiles:WeakSet<File> = new WeakSet();
     private _iFiles:Array<iFile> = [];
@@ -70,17 +55,17 @@ export class FilesStore {
                 uploader: null
             };
             iFile.fileUploaded.subscribe(([success, response, iFile])=>{
-                this.fileUploaded(success, response, iFile);
+                this.notifyFileUploaded(success, response, iFile);
             });
-            iFile.uploader = new FileUpload(iFile);
+            iFile.uploader = new FileUpload(iFile, this.autoUpload, this.requestHeaders, this.url);
             return iFile;
         });
         this.iFiles = [...this.iFiles, ...files];
     }
 
-    public fileUploaded(success, response, iFile){
+    public notifyFileUploaded(success, response, iFile){
         success && this.removeFiles(iFile);
-        FilesStore.fileUploaded.emit([success, response, iFile.File]);
+        this.fileUploaded.emit([success, response, iFile.File]);
     }
 
     public removeFiles(iFile:iFile):void {
