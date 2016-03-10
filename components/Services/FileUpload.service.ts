@@ -3,14 +3,11 @@ import {iFile} from "./FileStore.service";
 
 @Injectable()
 export class FileUpload {
-    static url:string;
-    static requestHeaders:any;
-    static autoUpload:boolean = false;
     private zone = new NgZone({enableLongStackTrace: false});
     private xhr;
 
-    constructor(public iFile) {
-        FileUpload.autoUpload && this.uploadFile();
+    constructor(public iFile, public autoUpload, public requestHeaders, public url) {
+        autoUpload && this.uploadFile();
     }
 
     abortUploading() {
@@ -18,7 +15,7 @@ export class FileUpload {
     }
 
     uploadFile() {
-        if (!FileUpload.url) {
+        if (!this.url) {
             throw "url to upload needs to be provided";
         }
         if (this.iFile.loading) {
@@ -58,10 +55,10 @@ export class FileUpload {
 
         this.iFile.loading = true;
 
-        this.xhr.open("POST", FileUpload.url, true);
-        if(FileUpload.requestHeaders && typeof FileUpload.requestHeaders === 'object'){
-            Object.keys(FileUpload.requestHeaders).forEach((key)=>{
-                this.xhr.setRequestHeader(key, FileUpload.requestHeaders[key]);
+        this.xhr.open("POST", this.url, true);
+        if(this.requestHeaders && typeof this.requestHeaders === 'object'){
+            Object.keys(this.requestHeaders).forEach((key)=>{
+                this.xhr.setRequestHeader(key, this.requestHeaders[key]);
             })
         }
         this.xhr.send(formData);

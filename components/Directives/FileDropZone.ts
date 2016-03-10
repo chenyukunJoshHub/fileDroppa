@@ -23,16 +23,15 @@ import {FilesStore} from "../Services/FileStore.service";
     template: `
             <div fileDroppa [class]="config.customClass"
                 (notifyFilesUpdated)="notifyFilesUpdated($event)"
+                [fs]="filesStore"
                 [overCls]="config.overCls">
                 Drop files here or click to select
             </div>
             <br/>
             <fileList
-                [url]="config.uploadUrl"
-                [requestHeaders]="config.requestHeaders"
-                [autoUpload]="config.autoUpload"
                 (notifyFilesUpdated)="notifyFilesUpdated($event)"
                 [uploadFiles]="uploadFiles"
+                [fs]="filesStore"
                 [removeAllFiles]="removeAllFiles">
             </fileList>
             <div *ngIf="showButtons">
@@ -46,7 +45,8 @@ import {FilesStore} from "../Services/FileStore.service";
 
 export class FileDropZone {
     private _config = {
-        autoUpload: false,
+        uploadUrl:null,
+        autoUpload:false,
         requestHeaders:{},
         customClass: 'file_droppa_internal'
     };
@@ -54,14 +54,20 @@ export class FileDropZone {
     public removeAllFiles = new EventEmitter();
     public _showButtons:Boolean = false;
 
+    public filesStore:FilesStore = null;
+
     constructor() {
-        FilesStore.fileUploaded.subscribe(([success, response, file])=>{
+        this.filesStore = new FilesStore();
+        this.filesStore.fileUploaded.subscribe(([success, response, file])=>{
             this.notifyFileUploaded(success, response, file)
         })
     };
 
     @Input() set config(config) {
         this._config = config ? Object.assign(this._config, config) : this._config;
+        this.filesStore.autoUpload = this._config.autoUpload;
+        this.filesStore.requestHeaders = this._config.requestHeaders;
+        this.filesStore.url = this._config.uploadUrl;
     }
 
     @Output() filesUpdated:EventEmitter<Array<File>> = new EventEmitter();
