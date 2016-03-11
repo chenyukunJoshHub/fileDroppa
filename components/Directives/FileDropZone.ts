@@ -48,7 +48,8 @@ export class FileDropZone {
         uploadUrl:null,
         autoUpload:false,
         requestHeaders:{},
-        customClass: 'file_droppa_internal'
+        customClass: 'file_droppa_internal',
+        beforeUpload:null
     };
     public uploadFiles = new EventEmitter();
     public removeAllFiles = new EventEmitter();
@@ -65,9 +66,7 @@ export class FileDropZone {
 
     @Input() set config(config) {
         this._config = config ? Object.assign(this._config, config) : this._config;
-        this.filesStore.autoUpload = this._config.autoUpload;
-        this.filesStore.requestHeaders = this._config.requestHeaders;
-        this.filesStore.url = this._config.uploadUrl;
+        this.filesStore.uploadConfig = this._config;
     }
 
     @Output() filesUpdated:EventEmitter<Array<File>> = new EventEmitter();

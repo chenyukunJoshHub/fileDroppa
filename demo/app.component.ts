@@ -18,11 +18,16 @@ export class AppComponent {
         this.fileDroppaConfig = {
             overCls: "customDrop",
             autoUpload: false,
-            uploadUrl: "https://salty-taiga-80701.herokuapp.com/upload"
+            uploadUrl: "https://salty-taiga-80701.herokuapp.com/upload",
+            beforeUpload: this.beforeUpload
             //requestHeaders:{
             //    'X-Content':'xxx'
             //}
         };
+    }
+
+    beforeUpload(file){
+        return ["nameYouLike", file];
     }
 
     fileUploaded([success, response, file]){

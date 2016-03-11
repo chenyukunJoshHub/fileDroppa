@@ -6,7 +6,7 @@ export class FileUpload {
     private zone = new NgZone({enableLongStackTrace: false});
     private xhr;
 
-    constructor(public iFile, public autoUpload, public requestHeaders, public url) {
+    constructor(public iFile, public autoUpload, public requestHeaders, public url, public beforeUpload) {
         autoUpload && this.uploadFile();
     }
 
@@ -26,7 +26,12 @@ export class FileUpload {
 
         this.xhr = new XMLHttpRequest();
 
-        formData.append(`${this.iFile.File.name}`, this.iFile.File);
+        if(typeof this.beforeUpload === "function"){
+            let [name, value, filename] = this.beforeUpload(this.iFile.File)
+            formData.append(name, value, filename);
+        } else {
+            formData.append(`${this.iFile.File.name}`, this.iFile.File);
+        }
 
         this.xhr.upload.onprogress = (event) => {
             let progress = (event.loaded * 100) / event.total | 0;
