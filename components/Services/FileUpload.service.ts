@@ -1,5 +1,4 @@
 import {Injectable, EventEmitter, Output, Input, NgZone} from "angular2/core";
-import {iFile} from "./FileStore.service";
 
 @Injectable()
 export class FileUpload {
