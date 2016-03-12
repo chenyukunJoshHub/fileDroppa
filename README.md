@@ -29,15 +29,22 @@ export class AppComponent {
 
     constructor() {
         this.fileDroppaConfig = {
-            customClass:'super-awesome-custom-cls',
-            overCls: "customDrop",
-            autoUpload: false,
+            customClass:'super-awesome-custom-cls',//**Optional**Custom cls which will be applied instead of default styles
+            overCls: "customDrop",//__Optional__
+            autoUpload: false,//**Optional**
             uploadUrl: "https://salty-taiga-80701.herokuapp.com/upload",
-            requestHeaders:{//Request headers will be added in request
+            beforeUpload: this.beforeUpload,//**Optional**function will be calles before upload to update formData parameters
+            requestHeaders:{//**Optional**Request headers will be added in request
                 'X-Content':'xxx',
                 'X-Hello':'World'
             }
         };
+    }
+
+    //Return object which will be appended in formData
+    //Read - https://developer.mozilla.org/ru/docs/Web/API/FormData/append
+    beforeUpload(file){
+        return ["nameYouLike", file];
     }
 
     fileUploaded([success, response, file]){
