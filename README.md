@@ -30,7 +30,7 @@ export class AppComponent {
     constructor() {
         this.fileDroppaConfig = {
             customClass:'super-awesome-custom-cls',//**Optional**Custom cls which will be applied instead of default styles
-            overCls: "customDrop",//__Optional__
+            overCls: "custom-dragging-over-cls",//**Optional**
             autoUpload: false,//**Optional**
             uploadUrl: "https://salty-taiga-80701.herokuapp.com/upload",
             beforeUpload: this.beforeUpload,//**Optional**function will be calles before upload to update formData parameters
