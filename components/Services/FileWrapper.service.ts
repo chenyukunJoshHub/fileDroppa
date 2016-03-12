@@ -19,7 +19,7 @@ export class FileWrapper {
     public removing = false;
     public id = Math.random().toString(36).substr(2);
     public loadingSuccessful = false;
-    public fileUploaded = new EventEmitter();
+    public fileUploaded = new EventEmitter(false);
     public uploader = null;
 
     constructor(file, uploadConfig){
