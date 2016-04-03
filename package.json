@@ -1,6 +1,6 @@
 {
   "name": "file-droppa",
-  "version": "0.6.8",
+  "version": "0.6.9",
   "description": "Angular2 (ng2) Files dropable area plus list of files",
   "repository": {
     "type": "git",
