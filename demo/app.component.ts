@@ -27,7 +27,12 @@ export class AppComponent {
     }
 
     beforeUpload(file){
-        return ["nameYouLike", file];
+        return new Promise((res, rej)=>{
+           setTimeout(()=>{
+               res(["nameYouLike", file]);
+           },1000)
+        });
+        //return ["nameYouLike", file];
     }
 
     fileUploaded([success, response, file]){

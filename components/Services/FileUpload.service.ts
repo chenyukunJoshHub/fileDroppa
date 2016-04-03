@@ -25,13 +25,6 @@ export class FileUpload {
 
         this.xhr = new XMLHttpRequest();
 
-        if(typeof this.beforeUpload === "function"){
-            let [name, value, filename] = this.beforeUpload(this.iFile.File)
-            formData.append(name, value, filename);
-        } else {
-            formData.append(`${this.iFile.File.name}`, this.iFile.File);
-        }
-
         this.xhr.upload.onprogress = (event) => {
             let progress = (event.loaded * 100) / event.total | 0;
             this.zone.run(()=> {
@@ -65,7 +58,18 @@ export class FileUpload {
                 this.xhr.setRequestHeader(key, this.requestHeaders[key]);
             })
         }
-        this.xhr.send(formData);
+
+        if(typeof this.beforeUpload === "function"){
+            Promise.resolve(this.beforeUpload(this.iFile.File)).then((res)=>{
+                let [name, value, fileName] = res;
+                formData.append(name, value, fileName);
+                this.xhr.send(formData);
+            });
+
+        } else {
+            formData.append(`${this.iFile.File.name}`, this.iFile.File);
+            this.xhr.send(formData);
+        }
 
         return pr;
 
