@@ -41,10 +41,17 @@ export class AppComponent {
         };
     }
 
-    //Return object which will be appended in formData
+    //Return object which will be appended in formData or if you make any async changes here like FILE RESIZE return Promise
     //Read - https://developer.mozilla.org/ru/docs/Web/API/FormData/append
     beforeUpload(file){
         return ["nameYouLike", file];
+        //OR return PROMISE
+        //return new Promise((res, rej)=>{
+        //   DO ANY ASYNC OPERATIONS 
+        //   setTimeout(()=>{
+        //       res(["nameYouLike", file]);
+        //   },1000)
+        //});
     }
 
     fileUploaded([success, response, file]){
